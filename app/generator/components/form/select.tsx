@@ -9,20 +9,20 @@ export default function Select ({ name, options, handleChange }: {
     return (
         <select onChange={handleChange} className='border border-black' name={name} defaultValue={"default"} required>
             <option value={"default"} disabled>Selecione uma opção</option>
-            {options.map(opt => {
+            {options.map((opt, i) => {
                 if (opt.optionGroup) {
                     return (
-                        <optgroup key={opt.optionGroup}>{opt.optionGroup}
-                            {opt.options.map(o => {
-                                return <option key={o} value={o}>{o}</option>
+                        <optgroup key={i}>{opt.optionGroup}
+                            {opt.options.map((o, i) => {
+                                return <option key={i} value={o}>{o}</option>
                             })}
                         </optgroup>
                     )
                 }
                 return (
                     <>
-                        {opt.options.map(o => {
-                            return <option value={o}>{o}</option>
+                        {opt.options.map((o, i) => {
+                            return <option value={i}>{o}</option>
                         })}
                     </>
                 )

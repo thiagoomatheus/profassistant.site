@@ -10,8 +10,8 @@ export default function Question() {
         <div className="flex flex-col gap-5 justify-center items-center w-full">   
             {questions?.length && (
                 <>
-                    {questions.map(question => (
-                        <div className="p-3 flex flex-col gap-2 border-b-2 border-gray-600">
+                    {questions.map((question, i) => (
+                        <div key={i} className="p-3 flex flex-col gap-2 border-b-2 border-gray-600">
                             <p>Pergunta: {question.body}</p>
                             <p>a&#41; {question.alternativeA}</p>
                             <p>b&#41; {question.alternativeB}</p>
