@@ -22,7 +22,7 @@ export default function Select ({ name, options, handleChange }: {
                 return (
                     <>
                         {opt.options.map((o, i) => {
-                            return <option value={i}>{o}</option>
+                            return <option key={i} value={o}>{o}</option>
                         })}
                     </>
                 )
