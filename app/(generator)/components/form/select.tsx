@@ -12,7 +12,7 @@ export default function Select ({ name, options, handleChange }: {
             {options.map((opt, i) => {
                 if (opt.optionGroup) {
                     return (
-                        <optgroup key={i}>{opt.optionGroup}
+                        <optgroup key={i} label={opt.optionGroup}>
                             {opt.options.map((o, i) => {
                                 return <option key={i} value={o}>{o}</option>
                             })}
