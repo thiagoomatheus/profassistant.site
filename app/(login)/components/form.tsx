@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { User } from "@/app/lib/types/types";
-import useLogin from "../lib/useLogin"
+import useLogin from "../lib/hooks/useLogin"
 
 export default function Form ({btnText}: {
     btnText: string

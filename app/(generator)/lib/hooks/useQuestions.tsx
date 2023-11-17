@@ -1,5 +1,4 @@
-import { Message } from "ai";
-import { MessageContext } from "../../../lib/contexts/MessageContext";
+import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
 import { Question } from "../../../lib/types/types";
 import useHandleForm from "./useHandleForm";
 import { useContext } from "react";
@@ -7,7 +6,7 @@ import { useContext } from "react";
 export default function useQuestions() {
 
     const { info } = useHandleForm()
-    const { messages } = useContext(MessageContext)
+    const { response } = useContext(ResponseAPIContext)
 
     let questions: Question[]  = []
 
@@ -40,8 +39,7 @@ export default function useQuestions() {
 
     function treatResponseAPI () {
         let questionsReceiveds: Question[] = []
-        const response: Message = messages!
-        const tratedResponse: string = response.content.replaceAll("\\n", " ").replace(/[\\"]/g, "")
+        const tratedResponse: string = response!.content.replaceAll("\\n", " ").replace(/[\\"]/g, "")
         const questions: string[] = tratedResponse.split("--")
         questions.map(q => {
             if (!q) {

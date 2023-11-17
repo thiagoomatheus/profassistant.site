@@ -1,13 +1,13 @@
 "use client"
 
-import useLogin from "@/app/(login)/lib/useLogin";
+import useLogin from "@/app/(login)/lib/hooks/useLogin";
 import Button from "./button";
 import { useContext } from "react"
-import { AuthContext } from "@/app/lib/contexts/AuthContext";
+import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
 
 export default function Login () {
 
-    const { handleLogoff } = useLogin()
+    const { handleLogout } = useLogin()
     const { auth } = useContext(AuthContext)
     console.log(auth);
 
@@ -19,7 +19,9 @@ export default function Login () {
                     <Button href="/register" text="Registrar-se" />
                 </>
             ): (
-                <Button href="/" text="Sair" handleClick={handleLogoff} />
+                <button className="p-2 w-28 bg-white flex flex-col justify-center items-center rounded-xl shadow-slate-400 shadow-sm" onClick={handleLogout}>
+                    Sair
+                </button>
             )}
         </div>
     )

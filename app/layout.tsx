@@ -3,8 +3,9 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from './components/header/header'
 import Footer from './components/footer/footer'
-import MessageContextProvider from './lib/contexts/MessageContext'
-import AuthContextProvider from './lib/contexts/AuthContext'
+import ResponseAPIProvider from './(generator)/lib/contexts/ResponseAPIContext'
+import AuthContextProvider from './(login)/lib/contexts/AuthContext'
+import NotificationProvider from './(notifications)/lib/contexts/NotificationProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,15 +22,17 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={inter.className}>
-        <AuthContextProvider>
-          <Header />
-          <MessageContextProvider>
-            <main className='m-10 min-h-[60.5vh]'>
-              {children}
-            </main>
-          </MessageContextProvider>
-          <Footer />
-        </AuthContextProvider>
+        <NotificationProvider>
+          <AuthContextProvider>
+            <Header />
+            <ResponseAPIProvider>
+              <main className='m-10 min-h-[60.5vh]'>
+                {children}
+              </main>
+            </ResponseAPIProvider>
+            <Footer />
+          </AuthContextProvider>
+        </NotificationProvider>
       </body>
     </html>
   )

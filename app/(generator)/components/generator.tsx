@@ -1,7 +1,7 @@
 'use client';
 
-import Form from "@/app/generator/components/form/form";
-import Question from "@/app/generator/components/question";
+import Form from "@/app/(generator)/components/form/form";
+import Question from "@/app/(generator)/components/question";
 import { useState } from "react"
 
 export default function Generator () {

@@ -1,8 +1,8 @@
 "use client"
 
 import { useContext } from "react"
-import Generator from "./components/generator";
-import { AuthContext } from "../lib/contexts/AuthContext";
+import Generator from "../components/generator";
+import { AuthContext } from "../../(login)/lib/contexts/AuthContext";
 
 export default function Page () {
 

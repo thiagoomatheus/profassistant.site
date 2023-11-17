@@ -3,43 +3,25 @@ import { useContext } from "react";
 import Select from "./select";
 import Fieldset from "./fieldset";
 import Label from "./label";
-import useHandleForm from "@/app/generator/lib/hooks/useHandleForm";
-import { MessageContext } from "@/app/lib/contexts/MessageContext";
+import useHandleForm from "@/app/(generator)/lib/hooks/useHandleForm";
+import { ResponseAPIContext } from "@/app/(generator)/lib/contexts/ResponseAPIContext";
+import { anoOptions, materiaOptions, quantidadeOptions } from "./options";
+import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification";
 
 
 export default function Form({ setStatus }: {
   setStatus: React.Dispatch<React.SetStateAction<"awaitingResponse" | "finish" | undefined>>
 }) {
-
-    const { setMessages } = useContext(MessageContext)
+    const { generateNotification } = useNotification()
+    const { setResponse } = useContext(ResponseAPIContext)
     const { setInput, append } = useChat({onFinish(response) {
       setStatus("finish")
-      setMessages(response)
+      generateNotification(NotificationTypes.GeneratorSuccess, undefined, "success", false)
+      setResponse(response)
+    }, onError() {
+      generateNotification(undefined,NotificationTypes.GeneratorError, "error")
     }})
     const { info, handleChange } = useHandleForm()
-
-    const anoOptions = [
-      {
-        optionGroup: 'Ensino Fundamental',
-        options: ["1° ano do ensino fundamental", "2° ano do ensino fundamental", "3° ano do ensino fundamental", "4° ano do ensino fundamental", "5° ano do ensino fundamental", "6° ano do ensino fundamental", "7° ano do ensino fundamental", "8° ano do ensino fundamental", "9° ano do ensino fundamental"]
-      },
-      {
-        optionGroup: "Ensino Médio",
-        options: ["1° ano do ensino Médio", "2° ano do ensino Médio", "3° ano do ensino Médio"]
-      }
-    ]
-
-    const materiaOptions = [
-      {
-        options:["Artes", "Biologia", "Ciências", "Educação Física", "Filosofia", "Física", "Física", "História", "Inglês", "Matemática", "Português", "Química", "Sociologia"]
-      }
-    ]
-
-    const quantidadeOptions = [
-      {
-        options:[1, 2, 3, 4, 5]
-      }
-    ]
 
     return (
         <form className='w-full flex flex-col gap-3' onSubmit={(e) => {
@@ -53,6 +35,7 @@ export default function Form({ setStatus }: {
             })
             setInput("")
             setStatus("awaitingResponse")
+            generateNotification(NotificationTypes.GeneratorLoading, undefined, "success", false)
           }}>
             <Fieldset legend="Sobre os alunos">
               <Label label="Selecione sua série:">

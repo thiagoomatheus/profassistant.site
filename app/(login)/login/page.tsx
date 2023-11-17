@@ -1,5 +1,5 @@
 import Form from "../components/form";
-import useLogin from "../lib/useLogin";
+import useLogin from "../lib/hooks/useLogin";
 
 export default function Login () {
     return (
