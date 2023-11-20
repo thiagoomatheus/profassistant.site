@@ -16,30 +16,50 @@ export default function useAuth() {
     const auth = getAuth(firebase);
 
     function handleLogin(user: User) {
-        if (user?.email && user.password) {
-            signInWithEmailAndPassword(auth, user.email, user.password)
-            .then((userCredential) => {
-                // Signed in
-                setAuth(true)
-                generateNotification(NotificationTypes.LoginSuccess, undefined, "success")
-            })
-            .catch((error) => {
-                generateNotification(undefined, NotificationTypes.LoginFailed, "error")
-            });
-        }
+        // if (user?.email && user.password) {
+        //     signInWithEmailAndPassword(auth, user.email, user.password)
+        //     .then((userCredential) => {
+        //         // Signed in
+        //         setAuth(true)
+        //         generateNotification(NotificationTypes.LoginSuccess, undefined, "success")
+        //     })
+        //     .catch((error) => {
+        //         generateNotification(undefined, NotificationTypes.LoginFailed, "error")
+        //     });
+        // }
+        fetch('/api/login', {
+            method: 'POST',
+            body: JSON.stringify(user)
+        })
+        .then(response => {
+            if (response.status === 200) {
+                generateNotification(NotificationTypes.LoginSuccess, undefined, "success") 
+            }
+        })
+        .catch(response => {
+            generateNotification(undefined, NotificationTypes.LoginFailed, 'error')
+        })
     }
 
     function handleLoginGoogle() {
-        signInWithPopup(auth, provider)
-        .then((result) => {
-            // Signed in
-            setAuth(true)
-            generateNotification(NotificationTypes.LoginSuccess, undefined, "success")
-        }).catch((error) => {
-            generateNotification(undefined, NotificationTypes.LoginFailed, "error")
-        });
+        // signInWithPopup(auth, provider)
+        // .then((result) => {
+        //     // Signed in
+        //     setAuth(true)
+        //     generateNotification(NotificationTypes.LoginSuccess, undefined, "success")
+        // }).catch((error) => {
+        //     generateNotification(undefined, NotificationTypes.LoginFailed, "error")
+        // });
+        fetch('/api/login')
+        .then(response => {
+            if (response.status === 200) {
+                generateNotification(NotificationTypes.LoginSuccess, undefined, "success") 
+            }
+        })
+        .catch(response => {
+            generateNotification(undefined, NotificationTypes.LoginFailed, 'error')
+        })
     }
-
         function handleRegister(user: User) {
         const regexEmail: RegExp = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi
         const regexPassword: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/

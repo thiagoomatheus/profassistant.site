@@ -1,12 +1,18 @@
 import { initializeApp } from "firebase/app";
+import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
 // Initialize Firebase
 export const firebase = initializeApp({
   apiKey: "AIzaSyAoZIL-V9UwOU_QRfdTQECHhX1PIMHuv5E",
-  authDomain: "question-generator-f79a1.firebaseapp.com",
-  projectId: "question-generator-f79a1",
-  storageBucket: "question-generator-f79a1.appspot.com",
-  messagingSenderId: "122387572842",
-  appId: "1:122387572842:web:f677e1628affa60d06c213",
-  measurementId: "G-BXH7D9HPVD"
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID
 });
+
+const auth = getAuth(firebase)
+const provider = new GoogleAuthProvider()
+
+export { auth, provider}
