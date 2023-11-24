@@ -1,6 +1,6 @@
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
 import { Question } from "../../../lib/types/types";
-import useHandleForm from "./useHandleForm";
+import useHandleForm from "./useGenerator";
 import { useContext } from "react";
 
 export default function useQuestions() {

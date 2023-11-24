@@ -10,6 +10,8 @@ export enum NotificationTypes {
     LoginFailed = "Falha no login, verifique os dados e tente novamente",
     EmailInvalid = 'Insira um email válido',
     PasswordInvalid = 'Insira uma senha válida',
+    RegiterSuccess = "Conta criada com sucesso! Você já está logado",
+    RegisterFailed = "Erro ao criar a conta. Verifique os dados e tente novamente",
     LogoutSuccess = "Você saiu da sua conta",
     GeneratorSuccess = "Finalizado! Veja suas questões",
     GeneratorLoading = "Carregando! Aguarde alguns instantes...",
@@ -30,7 +32,11 @@ export default function useNotification() {
                     type: type
                 })
                 if (redirect === false) {
-                    return
+                    const timer = setTimeout(() => {
+                        setNotification(undefined)
+                    }, 3000)
+            
+                    return () => clearTimeout(timer)
                 }
                 !auth ? router.push("/generator") : router.push("/")
                 break;
@@ -39,6 +45,14 @@ export default function useNotification() {
                     message: messageError!,
                     type: type
                 })
+                if (redirect === false) {
+
+                    const timer = setTimeout(() => {
+                        setNotification(undefined)
+                    }, 3000)
+            
+                    return () => clearTimeout(timer)
+                }
                 !auth ? router.push("/generator") : router.push("/")
                 break
         };

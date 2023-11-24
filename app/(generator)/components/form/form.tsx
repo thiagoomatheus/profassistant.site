@@ -3,10 +3,10 @@ import { useContext } from "react";
 import Select from "./select";
 import Fieldset from "./fieldset";
 import Label from "./label";
-import useHandleForm from "@/app/(generator)/lib/hooks/useHandleForm";
 import { ResponseAPIContext } from "@/app/(generator)/lib/contexts/ResponseAPIContext";
 import { anoOptions, materiaOptions, quantidadeOptions } from "./options";
 import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification";
+import useGenerator from "../../lib/hooks/useGenerator";
 
 
 export default function Form({ setStatus }: {
@@ -21,7 +21,7 @@ export default function Form({ setStatus }: {
     }, onError() {
       generateNotification(undefined,NotificationTypes.GeneratorError, "error")
     }})
-    const { info, handleChange } = useHandleForm()
+    const { info, handleChange } = useGenerator()
 
     return (
         <form className='w-full flex flex-col gap-3' onSubmit={(e) => {

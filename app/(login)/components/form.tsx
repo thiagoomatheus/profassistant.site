@@ -4,8 +4,9 @@ import { useState } from "react"
 import { User } from "@/app/lib/types/types";
 import useLogin from "../lib/hooks/useLogin"
 
-export default function Form ({btnText}: {
-    btnText: string
+export default function Form ({btnText, handleSubmit}: {
+    btnText: string,
+    handleSubmit: (user: User) => void
 }) {
 
     const [user, setUser] = useState<User>({
@@ -21,13 +22,13 @@ export default function Form ({btnText}: {
         })
     }
 
-    const { handleLogin, handleLoginGoogle } = useLogin()
+    const { handleLoginGoogle } = useLogin()
 
     return (
         <>
             <form className="w-[450px] flex flex-col gap-2" onSubmit={(e: React.FormEvent) => {
                 e.preventDefault()
-                handleLogin(user)
+                handleSubmit(user)
             }}>
                 <label>Seu email:
                     <input name="email" type="email" placeholder="Insira seu email" onChange={handleChange} />
@@ -35,7 +36,7 @@ export default function Form ({btnText}: {
                 <label>Sua senha:
                     <input name="password" type="password" placeholder="Insira sua senha" onChange={handleChange} />
                 </label>
-                <p>Lembre-se: Sua senha deve conter pelo menos uma letra miníscula, uma letra maiúscula, um caractere especial ($*&@#), um número e 8 caracteres.</p>
+                <p>Lembre-se: Sua senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um caractere especial ($*&@#), um número e 8 caracteres.</p>
                 <input type="submit" value={btnText} />
             </form>
             <button onClick={handleLoginGoogle} className=" w-[450px] flex flex-row justify-center gap-x-6 p-1 sm:p-2 items-center bg-sky-500 sm:text-2xl font-bold text-white hover:bg-sky-700 duration-500 rounded-xl">

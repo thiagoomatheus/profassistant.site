@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function useHandleForm () {
+export default function useGenerator () {
 
     const [info, setInfo] = useState({
         ano: "",
