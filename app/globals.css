@@ -8,11 +8,97 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 1.875rem /* 30px */;
+    line-height: 2.25rem /* 36px */;
+    color: #3D4B59;
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+    color: #3D4B59;
+}
+
+h3 {
+    font-weight: bold;
+	font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+    color: #3D4B59;
+}
+
+p, a, input, label, select, textarea, li {
+    font-size: 0.875rem/* 14px */;
+    line-height: 1.25rem/* 20px */;
+}
+
+@media (min-width: 768px) {
+    p, input, label, select, textarea, li {
+        font-size: 1rem/* 16px */;
+        line-height: 1.5rem/* 24px */;
+    }
+}
+
+@media (min-width: 1024px) {
+    h1 {
+        font-size: 3rem /* 48px */;
+        line-height: 1;
+    }
+
+    h2 {
+        font-size: 2.25rem; /* 36px */
+        line-height: 2.5rem; /* 40px */
+    }
+
+    h3 {
+        font-size: 1.5rem; /* 24px */
+        line-height: 2rem; /* 32px */
+    }
+
+    p, a, input, label, select, textarea, li {
+        font-size: 1.125rem/* 18px */;
+        line-height: 1.75rem/* 28px */;
+    }
+}
+
+@media (min-width: 1280px) {
+    h1 {
+        font-size: 3.75rem /* 60px */;
+        line-height: 1;
+    }
+
+    h2 {
+        font-size: 3rem; /* 48px */
+        line-height: 1;
+    }
+
+    h3 {
+        font-size: 1.875rem; /* 30px */
+        line-height: 2.25rem; /* 36px */
+    }
+
+    p, a, input, label, select, textarea, li {
+        font-size: 1.5rem/* 24px */;
+        line-height: 2rem/* 32px */;
+    }
+}
+
 label {
     display: flex;
     flex-direction: column;
     gap: 8px;
     font-weight: bold;
+    color: #3D4B59;
+}
+
+input::placeholder {
+    color: #3D4B59;
 }
 
 input, select {
@@ -22,24 +108,47 @@ input, select {
     justify-content: center;
     align-items: center;
     padding: 7px;
-    border: 1px solid black;
+    border: 1px solid #3D4B59;
     border-radius: 10px;
     font-weight: normal;
-    color: gray;
+    color: #3D4B59
+}
+
+textarea {
+    border-radius: 5px;
+    padding: 7px;
+    border: 1px solid #3D4B59;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #BC9322;
+    border: none;
+}
+
+input:hover, select:hover, textarea:hover {
+    border: 1px solid #BC9322;
 }
 
 input[type="submit"] {
-    background: #000;
+    background: #3D4B59;
     color: #fff;
     font-size: 1.1em;
     font-weight: bold;
-    transition: 0.5s;
+    transition: 0.3s;
     border: none;
 }
 
 input[type="submit"]:hover {
-    background: gray;
-    outline: 2px solid black;
+    background: #BC9322;
+    outline: 3px solid #3D4B59;
+}
+
+input[type="submit"]:focus {
+    outline: 3px solid #BC9322;
+}
+
+input[type="submit"]:hover:focus {
+    outline: 3px solid #3D4B59;
 }
 
 .error {

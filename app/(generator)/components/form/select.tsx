@@ -7,7 +7,7 @@ export default function Select ({ name, options, handleChange }: {
     handleChange: (e: React.ChangeEvent) => void
 }) {
     return (
-        <select onChange={handleChange} className='border border-black' name={name} defaultValue={"default"} required>
+        <select onChange={handleChange} name={name} defaultValue={"default"} required>
             <option key={"default"} value={"default"} disabled>Selecione uma opção</option>
             {options.map((opt, i) => {
                 if (opt.optionGroup) {

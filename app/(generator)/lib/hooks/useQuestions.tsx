@@ -30,7 +30,6 @@ export default function useQuestions() {
                 alternativeC: alternativeC,
                 alternativeD: alternativeD,
                 correctAlternative: correctAlternative
-                
             }
             questions.push(question)
             return question
@@ -39,7 +38,7 @@ export default function useQuestions() {
 
     function treatResponseAPI () {
         let questionsReceiveds: Question[] = []
-        const tratedResponse: string = response!.content.replaceAll("\\n", " ").replace(/[\\"]/g, "")
+        const tratedResponse: string = response!.content.replace(/\\n/g, "  ").replace(/[\\"]/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/g, ")")
         const questions: string[] = tratedResponse.split("--")
         questions.map(q => {
             if (!q) {
@@ -53,9 +52,16 @@ export default function useQuestions() {
         return questionsReceiveds
     }
 
+    function testeResponse() {
+        const tratedResponse: string = response!.content.replace(/\\n/g, "  ").replace(/[\\"]/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/, ")")
+        const questions: string[] = tratedResponse.split("--")
+        return questions
+    }
+
     return {
         separateQuestion,
         treatResponseAPI,
+        testeResponse,
         questions
     }
 

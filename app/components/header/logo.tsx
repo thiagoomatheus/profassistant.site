@@ -8,7 +8,7 @@ export default function Logo () {
             <Image 
                 src={Logotyope} 
                 alt="Question Generator" 
-                width={96}
+                className="w-16 sm:w-20 lg:w-24 xl:w-28"
             />
         </Link>
     )

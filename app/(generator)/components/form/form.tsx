@@ -24,9 +24,9 @@ export default function Form({ setStatus }: {
     const { info, handleChange } = useGenerator()
 
     return (
-        <form className='w-full flex flex-col gap-3' onSubmit={(e) => {
+        <form className='flex flex-col gap-3' onSubmit={(e) => {
             e.preventDefault()
-            const prompt = `Sou professor do ${info.ano} e preciso gerar ${info.quantidade} questões para uma prova de ${info.materia} sobre ${info.assunto}. Gere questões com 4 alternativas, sendo a), b), c) e d), e sendo apenas uma a correta. Indique a correta com Resposta:. Os alunos prossuem ${info.idade} anos. As palavras devem fáceis. Retorne com -- antes da questão.`
+            const prompt = `Sou professor do ${info.ano} e preciso gerar ${info.quantidade} questões para uma prova de ${info.materia} sobre ${info.assunto}. Gere questões com 4 alternativas, sendo a), b), c) e d) e sendo apenas uma a correta. Indique a correta com Resposta:. Os alunos prossuem ${info.idade} anos. As palavras devem fáceis. Retorne com -- antes da questão.`
             setInput(prompt)
             append({
               content: prompt,
@@ -37,15 +37,15 @@ export default function Form({ setStatus }: {
             setStatus("awaitingResponse")
             generateNotification(NotificationTypes.GeneratorLoading, undefined, "success", false)
           }}>
-            <Fieldset legend="Sobre os alunos">
+            <Fieldset legend="Sobre os alunos" borderColor="blue-2">
               <Label label="Selecione sua série:">
                 <Select name="ano" handleChange={handleChange} options={anoOptions} />
               </Label>
               <Label label="Idade Média dos alunos:">
-                <input onChange={handleChange} className='border border-black' type="number" name="idade" min={0} max={22} placeholder="Idade" required />
+                <input onChange={handleChange}type="number" name="idade" min={0} max={22} placeholder="Idade" required />
               </Label>
             </Fieldset>
-            <Fieldset legend="Sobre a prova">
+            <Fieldset legend="Sobre a prova" borderColor="blue-2">
               <Label label="Selecione a matéria:">
                 <Select name="materia" handleChange={handleChange} options={materiaOptions} />
               </Label>
@@ -53,7 +53,7 @@ export default function Form({ setStatus }: {
                 <Select name="quantidade" handleChange={handleChange} options={quantidadeOptions} />
               </Label>
               <Label label="Assunto:">
-                <input onChange={handleChange} className='border border-black' type="text" name="assunto" placeholder="Assunto principal da prova" required />
+                <textarea onChange={handleChange} className="font-normal" name="assunto" required />
               </Label>
             </Fieldset>
             <input type="submit" value="Gerar questão" />

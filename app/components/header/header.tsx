@@ -1,11 +1,12 @@
 import Login from "./login";
 import Logo from "./logo";
+import Menu from "./menu";
 
 export default function Header () {
     return (
-        <header className="bg-black w-full p-5 flex flex-row justify-between">
+        <header className="w-full p-3 md:px-5 lg:px-10 xl:px-14 flex flex-row justify-between">
             <Logo />
-            <Login />
+            <Menu />
         </header>
     )
 }
