@@ -39,18 +39,18 @@ export default function Form({ setStatus }: {
           }}>
             <Fieldset legend="Sobre os alunos" borderColor="blue-2">
               <Label label="Selecione sua série:">
-                <Select name="ano" handleChange={handleChange} options={anoOptions} />
+                <Select key={"ano"} name="ano" handleChange={handleChange} options={anoOptions} />
               </Label>
               <Label label="Idade Média dos alunos:">
-                <input onChange={handleChange}type="number" name="idade" min={0} max={22} placeholder="Idade" required />
+                <input onChange={handleChange} type="number" name="idade" min={0} max={22} placeholder="Idade" required />
               </Label>
             </Fieldset>
             <Fieldset legend="Sobre a prova" borderColor="blue-2">
               <Label label="Selecione a matéria:">
-                <Select name="materia" handleChange={handleChange} options={materiaOptions} />
+                <Select key={"materia"} name="materia" handleChange={handleChange} options={materiaOptions} />
               </Label>
               <Label label="Quantidade de questões:">
-                <Select name="quantidade" handleChange={handleChange} options={quantidadeOptions} />
+                <Select key={"quantidade"} name="quantidade" handleChange={handleChange} options={quantidadeOptions} />
               </Label>
               <Label label="Assunto:">
                 <textarea onChange={handleChange} className="font-normal" name="assunto" required />

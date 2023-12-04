@@ -29,10 +29,10 @@ export default function Page () {
                     <ol className="list-decimal list-inside">
                         <li>Preencha as informações de seus alunos</li>
                         <li>Preencha as informações da(s) questão(ões) que você deseja gerar</li>
-                        <li>Clique no botão "Gerar questão"</li>
+                        <li>Clique no botão &quot;Gerar questão&quot;</li>
                         <li>Aguarde alguns segundos e sua(s) questão(ões) aparecerão na lateral</li>
                     </ol>
-                    <p>Obs: No campo "Quantidade de questões" tenha em mente que quanto mais questões maior será o tempo gerá-las.</p>
+                    <p>Obs: No campo &quot;Quantidade de questões&quot; tenha em mente que quanto mais questões maior será o tempo gerá-las.</p>
                     <Generator />
                 </>
                 
