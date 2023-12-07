@@ -1,8 +1,9 @@
-import { auth } from "@/app/lib/firebase";
-import { User } from "@/app/lib/types/types";
+import { auth, db } from "@/app/lib/firebase";
+import { User, UserDB } from "@/app/lib/types/types";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { doc, setDoc } from "firebase/firestore";
 
 export async function POST(request:NextRequest) {
     const credencialUser: User = await request.json()
@@ -17,7 +18,7 @@ export async function POST(request:NextRequest) {
     }
 
     await createUserWithEmailAndPassword(auth, credencialUser.email, credencialUser.password)
-    .then((result) => {
+    .then(async (result) => {
         // Signed in 
         const expiresIn = 60 * 60 * 24 * 5 * 1000;
         const options = {
@@ -27,8 +28,22 @@ export async function POST(request:NextRequest) {
             httpOnly: true,
             secure: true,
         };
-        cookies().set(options)
-        statusCode = 200
+        const user: UserDB = {
+            name: credencialUser.name,
+            email: credencialUser.email,
+            plan: credencialUser.plan,
+            id: result.user.uid
+        }
+        await setDoc(doc(db, "users", auth.currentUser!.uid), user)
+        .then(() => {
+            cookies().set(options)
+            statusCode = 200
+        })
+        .catch((error) => {
+            statusCode = 401
+            messageReturn = error.message
+        }
+        )
     })
     .catch((error) => {
         statusCode = 401

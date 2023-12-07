@@ -1,8 +1,9 @@
-import { auth, provider } from "@/app/lib/firebase";
-import { User } from "@/app/lib/types/types";
+import { auth, db, provider } from "@/app/lib/firebase";
+import { User, UserDB } from "@/app/lib/types/types";
 import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
+import { doc, getDoc } from "firebase/firestore";
 
 export async function POST(req: NextRequest) {
 
@@ -52,25 +53,32 @@ export async function POST(req: NextRequest) {
         });
     }
     
-    return NextResponse.json((messageReturn ? messageReturn : {}), {status: statusCode})
+    return NextResponse.json((messageReturn ? {messageReturn} : {}), {status: statusCode})
 }
 
 export async function GET(req: NextRequest) {
     
-    let isLogged: boolean = false
     let statusCode = 0
+    let userLogged: any = undefined
 
     const session = cookies().get("session")?.value || ""
 
-    await onAuthStateChanged(auth, (user) => {
-        if (user && session) {
-            isLogged = true
-            statusCode = 200
-        } else {
-            console.log(user);
+    await onAuthStateChanged(auth, async (user) => {        
+        if (user?.uid !== session) {
             statusCode = 401
+            return
         }
-      });
+        statusCode = 200
+      })
+      if (statusCode === 200) {
+        await getDoc(doc(db, "users", session))
+        .then(response => {
+            userLogged = response.data()
+        })
+        .catch(error => {
+            console.log(error);
+        })
+      }
 
-      return NextResponse.json({ isLogged: isLogged }, { status: statusCode })
+    return NextResponse.json({ user: userLogged }, { status: statusCode })
 }

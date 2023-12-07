@@ -15,7 +15,7 @@ export async function POST(req:NextRequest) {
             value: "",
             maxAge: -1,
           };
-        cookies().set(options);
+        cookies().set(options)
         statusCode = 200
     }).catch((error) => {
     // An error happened.
