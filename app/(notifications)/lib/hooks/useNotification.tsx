@@ -21,7 +21,7 @@ export enum NotificationTypes {
 export default function useNotification() {
 
     const setNotification = useContext(NotificationContext)
-    const { auth } = useContext(AuthContext)
+    const { isLogged } = useContext(AuthContext)
     const router = useRouter()
 
     const generateNotification = (messageSuccess?: NotificationTypes, messageError?: NotificationTypes, type?: "success" | "error", redirect?: boolean) => {
@@ -38,7 +38,7 @@ export default function useNotification() {
             
                     return () => clearTimeout(timer)
                 }
-                !auth ? router.push("/generator") : router.push("/")
+                !isLogged ? router.push("/generator") : router.push("/")
                 break;
             case "error":
                 setNotification({
@@ -53,7 +53,7 @@ export default function useNotification() {
             
                     return () => clearTimeout(timer)
                 }
-                !auth ? router.push("/generator") : router.push("/")
+                !isLogged ? router.push("/generator") : router.push("/")
                 break
         };
 
