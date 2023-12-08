@@ -1,4 +1,4 @@
-import { auth, db } from "@/app/lib/firebase";
+import { auth, db } from "@/app/lib/firebase/firebase";
 import { User, UserDB } from "@/app/lib/types/types";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { cookies } from "next/headers";

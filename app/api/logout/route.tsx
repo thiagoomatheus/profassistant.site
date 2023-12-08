@@ -1,4 +1,4 @@
-import { auth } from "@/app/lib/firebase";
+import { auth } from "@/app/lib/firebase/firebase";
 import { signOut } from "firebase/auth";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";

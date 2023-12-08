@@ -11,12 +11,12 @@ export default function Button ({ text, href, handleClick, aditionalCSS }: {
     return (
         <>
             {href && (
-                    <Link onClick={handleClick} href={href} className={`p-2 text-white w-28 md:w-32 lg:w-40 xl:w-48 bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-[#ffffff67] md:shadow-[#0000003f] shadow-md ${aditionalCSS}`}>
-                        {text}
-                    </Link>
+                <Link onClick={handleClick} href={href} className={`p-2 md:py-2 md:px-4 xl:px-5 text-xs md:text-sm lg:text-lg text-white bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-orange-2 hover:text-white duration-200 ${aditionalCSS}`}>
+                    {text}
+                </Link>
             )}
             {!href && (
-                <button onClick={handleClick} className={`p-2 text-white w-28 md:w-32 lg:w-40 xl:w-48 bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-[#ffffff67] md:shadow-[#0000003f] shadow-md ${aditionalCSS}`}>
+                <button onClick={handleClick} className={`p-2 text-white text-xs md:text-sm lg:text-lg bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-blue-2 hover:text-white duration-200 ${aditionalCSS}`}>
                     {text}
                 </button>
             )}

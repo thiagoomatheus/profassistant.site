@@ -1,4 +1,4 @@
-import { auth, db, provider } from "@/app/lib/firebase";
+import { auth, db, provider } from "@/app/lib/firebase/firebase";
 import { User, UserDB } from "@/app/lib/types/types";
 import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { NextRequest, NextResponse } from "next/server";
