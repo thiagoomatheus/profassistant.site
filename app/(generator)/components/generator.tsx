@@ -10,11 +10,11 @@ export default function Generator () {
 
     return (
         <section className="flex flex-row flex-wrap justify-around gap-5 md:gap-10">
-            <div className="w-full lg:h-[700px] xl:h-[725px] sm:w-[55%] lg:w-[46%] flex flex-col gap-5 p-2 rounded-xl border-2 border-blue-2">
+            <div className="w-full lg:h-[700px] xl:h-[770px] sm:w-[55%] lg:w-[46%] flex flex-col gap-5 p-2 rounded-xl border-2 border-blue-2">
                 <h3 className="text-orange-2">Preencha o formulário</h3>
                 <Form setStatus={setStatus} />
             </div>
-            <div className="w-full lg:h-[700px] xl:h-[725px] sm:w-[55%] lg:w-[46%] flex flex-col gap-5 p-2 rounded-xl border-2 border-orange-2 overflow-auto">
+            <div className="w-full lg:h-[700px] xl:h-[770px] sm:w-[55%] lg:w-[46%] flex flex-col gap-5 p-2 rounded-xl border-2 border-orange-2 overflow-auto">
                 <h3>Suas questões aqui</h3>
                 {!status && (
                     <p>Preencha o formulário para gerar as questões. Estamos te aguardando...</p>

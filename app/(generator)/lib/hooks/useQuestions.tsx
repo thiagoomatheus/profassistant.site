@@ -36,10 +36,16 @@ export default function useQuestions() {
         }
     }
 
-    function treatResponseAPI () {
+    function treatResponseForText() {
+        const tratedResponse: string = response!.content.replace(/\\n/g, "  ").replace(/[\\"']/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/, ")")
+        const questionsSeparated: string[] = tratedResponse.split("--")
+        const questions: string[] = questionsSeparated.filter(item => item.trim().length > 0)
+        return questions
+    }
+
+    function transformResponseInObject () {
         let questionsReceiveds: Question[] = []
-        const tratedResponse: string = response!.content.replace(/\\n/g, "  ").replace(/[\\"]/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/g, ")")
-        const questions: string[] = tratedResponse.split("--")
+        const questions = treatResponseForText()
         questions.map(q => {
             if (!q) {
                 return
@@ -52,16 +58,31 @@ export default function useQuestions() {
         return questionsReceiveds
     }
 
-    function testeResponse() {
-        const tratedResponse: string = response!.content.replace(/\\n/g, "  ").replace(/[\\"]/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/, ")")
-        const questions: string[] = tratedResponse.split("--")
-        return questions
+    async function saveQuestion(userPlan: "basic" | "premium" | "pro", question: string) {
+        switch (userPlan) {
+            case "basic":
+                const questionsLocal = localStorage.getItem("savedQuestions")
+                if (!questionsLocal) {
+                    localStorage.setItem("savedQuestions", JSON.stringify([question]))
+                    return
+                }
+                else {
+                    let questions: string[] = JSON.parse(questionsLocal)
+                    questions.push(question)
+                    localStorage.setItem("savedQuestions", JSON.stringify(questions))
+                }
+                break;
+            case "premium" || "pro":
+                console.log(info.materia);
+                break
+        }
     }
 
     return {
         separateQuestion,
-        treatResponseAPI,
-        testeResponse,
+        transformResponseInObject,
+        treatResponseForText,
+        saveQuestion,
         questions
     }
 
