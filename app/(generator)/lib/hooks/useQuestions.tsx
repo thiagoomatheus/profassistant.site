@@ -1,9 +1,6 @@
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
 import { Question, UserDB } from "../../../lib/types/types";
 import { useContext } from "react";
-import { doc, setDoc } from "firebase/firestore"; 
-import { auth, db } from "@/app/lib/firebase/firebase";
-import { json } from "stream/consumers";
 
 export default function useQuestions() {
 
@@ -60,17 +57,19 @@ export default function useQuestions() {
         return questionsReceiveds
     }
 
-    function saveQuestion(user: UserDB, question: string, handleStatus: React.Dispatch<React.SetStateAction<"read" | "edit" | "saved">>) {
+    function saveQuestion(user: UserDB, question: string, handleStatus: React.Dispatch<React.SetStateAction<boolean>>) {
         if (user.plan === "basic") {
             const questionsLocal = localStorage.getItem("savedQuestions")
             if (!questionsLocal) {
                 localStorage.setItem("savedQuestions", JSON.stringify([question]))
+                handleStatus(true)
                 return
             }
             else {
                 let questions: string[] = JSON.parse(questionsLocal)
                 questions.push(question)
                 localStorage.setItem("savedQuestions", JSON.stringify(questions))
+                handleStatus(true)
                 return
             }
         }
@@ -91,7 +90,7 @@ export default function useQuestions() {
         })
         .then(response => {
             if (response.status === 200) {
-                handleStatus("saved")
+                handleStatus(true)
             }
         })
     }
