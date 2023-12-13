@@ -13,10 +13,11 @@ export default function Form({ setStatus }: {
   setStatus: React.Dispatch<React.SetStateAction<"awaitingResponse" | "finish" | undefined>>
 }) {
     const { generateNotification } = useNotification()
-    const { setResponse } = useContext(ResponseAPIContext)
+    const { setResponse, setSubject } = useContext(ResponseAPIContext)
     const { setInput, append } = useChat({onFinish(response) {
       setStatus("finish")
       generateNotification(NotificationTypes.GeneratorSuccess, undefined, "success", false)
+      setSubject(info.materia)
       setResponse(response)
     }, onError() {
       generateNotification(undefined,NotificationTypes.GeneratorError, "error")

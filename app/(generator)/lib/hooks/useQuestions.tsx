@@ -1,12 +1,13 @@
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
-import { Question } from "../../../lib/types/types";
-import useHandleForm from "./useGenerator";
+import { Question, UserDB } from "../../../lib/types/types";
 import { useContext } from "react";
+import { doc, setDoc } from "firebase/firestore"; 
+import { auth, db } from "@/app/lib/firebase/firebase";
+import { json } from "stream/consumers";
 
 export default function useQuestions() {
 
-    const { info } = useHandleForm()
-    const { response } = useContext(ResponseAPIContext)
+    const { response, subject } = useContext(ResponseAPIContext)
 
     let questions: Question[]  = []
 
@@ -23,7 +24,7 @@ export default function useQuestions() {
             const alternativeC = alternativesCD?.split("d)")[0]
             const alternativeD = alternativesCD?.split("d)")[1]
             const question = {
-                subject: info.materia,
+                subject: subject!,
                 body: body,
                 alternativeA: alternativeA,
                 alternativeB: alternativeB,
@@ -37,15 +38,16 @@ export default function useQuestions() {
     }
 
     function treatResponseForText() {
-        const tratedResponse: string = response!.content.replace(/\\n/g, "  ").replace(/[\\"']/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/, ")")
-        const questionsSeparated: string[] = tratedResponse.split("--")
-        const questions: string[] = questionsSeparated.filter(item => item.trim().length > 0)
-        return questions
+        if (response) {
+            const tratedResponse: string = response?.content.replace(/\\n/g, "  ").replace(/[\\"']/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/, ")")
+            const questionsSeparated: string[] = tratedResponse.split("--")
+            const questions: string[] = questionsSeparated.filter(item => item.trim().length > 0)
+            return questions
+        }
     }
 
-    function transformResponseInObject () {
+    function transformResponseInObject (questions: string[]) {
         let questionsReceiveds: Question[] = []
-        const questions = treatResponseForText()
         questions.map(q => {
             if (!q) {
                 return
@@ -58,24 +60,40 @@ export default function useQuestions() {
         return questionsReceiveds
     }
 
-    async function saveQuestion(userPlan: "basic" | "premium" | "pro", question: string) {
-        switch (userPlan) {
-            case "basic":
-                const questionsLocal = localStorage.getItem("savedQuestions")
-                if (!questionsLocal) {
-                    localStorage.setItem("savedQuestions", JSON.stringify([question]))
-                    return
-                }
-                else {
-                    let questions: string[] = JSON.parse(questionsLocal)
-                    questions.push(question)
-                    localStorage.setItem("savedQuestions", JSON.stringify(questions))
-                }
-                break;
-            case "premium" || "pro":
-                console.log(info.materia);
-                break
+    function saveQuestion(user: UserDB, question: string, handleStatus: React.Dispatch<React.SetStateAction<"read" | "edit" | "saved">>) {
+        if (user.plan === "basic") {
+            const questionsLocal = localStorage.getItem("savedQuestions")
+            if (!questionsLocal) {
+                localStorage.setItem("savedQuestions", JSON.stringify([question]))
+                return
+            }
+            else {
+                let questions: string[] = JSON.parse(questionsLocal)
+                questions.push(question)
+                localStorage.setItem("savedQuestions", JSON.stringify(questions))
+                return
+            }
         }
+        const id = Date.now().toString()
+        const data = {
+            question: question,
+            subject: subject,
+            id: id
+        }
+
+        const ref = `users/${user.id}/questions/${id}`
+        fetch("/api/saveQuestion", {
+            method: "POST",
+            body: JSON.stringify({
+                ref: ref,
+                data: data
+            })
+        })
+        .then(response => {
+            if (response.status === 200) {
+                handleStatus("saved")
+            }
+        })
     }
 
     return {

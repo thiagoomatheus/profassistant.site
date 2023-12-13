@@ -15,7 +15,8 @@ export enum NotificationTypes {
     LogoutSuccess = "Você saiu da sua conta",
     GeneratorSuccess = "Finalizado! Veja suas questões",
     GeneratorLoading = "Carregando! Aguarde alguns instantes...",
-    GeneratorError = "Erro ao gerar questão. Tente novamente."
+    GeneratorError = "Erro ao gerar questão. Tente novamente.",
+    SelectQuestionEmpty = "Selecione alguma questão para salvar",
 }
 
 export default function useNotification() {

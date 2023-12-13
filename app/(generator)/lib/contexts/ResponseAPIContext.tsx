@@ -6,10 +6,14 @@ import { createContext } from "react";
 
 export const ResponseAPIContext = createContext<{
     response: Message | undefined,
-    setResponse: React.Dispatch<React.SetStateAction<Message | undefined>>
+    setResponse: React.Dispatch<React.SetStateAction<Message | undefined>>,
+    subject: string | undefined,
+    setSubject: React.Dispatch<React.SetStateAction<string | undefined>>
 }>({
     response: undefined,
-    setResponse: () => {}
+    setResponse: () => {},
+    subject: undefined,
+    setSubject: () => {}
 })
 
 export default function ResponseAPIProvider ({ children }: {
@@ -17,11 +21,14 @@ export default function ResponseAPIProvider ({ children }: {
 }) {
 
     const [messages, setMessages] = useState<Message | undefined>(undefined)
+    const [subject, setSubject] = useState<string | undefined>(undefined)
 
     return (
         <ResponseAPIContext.Provider value={{
             response: messages,
-            setResponse: setMessages
+            setResponse: setMessages,
+            subject: subject,
+            setSubject: setSubject
         }}>
             {children}
         </ResponseAPIContext.Provider>
