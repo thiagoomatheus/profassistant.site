@@ -19,7 +19,7 @@ export default function useAuth() {
             if (response.status === 200) {
                 setIsLogged(true)
                 const user = await response.json().then(r => {
-                    return r.userLogged
+                    return r
                 })
                 setUser(user)
                 generateNotification(NotificationTypes.LoginSuccess, undefined, "success")
@@ -29,17 +29,17 @@ export default function useAuth() {
         })
     }
 
-    function handleLoginGoogle() {
-        fetch('/api/login')
-        .then(response => {
-            if (response.status === 200) {
-                setIsLogged(true)
-                generateNotification(NotificationTypes.LoginSuccess, undefined, "success")
-                return
-            }
-            return generateNotification(undefined, NotificationTypes.LoginFailed, 'error')
-        })
-    }
+    // function handleLoginGoogle() {
+    //     fetch('/api/login')
+    //     .then(response => {
+    //         if (response.status === 200) {
+    //             setIsLogged(true)
+    //             generateNotification(NotificationTypes.LoginSuccess, undefined, "success")
+    //             return
+    //         }
+    //         return generateNotification(undefined, NotificationTypes.LoginFailed, 'error')
+    //     })
+    // }
 
     function handleRegister(user: User) {
 
@@ -83,7 +83,7 @@ export default function useAuth() {
 
     return {
         handleLogin,
-        handleLoginGoogle,
+        // handleLoginGoogle,
         handleRegister,
         handleLogout
     }

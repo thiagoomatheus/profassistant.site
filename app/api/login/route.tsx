@@ -1,6 +1,6 @@
-import { auth, db, provider } from "@/app/lib/firebase/firebase";
+import { auth, db } from "@/app/lib/firebase/firebase";
 import { User } from "@/app/lib/types/types";
-import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
 import { doc, getDoc } from "firebase/firestore";
@@ -10,73 +10,48 @@ export async function POST(req: NextRequest) {
     const credencialUser: User = await req.json()
 
     let statusCode: number = 0
-    let messageReturn: string = ""
     let userLogged: any = undefined
 
-    if (!credencialUser) {
-        await signInWithPopup(auth, provider)
-        .then((result) => {
-            // Signed in
-            const expiresIn = 60 * 60 * 24 * 5 * 1000;
-            const options = {
-                name: "session",
-                value: result.user.uid,
-                maxAge: expiresIn,
-                httpOnly: true,
-                secure: true,
-              };
-            cookies().set(options)
-            statusCode = 200
-        }).catch((error) => {
-            statusCode = 401
-            messageReturn = error.message
-        });
+    await signInWithEmailAndPassword(auth, credencialUser.email, credencialUser.password)
+    .then(result => {
+        // Signed in
+        const expiresIn = 60 * 60 * 24 * 5 * 1000;
+        const options = {
+            name: "session",
+            value: result.user.uid,
+            maxAge: expiresIn,
+            httpOnly: true,
+            secure: true,
+        };
+        cookies().set(options)
+        statusCode = 200
+    })
+    .catch(() => statusCode = 401);
+    if (statusCode === 401) {
+        return NextResponse.json({}, { status: 401})
     }
-
-    if (credencialUser.email && credencialUser.password) {
-        await signInWithEmailAndPassword(auth, credencialUser.email, credencialUser.password)
-        .then(async (result) => {
-            // Signed in
-            const expiresIn = 60 * 60 * 24 * 5 * 1000;
-            const options = {
-                name: "session",
-                value: result.user.uid,
-                maxAge: expiresIn,
-                httpOnly: true,
-                secure: true,
-            };
-            cookies().set(options)
-            await getDoc(doc(db, "users", result.user.uid))
-            .then(response => {
-                userLogged = response.data()
-                statusCode = 200
-            })
-            .catch(error => {
-                console.log(error);
-            })
-        })
-        .catch((error) => {
-            statusCode = 401
-            messageReturn = error.message
-        });
-    }
+    const uid = auth.currentUser!.uid 
+    await getDoc(doc(db, "users", uid))
+    .then(response => {
+        userLogged = response.data()
+    })
+    .catch(error => {
+        console.log(error);
+    })
     
-    return NextResponse.json((messageReturn ? {userLogged, messageReturn} : {userLogged}), {status: statusCode})
+    return NextResponse.json(userLogged, {status: statusCode})
 }
 
 export async function GET(req: NextRequest) {
     
     let statusCode = 0
-    let userLogged: any = undefined
+    let userLogged:any = auth.currentUser
 
     const session = cookies().get("session")?.value || ""
 
-    await onAuthStateChanged(auth, (user) => {        
-        if (!user || !session || user?.uid !== session) {
-            statusCode = 401
-            return
-        }
-    })
+    if (!userLogged || !session || userLogged?.uid !== session) {
+        return NextResponse.json({}, { status: 401 })
+    }
     await getDoc(doc(db, "users", session))
     .then(response => {
         userLogged = response.data()
@@ -84,7 +59,6 @@ export async function GET(req: NextRequest) {
     })
     .catch(error => {
         statusCode = 401
-        return
     })
 
     return NextResponse.json({ user: userLogged }, { status: statusCode })
