@@ -27,9 +27,11 @@ export async function POST(req: NextRequest) {
         statusCode = 200
     })
     .catch(() => statusCode = 401);
+
     if (statusCode === 401) {
         return NextResponse.json({}, { status: 401})
     }
+    
     const uid = auth.currentUser!.uid 
     await getDoc(doc(db, "users", uid))
     .then(response => {

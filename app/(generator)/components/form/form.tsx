@@ -53,7 +53,7 @@ export default function Form({ setStatus }: {
                 <Select key={"quantidade"} name="quantidade" handleChange={handleChange} options={quantidadeOptions} />
               </Label>
               <Label label="Assunto:">
-                <textarea onChange={handleChange} className="font-normal" name="assunto" required />
+                <textarea onChange={handleChange} className="font-normal md:max-h-32 xl:max-h-40" name="assunto" required />
               </Label>
             </Fieldset>
             <input type="submit" value="Gerar questão" />
