@@ -6,11 +6,13 @@ import { createContext, useState, useEffect } from "react";
 export const AuthContext = createContext<{
     isLogged: boolean,
     setIsLogged: React.Dispatch<React.SetStateAction<boolean>>
-    user: UserDB | undefined
+    user: UserDB | undefined,
+    setUser: React.Dispatch<React.SetStateAction<UserDB | undefined>>
 }>({
     isLogged: false,
     setIsLogged: () => {},
-    user: undefined
+    user: undefined,
+    setUser: () => {}
 })
 
 export default function AuthContextProvider ({ children }: {
@@ -37,13 +39,14 @@ export default function AuthContextProvider ({ children }: {
             setUser(response.user)
             return
         })
-    },[isLogged])
+    },[])
     
     return (
         <AuthContext.Provider value={{
             isLogged: isLogged,
             setIsLogged: setIsLogged,
-            user: user
+            user: user, 
+            setUser: setUser
         }}>
             {children}
         </AuthContext.Provider>

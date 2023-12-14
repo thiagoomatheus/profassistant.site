@@ -8,7 +8,6 @@ import { anoOptions, materiaOptions, quantidadeOptions } from "./options";
 import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification";
 import useGenerator from "../../lib/hooks/useGenerator";
 
-
 export default function Form({ setStatus }: {
   setStatus: React.Dispatch<React.SetStateAction<"awaitingResponse" | "finish" | undefined>>
 }) {

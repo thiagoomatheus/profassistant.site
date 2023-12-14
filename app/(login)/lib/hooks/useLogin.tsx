@@ -7,7 +7,7 @@ import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/ho
 
 export default function useAuth() {
 
-    const { setIsLogged } = useContext(AuthContext)
+    const { setIsLogged, setUser } = useContext(AuthContext)
     const { generateNotification } = useNotification()
 
     function handleLogin(user: User) {
@@ -15,9 +15,13 @@ export default function useAuth() {
             method: 'POST',
             body: JSON.stringify(user)
         })
-        .then(response => {
+        .then(async response => {
             if (response.status === 200) {
                 setIsLogged(true)
+                const user = await response.json().then(r => {
+                    return r.userLogged
+                })
+                setUser(user)
                 generateNotification(NotificationTypes.LoginSuccess, undefined, "success")
                 return
             }
@@ -70,6 +74,7 @@ export default function useAuth() {
         .then(response => {   
             if (response.status === 200) {
                 setIsLogged(false)
+                setUser(undefined)
                 generateNotification(NotificationTypes.LogoutSuccess, undefined, "success")
                 return
             }

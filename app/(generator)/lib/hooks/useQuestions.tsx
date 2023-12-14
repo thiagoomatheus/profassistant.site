@@ -73,6 +73,7 @@ export default function useQuestions() {
                 return
             }
         }
+
         const id = Date.now().toString()
         const data = {
             question: question,

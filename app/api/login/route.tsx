@@ -1,5 +1,5 @@
 import { auth, db, provider } from "@/app/lib/firebase/firebase";
-import { User, UserDB } from "@/app/lib/types/types";
+import { User } from "@/app/lib/types/types";
 import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers'
@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
 
     let statusCode: number = 0
     let messageReturn: string = ""
+    let userLogged: any = undefined
 
     if (!credencialUser) {
         await signInWithPopup(auth, provider)
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
 
     if (credencialUser.email && credencialUser.password) {
         await signInWithEmailAndPassword(auth, credencialUser.email, credencialUser.password)
-        .then((result) => {
+        .then(async (result) => {
             // Signed in
             const expiresIn = 60 * 60 * 24 * 5 * 1000;
             const options = {
@@ -45,7 +46,14 @@ export async function POST(req: NextRequest) {
                 secure: true,
             };
             cookies().set(options)
-            statusCode = 200
+            await getDoc(doc(db, "users", result.user.uid))
+            .then(response => {
+                userLogged = response.data()
+                statusCode = 200
+            })
+            .catch(error => {
+                console.log(error);
+            })
         })
         .catch((error) => {
             statusCode = 401
@@ -53,7 +61,7 @@ export async function POST(req: NextRequest) {
         });
     }
     
-    return NextResponse.json((messageReturn ? {messageReturn} : {}), {status: statusCode})
+    return NextResponse.json((messageReturn ? {userLogged, messageReturn} : {userLogged}), {status: statusCode})
 }
 
 export async function GET(req: NextRequest) {
@@ -63,22 +71,21 @@ export async function GET(req: NextRequest) {
 
     const session = cookies().get("session")?.value || ""
 
-    await onAuthStateChanged(auth, async (user) => {        
-        if (user?.uid !== session) {
+    await onAuthStateChanged(auth, (user) => {        
+        if (!user || !session || user?.uid !== session) {
             statusCode = 401
             return
         }
+    })
+    await getDoc(doc(db, "users", session))
+    .then(response => {
+        userLogged = response.data()
         statusCode = 200
-      })
-      if (statusCode === 200) {
-        await getDoc(doc(db, "users", session))
-        .then(response => {
-            userLogged = response.data()
-        })
-        .catch(error => {
-            console.log(error);
-        })
-      }
+    })
+    .catch(error => {
+        statusCode = 401
+        return
+    })
 
     return NextResponse.json({ user: userLogged }, { status: statusCode })
 }
