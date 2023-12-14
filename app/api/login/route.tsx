@@ -9,6 +9,7 @@ export async function POST(req: NextRequest) {
 
     let statusCode: number = 0
     let userLogged: any = undefined
+    let uid: string = ""
     
     await req.json()
     .then(async r => {
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest) {
                 secure: true,
             };
             cookies().set(options)
+            uid = result.user.uid
             statusCode = 200
         })
         .catch(() => statusCode = 401);
@@ -32,8 +34,7 @@ export async function POST(req: NextRequest) {
     if (statusCode === 401) {
         return NextResponse.json({}, { status: 401})
     }
-    
-    const uid = auth.currentUser!.uid 
+
     await getDoc(doc(db, "users", uid))
     .then(response => {
         userLogged = response.data()
