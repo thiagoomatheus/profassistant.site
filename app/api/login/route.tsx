@@ -7,26 +7,27 @@ import { doc, getDoc } from "firebase/firestore";
 
 export async function POST(req: NextRequest) {
 
-    const credencialUser: User = await req.json()
-
     let statusCode: number = 0
     let userLogged: any = undefined
-
-    await signInWithEmailAndPassword(auth, credencialUser.email, credencialUser.password)
-    .then(result => {
-        // Signed in
-        const expiresIn = 60 * 60 * 24 * 5 * 1000;
-        const options = {
-            name: "session",
-            value: result.user.uid,
-            maxAge: expiresIn,
-            httpOnly: true,
-            secure: true,
-        };
-        cookies().set(options)
-        statusCode = 200
+    
+    await req.json()
+    .then(async r => {
+        await signInWithEmailAndPassword(auth, r.email, r.password)
+        .then(result => {
+            // Signed in
+            const expiresIn = 60 * 60 * 24 * 5 * 1000;
+            const options = {
+                name: "session",
+                value: result.user.uid,
+                maxAge: expiresIn,
+                httpOnly: true,
+                secure: true,
+            };
+            cookies().set(options)
+            statusCode = 200
+        })
+        .catch(() => statusCode = 401);
     })
-    .catch(() => statusCode = 401);
 
     if (statusCode === 401) {
         return NextResponse.json({}, { status: 401})
