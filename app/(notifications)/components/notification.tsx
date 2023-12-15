@@ -5,8 +5,8 @@ export default function Notification ({ message, type }: {
     type: "error" | "success"
 }) {
     return (
-        <div className={`w-2/4 h-16 text-white fixed top-20 left-1/4 flex flex-col justify-center items-center rounded-xl ${type}`}>
-            {message}
+        <div className={`w-2/4 h-16 p-3 text-white text-center fixed top-20 left-1/4 flex flex-col justify-center items-center rounded-xl ${type}`}>
+            <p>{message}</p>
         </div>
     )
 }
