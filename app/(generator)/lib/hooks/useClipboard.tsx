@@ -1,14 +1,19 @@
-import { useCallback } from 'react';
+import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification";
 
 export default async function useClipboard() {
-  const copyToClipboard = useCallback(async (text: string) => {
+
+  const { generateNotification } = useNotification()
+
+  async function copyToClipboard (text: string) {
+
     try {
-      await navigator.clipboard.writeText(text);
-      console.log('Texto copiado para a área de transferência');
+      await navigator.clipboard.writeText(text)
+      return generateNotification(NotificationTypes.CopyToClipboardSuccess, undefined, "success", false)
     } catch (err) {
-      console.log('Falha ao copiar o texto', err);
+      return generateNotification(undefined, NotificationTypes.CopyToClipboardError, "error", false)
     }
-  }, []);
+
+  }
 
   return copyToClipboard;
 }

@@ -17,6 +17,8 @@ export enum NotificationTypes {
     GeneratorLoading = "Carregando! Aguarde alguns instantes...",
     GeneratorError = "Erro ao gerar questão. Tente novamente.",
     SelectQuestionEmpty = "Selecione alguma questão para salvar",
+    CopyToClipboardSuccess = "Copiado com sucesso",
+    CopyToClipboardError = "Erro ao copiar, tente novamente mais tarde",
 }
 
 export default function useNotification() {

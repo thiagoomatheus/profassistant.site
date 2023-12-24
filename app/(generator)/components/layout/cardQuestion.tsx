@@ -65,13 +65,17 @@ export default function CardQuestion ({ questionString, id }: {
                             <Button text="Salvar" handleClick={() => {
                                 saveQuestion(user, question, setIsSaved)
                             }}/>
-                            <Button text="Copiar" />
+                            <Button text="Copiar" handleClick={async () => copyToClipboard.then((copyFunction) => {
+                                copyFunction(question)
+                            })} />
                         </>
                     )}
                     {status !== "edit" && isSaved && (
                         <>
                             <Button text="Salvo" />
-                            <Button text="Copiar" />
+                            <Button text="Copiar" handleClick={async () => copyToClipboard.then((copyFunction) => {
+                                copyFunction(question)
+                            })} />
                         </>
                     )}
                     {status === "edit" && (
@@ -80,7 +84,9 @@ export default function CardQuestion ({ questionString, id }: {
                             <Button text="Salvar" handleClick={() => {
                                 saveQuestion(user, question, setIsSaved)
                             }}/>
-                            <Button text="Copiar" />
+                            <Button text="Copiar" handleClick={async () => copyToClipboard.then((copyFunction) => {
+                                copyFunction(question)
+                            })} />
                         </>
                     )}
                 </ActionQuestion>
