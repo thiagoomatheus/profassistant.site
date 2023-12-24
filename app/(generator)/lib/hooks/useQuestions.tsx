@@ -1,6 +1,6 @@
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
 import { Question, UserDB } from "../../../lib/types/types";
-import { useContext } from "react";
+import { FormEvent, useContext } from "react";
 
 export default function useQuestions() {
 
