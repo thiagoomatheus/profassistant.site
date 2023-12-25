@@ -33,7 +33,7 @@ h3 {
     color: #3D4B59;
 }
 
-p, a, input, label, select, textarea, legend {
+p, a, input, label, select, textarea, legend, li {
     font-size: 0.875rem/* 14px */;
     line-height: 1.25rem/* 20px */;
 }
@@ -46,19 +46,19 @@ a {
     font-weight: bold;
 }
 
-li a, li {
+li a {
     font-size: 12px;
     font-weight: bold;
 }
 
 
 @media (min-width: 768px) {
-    p, input, label, select, textarea, legend {
+    p, input, label, select, textarea, legend, li {
         font-size: 1rem/* 16px */;
         line-height: 1.5rem/* 24px */;
     }
 
-    li a, li {
+    li a {
         font-size: 0.875rem/* 14px */;
         line-height: 1.25rem/* 20px */;
     }
@@ -80,12 +80,12 @@ li a, li {
         line-height: 2rem; /* 32px */
     }
 
-    p, a, input, label, select, textarea, legend {
+    p, a, input, label, select, textarea, legend, li {
         font-size: 1.125rem/* 18px */;
         line-height: 1.75rem/* 28px */;
     }
 
-    li a, li {
+    li a {
         font-size: 1rem/* 16px */;
         line-height: 1.5rem/* 24px */;
     }
@@ -107,9 +107,14 @@ li a, li {
         line-height: 2.25rem; /* 36px */
     }
 
-    p, a, input, label, select, textarea, legend, input {
-        font-size: 1.5rem/* 24px */;
-        line-height: 2rem/* 32px */;
+    p, a, input, label, select, textarea, legend, li {
+        font-size: 1.25rem; /* 20px */
+        line-height: 1.75rem; /* 28px */
+    }
+
+    li a {
+        font-size: 1.125rem/* 18px */;
+        line-height: 1.75rem/* 28px */;
     }
 }
 

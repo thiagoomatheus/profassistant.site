@@ -15,7 +15,7 @@ export default function UserMenu () {
 
     return (
         <nav>
-            <div className="bg-blue-2 p-1 text-lg md:p-2 xl:p-3 lg:text-2xl text-white rounded-md shadow-md cursor-pointer hover:bg-orange-2 hover:text-blue-2 duration-200" onClick={() => {
+            <div className="bg-blue-2 p-2 text-lg xl:p-3 lg:text-2xl text-white rounded-md shadow-md cursor-pointer hover:bg-orange-2 hover:text-blue-2 duration-200" onClick={() => {
                 setShowMenu(!showMenu)
             }}><FaUser /></div>
             {showMenu && (

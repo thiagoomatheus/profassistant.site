@@ -12,7 +12,7 @@ export default function Login () {
         <>
             <h2>Acesse sua conta</h2>
             <Form btnText="Entrar" handleSubmit={handleLogin} />
-            <p className="text-base">Não tem uma conta? Cadastre-se <Link className="text-base underline hover:text-orange" href={"/register"} >aqui</Link></p>
+            <p>Não tem uma conta? Cadastre-se <Link className="text-base underline hover:text-orange" href={"/register"} >aqui</Link></p>
         </>
     )
 }

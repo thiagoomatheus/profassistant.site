@@ -14,7 +14,7 @@ export default function Page () {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     
     return (
-        <section className="flex flex-col gap-2 lg:gap-6">
+        <section className="flex flex-col gap-5 lg:gap-7">
             <div className="flex justify-between items-center">
                 <h1>Gerador de questões</h1>
                 {user && isLogged && (

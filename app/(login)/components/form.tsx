@@ -26,7 +26,7 @@ export default function Form ({btnText, handleSubmit, register}: {
 
     return (
         <>
-            <form className="max-w-md flex flex-col gap-2 md:gap-5" onSubmit={(e: React.FormEvent) => {
+            <form className="max-w-md flex flex-col gap-5" onSubmit={(e: React.FormEvent) => {
                 e.preventDefault()
                 handleSubmit(user)
             }}>
