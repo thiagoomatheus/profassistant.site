@@ -4,25 +4,30 @@ import { useContext, useState } from "react"
 import Generator from "../components/layout/generator";
 import { AuthContext } from "../../(login)/lib/contexts/AuthContext";
 import Questions from "../components/layout/questions";
+import Modal from "../components/layout/modal";
+import Button from "@/app/components/layout/button";
 
 export default function Page () {
 
     const { isLogged, user } = useContext(AuthContext)
     const [status, setStatus] = useState<"awaitingResponse" | "finish" | undefined>()
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
     
     return (
-        <section className="flex flex-col gap-2 lg:gap-4">
-            <h1>Gerador de questões</h1>
+        <section className="flex flex-col gap-2 lg:gap-6">
+            <div className="flex justify-between items-center">
+                <h1>Gerador de questões</h1>
+                {user && isLogged && (
+                    <Button text="Instruções" handleClick={() => {
+                        setModalOpen(!modalOpen)
+                    }} aditionalCSS="w-24 lg:w-32" />
+                )}
+            </div>
             {user && isLogged && (
                 <>
-                    <p className="md:text-sm lg:text-lg">Bem vindo ao gerador de questão! Siga as instruções abaixo para gerar suas questões de forma fácil, simples e rápida:</p>
-                    <ol className="list-decimal list-inside">
-                        <li>Preencha as informações de seus alunos</li>
-                        <li>Preencha as informações da(s) questão(ões) que você deseja gerar</li>
-                        <li>Clique no botão &quot;Gerar questão&quot;</li>
-                        <li>Aguarde alguns segundos e sua(s) questão(ões) aparecerão na lateral</li>
-                    </ol>
-                    <p className="md:text-sm lg:text-lg">Obs: No campo &quot;Quantidade de questões&quot; tenha em mente que quanto mais questões maior será o tempo gerá-las.</p>
+                    {modalOpen && (
+                        <Modal close={() => setModalOpen(!modalOpen)} />
+                    )}
                     <section className="flex flex-row flex-wrap justify-around gap-5 md:gap-10">
                         <Generator handleStatus={setStatus} />
                         <Questions status={status} />
