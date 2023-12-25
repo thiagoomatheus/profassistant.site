@@ -12,7 +12,6 @@ import Second from "@/public/images/Passo 2.gif"
 import Third from "@/public/images/Passo 3.gif"
 import { FaCheck, FaX } from "react-icons/fa6";
 import { plans } from "./(plans)/plans";
-import Button from "./components/layout/button";
 
 export default function Home() {
   return (
@@ -87,12 +86,6 @@ export default function Home() {
           </Card>
         </div>
       </section>
-
-
-
-
-      
-      <Button href="/generator" text="Gerador" />
     </main>
   );
 }
