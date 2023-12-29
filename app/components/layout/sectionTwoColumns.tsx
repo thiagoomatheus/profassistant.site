@@ -13,7 +13,7 @@ export default function SectionTwoColumns ({ title, text, img, borderColor, reve
             <h1>{title}</h1>
             <p>{text}</p>     
           </div>
-          <div className={`bg-${borderColor} w-full flex justify-center items-center p-5 rounded-xl md:rounded-2xl mx-auto max-w-md md:max-w-none ${reverse ? "md:order-first" : ""}`}>
+          <div className={`bg-${borderColor} w-full flex justify-center items-center p-5 rounded-xl md:rounded-2xl mx-auto max-w-md md:max-w-none ${reverse ? "md:order-first reveal-card-left" : "reveal-card-right"}`}>
             <Image src={img} alt={text} className="rounded-lg w-[250px] md:w-[300px] lg:w-[400px] xl:w-[400px]" />
           </div>
         </div>

@@ -27,11 +27,11 @@ export default function Home() {
         </div>
       </section>
       <section id="product" className="flex flex-col gap-7 md:gap-10 xl:gap-20 items-center">
-        <ContainerText aditionalCSS="h-72 xl:h-[400px] md:max-w-sm lg:max-w-2xl">
+        <ContainerText aditionalCSS="h-72 xl:h-[400px] md:max-w-sm lg:max-w-2xl reveal-text">
           <h1>A ferramenta que irá te surpreender!</h1>
           <p>Nós sabemos o quanto você professor tem grandes responsabilidades. E junto a isso, surge várias tarefas: preparar aulas, manter cronogramas educacionais atualizados, dar suporte aos alunos, entre muitas outras. Pensando em te ajudar, criamos essa ferramenta incrível que se tornará seu braço direito. Veja o que nossa ferramenta pode te proporcionar:</p>
         </ContainerText>
-        <div className="flex flex-col md:flex-row gap-5 lg:gap-10">
+        <div className="flex flex-col md:flex-row gap-5 lg:gap-10 reveal-card-left">
           <Card title="Tempo" img={Time} aditionalCSS="border-[10px] lg:border-[15px] border-orange-2">
             <p>Gere questões em alguns segundos e tenha mais tempo para você.</p>
           </Card>
