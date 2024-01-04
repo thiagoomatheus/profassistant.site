@@ -26,7 +26,7 @@ export default function Home() {
           <Image src={Educator} alt="Professor aplicando prova para alunos" />
         </div>
       </section>
-      <section id="product" className="flex flex-col gap-7 md:gap-10 xl:gap-20 items-center">
+      <section id="produto" className="flex flex-col gap-7 md:gap-10 xl:gap-20 items-center">
         <ContainerText aditionalCSS="h-72 xl:h-[400px] md:max-w-sm lg:max-w-2xl reveal-text">
           <h1>A ferramenta que irá te surpreender!</h1>
           <p>Nós sabemos o quanto você professor tem grandes responsabilidades. E junto a isso, surge várias tarefas: preparar aulas, manter cronogramas educacionais atualizados, dar suporte aos alunos, entre muitas outras. Pensando em te ajudar, criamos essa ferramenta incrível que se tornará seu braço direito. Veja o que nossa ferramenta pode te proporcionar:</p>
@@ -49,7 +49,7 @@ export default function Home() {
         <SectionTwoColumns title="2° - Selecione as informações das questões" text="Coloque a matéria, a quantidade de questões e descreva o assunto" img={Second} borderColor="blue" reverse={true} />
         <SectionTwoColumns title="3° - Clique em “Gerar questão”" text="Agora é so aguardar alguns segundos e seuas questões aparecerão na tela" img={Third} borderColor="orange" />
       </section>
-      <section id="price" className="flex flex-col gap-7 md:gap-20 xl:gap-28 items-center">
+      <section id="planos" className="flex flex-col gap-7 md:gap-20 xl:gap-28 items-center">
         <h1>Preços e planos:</h1>
         <div className="flex flex-col md:flex-row gap-5 lg:gap-10">
           {plans.map(plan => {
@@ -67,7 +67,7 @@ export default function Home() {
           })}
         </div>
       </section>
-      <section id="about" className="flex flex-col justify-center items-center gap-5 md:gap-10 text-center">
+      <section id="sobre" className="flex flex-col justify-center items-center gap-5 md:gap-10 text-center">
         <ContainerText aditionalCSS="gap-5 md:gap-7 md:max-w-xl xl:max-w-3xl">
           <h1 className="self-center">Sobre nós:</h1>
           <p>O projeto Question! Generator teve seu início em novembro de 2023 nascendo da ideia de facilitar o trabalho dos prefissionais da educação. Seu criador possui professores no círculo familiar e percebia a dificuldade deles em achar questões para suas provas e atividades, que de uma maneira facilitada pudessem organizá-las e remodelá-las.</p>

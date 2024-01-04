@@ -29,18 +29,6 @@ export default function useAuth() {
         })
     }
 
-    // function handleLoginGoogle() {
-    //     fetch('/api/login')
-    //     .then(response => {
-    //         if (response.status === 200) {
-    //             setIsLogged(true)
-    //             generateNotification(NotificationTypes.LoginSuccess, undefined, "success")
-    //             return
-    //         }
-    //         return generateNotification(undefined, NotificationTypes.LoginFailed, 'error')
-    //     })
-    // }
-
     function handleRegister(user: User) {
 
         const regexEmail: RegExp = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi
@@ -83,7 +71,6 @@ export default function useAuth() {
 
     return {
         handleLogin,
-        // handleLoginGoogle,
         handleRegister,
         handleLogout
     }

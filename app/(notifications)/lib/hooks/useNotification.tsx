@@ -41,7 +41,7 @@ export default function useNotification() {
             
                     return () => clearTimeout(timer)
                 }
-                !isLogged ? router.push("/generator") : router.push("/")
+                !isLogged ? router.push("/gerador") : router.push("/")
                 break;
             case "error":
                 setNotification({
@@ -56,7 +56,7 @@ export default function useNotification() {
             
                     return () => clearTimeout(timer)
                 }
-                !isLogged ? router.push("/generator") : router.push("/")
+                !isLogged ? router.push("/gerador") : router.push("/")
                 break
         };
 

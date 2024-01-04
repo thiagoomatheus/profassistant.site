@@ -19,17 +19,17 @@ export default function Menu() {
                 <>
                     <ul className="flex flex-row flex-wrap gap-2 md:gap-5 text-blue-2">
                         <li>
-                            <Link href={"/#product"}>
+                            <Link href={"/#produto"}>
                                 Produto
                             </Link>
                         </li>
                         <li>
-                            <Link href={"/#price"}>
+                            <Link href={"/#planos"}>
                                 Planos
                             </Link>
                         </li>
                         <li>
-                            <Link href={"/#about"}>
+                            <Link href={"/#sobre"}>
                                 Sobre nós
                             </Link>
                         </li>
@@ -41,7 +41,7 @@ export default function Menu() {
                 <>
                     <ul className="flex flex-row flex-wrap gap-2 md:gap-5 text-blue-2">
                         <li className={pathname === "/generator" ? "text-orange font-bold" : ""}>
-                            <Link href={"/generator"}>
+                            <Link href={"/gerador"}>
                                 Gerador
                             </Link>
                         </li>
