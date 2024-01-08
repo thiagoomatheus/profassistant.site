@@ -10,7 +10,7 @@ export type Question = {
 
 export type QuestionDB = {
     question: string,
-    id: number,
+    id: string,
     subject: string
 }
 

@@ -7,7 +7,7 @@ export default function QuestionsContainer( { questions }: {
     return (
         <div className="grid md:grid-cols-2 gap-5">
             {questions.map(q => (
-                <CardQuestion questionString={q.question} id={q.id} />
+                <CardQuestion questionString={q.question} id={q.id} update key={q.id} />
             ))}
         </div>
     )

@@ -1,7 +1,7 @@
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
-import { Question, UserDB } from "../../../lib/types/types";
+import { Question, QuestionDB, UserDB } from "../../../lib/types/types";
 import { useContext } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "@/app/lib/firebase/firebase";
 
 export default function useQuestions() {
@@ -57,27 +57,28 @@ export default function useQuestions() {
     }
 
     function saveQuestion(user: UserDB, question: string, handleStatus: React.Dispatch<React.SetStateAction<boolean>>) {
-        if (user.plan === "basic") {
-            const questionsLocal = localStorage.getItem("savedQuestions")
-            if (!questionsLocal) {
-                localStorage.setItem("savedQuestions", JSON.stringify([question]))
-                handleStatus(true)
-                return
-            }
-            else {
-                let questions: string[] = JSON.parse(questionsLocal)
-                questions.push(question)
-                localStorage.setItem("savedQuestions", JSON.stringify(questions))
-                handleStatus(true)
-                return
-            }
-        }
 
         const id = Date.now().toString()
         const data = {
             question: question,
-            subject: subject,
+            subject: subject!,
             id: id
+        }
+
+        if (user.plan === "basic") {
+            const questionsLocal = localStorage.getItem("savedQuestions")
+            if (!questionsLocal) {
+                localStorage.setItem("savedQuestions", JSON.stringify([data]))
+                handleStatus(true)
+                return
+            }
+            else {
+                let questions: QuestionDB[] = JSON.parse(questionsLocal)
+                questions.push(data)
+                localStorage.setItem("savedQuestions", JSON.stringify(questions))
+                handleStatus(true)
+                return
+            }
         }
 
         const ref = `users/${user.id}/questions/${id}`
@@ -96,12 +97,13 @@ export default function useQuestions() {
     }
 
     async function getQuestions(user: UserDB) {
-        switch (user.plan) {
-            case "basic":
-                const questionsLocal = JSON.parse(localStorage.getItem("savedQuestions") || "")
-                return questionsLocal
-            case "pro" || "premium":
-                let questionsAccount: any[] = []
+
+        if (user.plan === "basic") {
+            const questionsLocal: QuestionDB[] = JSON.parse(localStorage.getItem("savedQuestions") || "")
+            return questionsLocal
+        }
+        else if (user.plan === "premium" || user.plan === "pro") {
+            let questionsAccount: any[] = []
                 await getDocs(collection(db, "users", user.id, "questions"))
                 .then(r => {
                     r.forEach(doc => {
@@ -119,12 +121,39 @@ export default function useQuestions() {
         }
     }
 
+    async function updateQuestion(user: UserDB, question: string, id: string) {
+        if (user.plan === "basic") {
+            getQuestions(user).then(questionsLocal => {
+                questionsLocal!.map(q => {
+                    if (q.id === id) {
+                        q.question = question
+                        return
+                    }
+                    return
+                })
+                localStorage.setItem("savedQuestions", JSON.stringify(questionsLocal))
+            })
+            return 200           
+        }
+        else if (user.plan === "premium" || user.plan === "pro") {
+            try {
+                await updateDoc(doc(db, "users", user.id, "questions", id), {
+                    question: question
+                })
+            } catch (error) {
+                return 401
+            }
+            return 200
+        }
+    }
+
     return {
         separateQuestion,
         transformResponseInObject,
         treatResponseForText,
         saveQuestion,
-        getQuestions
+        getQuestions,
+        updateQuestion
     }
 
 }

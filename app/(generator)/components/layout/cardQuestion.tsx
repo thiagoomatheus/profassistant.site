@@ -8,15 +8,16 @@ import Button from "@/app/components/layout/button"
 import { FaCheckCircle } from "react-icons/fa";
 import useClipboard from "../../lib/hooks/useClipboard"
 
-export default function CardQuestion ({ questionString, id }: {
+export default function CardQuestion ({ questionString, id, update }: {
     questionString: string
-    id: number
+    id: string
+    update?: boolean
 }) {
     const [status, setStatus] = useState<"read" | "edit">("read")
     const [isSaved, setIsSaved] = useState<boolean>(false)
     const [question, setQuestion] = useState<string>(questionString)
     const { user } = useContext(AuthContext)
-    const { separateQuestion, saveQuestion } = useQuestions()
+    const { separateQuestion, saveQuestion, updateQuestion } = useQuestions()
     const copyToClipboard = useClipboard()
     const questionObject = separateQuestion(question)
 
@@ -43,51 +44,60 @@ export default function CardQuestion ({ questionString, id }: {
                    <textarea onChange={handleChange} className="w-full h-40">{`${question}`}</textarea> 
                 </>
             )}
-            {user?.plan == "basic" && (
+
+            {status === "read" && (
                 <ActionQuestion>
-                    {!isSaved && (
-                        <Button text="Salvar" handleClick={() => {
-                            saveQuestion(user, question, setIsSaved)
-                        }}/>
-                    )}
-                    {isSaved && (
-                        <Button text="Salvo" />
-                    )}
-                </ActionQuestion>
-            )}
-            {user?.plan === "premium" || user?.plan === "pro" && (
-                <ActionQuestion>
-                    {status !== "edit" && !isSaved && (
+                    {!isSaved && user?.plan !== "free" && (
                         <>
                             <Button text="Editar" handleClick={() => {
                                 setStatus("edit")
                             }} />
-                            <Button text="Salvar" handleClick={() => {
-                                saveQuestion(user, question, setIsSaved)
-                            }}/>
-                            <Button text="Copiar" handleClick={async () => copyToClipboard.then((copyFunction) => {
-                                copyFunction(question)
-                            })} />
+                            {!update && (
+                                <Button text="Salvar" handleClick={() => {
+                                    saveQuestion(user!, question, setIsSaved)
+                                    setStatus("read")
+                                }}/>
+                            )}
                         </>
                     )}
-                    {status !== "edit" && isSaved && (
+                    {isSaved && user?.plan !== "free" && (
                         <>
+                            <Button text="Editar" handleClick={() => {
+                                setStatus("edit")
+                            }} />
                             <Button text="Salvo" />
-                            <Button text="Copiar" handleClick={async () => copyToClipboard.then((copyFunction) => {
-                                copyFunction(question)
-                            })} />
                         </>
                     )}
-                    {status === "edit" && (
-                        <>
-                            <Button text="Voltar" handleClick={() => setStatus("read")} />
-                            <Button text="Salvar" handleClick={() => {
-                                saveQuestion(user, question, setIsSaved)
-                            }}/>
+                    {user?.plan === "premium" || user?.plan === "pro" && (
+                        <>                        
                             <Button text="Copiar" handleClick={async () => copyToClipboard.then((copyFunction) => {
                                 copyFunction(question)
                             })} />
+                            {update && (
+                                <Button text="Selecionar" handleClick={() => undefined} />
+                            )}
                         </>
+                    )}
+                </ActionQuestion>
+            )}
+
+            {status === "edit" && (
+                <ActionQuestion>
+                    <Button text="Voltar" handleClick={() => setStatus("read")} />
+                    {!update && (
+                        <Button text="Salvar" handleClick={() => {
+                            saveQuestion(user!, question, setIsSaved)
+                            setStatus("read")
+                        }}/>
+                    )}
+                    {update && (
+                        <Button text="Salvar" handleClick={() => {
+                            updateQuestion(user!, question, id).then(r => {
+                                if (r === 200) {
+                                    setStatus("read")
+                                }
+                            })
+                        }}/>
                     )}
                 </ActionQuestion>
             )}
