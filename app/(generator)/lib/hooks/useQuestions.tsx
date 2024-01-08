@@ -1,12 +1,12 @@
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
 import { Question, UserDB } from "../../../lib/types/types";
-import { FormEvent, useContext } from "react";
+import { useContext } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/app/lib/firebase/firebase";
 
 export default function useQuestions() {
 
     const { response, subject } = useContext(ResponseAPIContext)
-
-    let questions: Question[]  = []
 
     function separateQuestion(q: string): Question | undefined {
         if (q) {
@@ -29,7 +29,6 @@ export default function useQuestions() {
                 alternativeD: alternativeD,
                 correctAlternative: correctAlternative
             }
-            questions.push(question)
             return question
         }
     }
@@ -96,12 +95,36 @@ export default function useQuestions() {
         })
     }
 
+    async function getQuestions(user: UserDB) {
+        switch (user.plan) {
+            case "basic":
+                const questionsLocal = JSON.parse(localStorage.getItem("savedQuestions") || "")
+                return questionsLocal
+            case "pro" || "premium":
+                let questionsAccount: any[] = []
+                await getDocs(collection(db, "users", user.id, "questions"))
+                .then(r => {
+                    r.forEach(doc => {
+                        if (!doc.exists()) {
+                            console.log("não existe");
+                            return
+                        }
+                        questionsAccount.push(doc.data())
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                return questionsAccount
+        }
+    }
+
     return {
         separateQuestion,
         transformResponseInObject,
         treatResponseForText,
         saveQuestion,
-        questions
+        getQuestions
     }
 
 }

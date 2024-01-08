@@ -8,6 +8,12 @@ export type Question = {
     correctAlternative: string
 }
 
+export type QuestionDB = {
+    question: string,
+    id: number,
+    subject: string
+}
+
 export type User = {
     name: string,
     email: string,
@@ -21,3 +27,4 @@ export type UserDB = {
     plan: "free" | "basic" | "premium" | "pro",
     id: string
 }
+

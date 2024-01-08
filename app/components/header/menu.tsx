@@ -40,7 +40,7 @@ export default function Menu() {
             {isLogged && user && (
                 <>
                     <ul className="flex flex-row flex-wrap gap-2 md:gap-5 text-blue-2">
-                        <li className={pathname === "/generator" ? "text-orange font-bold" : ""}>
+                        <li className={pathname === "/gerador" ? "text-orange font-bold" : ""}>
                             <Link href={"/gerador"}>
                                 Gerador
                             </Link>
@@ -50,11 +50,13 @@ export default function Menu() {
                                 Questões
                             </Link>
                         </li>
-                        <li className={pathname === "/minha-prova" ? "text-orange font-bold" : ""}>
-                            <Link href={"/minha-prova"}>
-                                Prova
-                            </Link>
-                        </li>
+                        {user.plan === "pro" && (
+                            <li className={pathname === "/minha-prova" ? "text-orange font-bold" : ""}>
+                                <Link href={"/minha-prova"}>
+                                    Prova
+                                </Link>
+                            </li>
+                        )}
                     </ul>
                     <UserMenu />
                 </>
