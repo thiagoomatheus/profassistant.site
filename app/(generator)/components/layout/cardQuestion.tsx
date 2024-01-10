@@ -10,7 +10,7 @@ import useClipboard from "../../lib/hooks/useClipboard"
 
 export default function CardQuestion ({ questionString, id, update }: {
     questionString: string
-    id: string
+    id: string | number
     update?: boolean
 }) {
     const [status, setStatus] = useState<"read" | "edit">("read")
