@@ -9,7 +9,9 @@ export default function Page() {
     return (
         <section className="flex flex-col gap-5">
             <h1>Minhas Questões</h1>
-            <MyQuestions user={user!} />
+            {user && (
+                <MyQuestions user={user} />
+            )}
         </section>
     )
 }
