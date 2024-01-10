@@ -1,3 +1,5 @@
+import { DocumentData } from "firebase/firestore"
+
 export type Question = {
     subject: string,
     body: string,
@@ -12,7 +14,7 @@ export type QuestionDB = {
     question: string,
     id: string,
     subject: string
-}
+} | DocumentData
 
 export type User = {
     name: string,

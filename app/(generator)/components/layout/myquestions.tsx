@@ -7,11 +7,11 @@ export default async function MyQuestions( { user }: {
 }) {
 
     const { getQuestions } = useQuestions()
-    const questions: QuestionDB[] = await getQuestions(user!)
+    const questions: QuestionDB[] | undefined = await getQuestions(user!)
     
     return (
         <>
-            <QuestionsContainer questions={questions} />
+            <QuestionsContainer questions={questions!} />
         </>
     )
 }

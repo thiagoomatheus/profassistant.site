@@ -103,7 +103,7 @@ export default function useQuestions() {
             return questionsLocal
         }
         else if (user.plan === "premium" || user.plan === "pro") {
-            let questionsAccount: any[] = []
+            let questionsAccount: QuestionDB[] = []
                 await getDocs(collection(db, "users", user.id, "questions"))
                 .then(r => {
                     r.forEach(doc => {
