@@ -16,7 +16,7 @@ export default function Questions ({ status }: {
             {status === 'finish' && (
                 <div className="flex flex-col gap-5 justify-center w-full">
                     {questionsText!.map((question, i) => (
-                        <CardQuestion key={i} questionString={question} id={i} />
+                        <CardQuestion key={i} questionString={question} id={`${i}`} />
                     ))}
                 </div>
             )}
