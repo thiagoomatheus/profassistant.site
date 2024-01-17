@@ -1,5 +1,5 @@
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
-import { Question, QuestionDB, UserDB } from "../../../lib/types/types";
+import { Question, QuestionDB, UserDB, UserDBSupabase } from "../../../lib/types/types";
 import { useContext } from "react";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "@/app/lib/firebase/firebase";
@@ -56,7 +56,7 @@ export default function useQuestions() {
         return questionsReceiveds
     }
 
-    function saveQuestion(user: UserDB, question: string, handleStatus: React.Dispatch<React.SetStateAction<boolean>>) {
+    function saveQuestion(user: UserDBSupabase, question: string, handleStatus: React.Dispatch<React.SetStateAction<boolean>>) {
 
         const id = Date.now().toString()
         const data = {
@@ -96,7 +96,7 @@ export default function useQuestions() {
         })
     }
 
-    async function getQuestions(user: UserDB) {
+    async function getQuestions(user: UserDBSupabase) {
 
         if (user.plan === "basic") {
             const questionsLocal: QuestionDB[] = JSON.parse(localStorage.getItem("savedQuestions") || "")
@@ -121,7 +121,7 @@ export default function useQuestions() {
         }
     }
 
-    async function updateQuestion(user: UserDB, question: string, id: string) {
+    async function updateQuestion(user: UserDBSupabase, question: string, id: string) {
         if (user.plan === "basic") {
             getQuestions(user).then(questionsLocal => {
                 questionsLocal!.map(q => {
