@@ -1,13 +1,14 @@
 "use client"
 
-import { UserDB } from "@/app/lib/types/types";
+import { getUser } from "@/app/lib/supabase/actions";
+import { UserDBSupabase } from "@/app/lib/types/types";
 import { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext<{
     isLogged: boolean,
     setIsLogged: React.Dispatch<React.SetStateAction<boolean>>
-    user: UserDB | undefined,
-    setUser: React.Dispatch<React.SetStateAction<UserDB | undefined>>
+    user: UserDBSupabase | undefined,
+    setUser: React.Dispatch<React.SetStateAction<UserDBSupabase | undefined>>
 }>({
     isLogged: false,
     setIsLogged: () => {},
@@ -20,27 +21,18 @@ export default function AuthContextProvider ({ children }: {
 }) {
     
     const [isLogged, setIsLogged] = useState<boolean>(false)
-    const [user, setUser] = useState<UserDB | undefined>(undefined)
+    const [user, setUser] = useState<UserDBSupabase | undefined>(undefined)
 
     useEffect(() => {
-        fetch("/api/login")
-        .then(async (r) => {
-            if (r.status !== 200) {
-                setIsLogged(false)
-                setUser(undefined)
-                return
-            }
-            if (isLogged !== true) {
+        getUser()
+        .then(user => {
+            if (user) {
                 setIsLogged(true)
+                setUser(user)
             }
-            const response: {
-                user: UserDB
-            } = await r.json()
-            setUser(response.user)
-            return
         })
     },[])
-    
+
     return (
         <AuthContext.Provider value={{
             isLogged: isLogged,

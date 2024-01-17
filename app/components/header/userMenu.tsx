@@ -5,12 +5,13 @@ import { useContext, useState } from "react";
 import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
 import Link from "next/link";
 import Button from "../layout/button";
-import useLogin from "@/app/(login)/lib/hooks/useLogin";
+import { signOut } from "@/app/lib/supabase/actions";
+import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification";
 
 export default function UserMenu () {
 
-    const { handleLogout } = useLogin()
-    const { user } = useContext(AuthContext)
+    const { user, setIsLogged, setUser } = useContext(AuthContext)
+    const { generateNotification } = useNotification()
     const [showMenu, setShowMenu] = useState<boolean>(false)
 
     return (
@@ -32,7 +33,12 @@ export default function UserMenu () {
                         <ToggleTheme />
                     </li> */}
                     <li>
-                        <Button text="Sair" handleClick={handleLogout} aditionalCSS="w-full hover:outline outline-white" />
+                        <Button text="Sair" handleClick={() => {
+                            signOut()
+                            setIsLogged(false)
+                            setUser(undefined)
+                            generateNotification(NotificationTypes.LogoutSuccess, undefined, "success", true)
+                        }} aditionalCSS="w-full hover:outline outline-white" />
                     </li>
                 </ul>
             )}

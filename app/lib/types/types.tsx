@@ -30,3 +30,9 @@ export type UserDB = {
     id: string
 }
 
+export type UserDBSupabase = {
+    name: string,
+    plan: "free" | "basic" | "premium" | "pro",
+    id: string
+}
+
