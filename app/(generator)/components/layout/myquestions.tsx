@@ -1,9 +1,9 @@
 import useQuestions from "../../lib/hooks/useQuestions";
-import { QuestionDB, UserDB } from "@/app/lib/types/types";
+import { QuestionDB, UserDB, UserDBSupabase } from "@/app/lib/types/types";
 import QuestionsContainer from "./questionsContainer";
 
 export default async function MyQuestions( { user }: {
-    user: UserDB
+    user: UserDBSupabase
 }) {
 
     const { getQuestions } = useQuestions()
