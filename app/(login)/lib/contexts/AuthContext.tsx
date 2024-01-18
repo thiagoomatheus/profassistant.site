@@ -1,6 +1,4 @@
 "use client"
-
-import { getUser } from "@/app/lib/supabase/actions";
 import { UserDBSupabase } from "@/app/lib/types/types";
 import { createContext, useState, useEffect } from "react";
 
