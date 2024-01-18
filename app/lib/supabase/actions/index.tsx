@@ -1,6 +1,6 @@
 "use server"
 
-import { User, UserDBSupabase } from "../../types/types";
+import { User } from "../../types/types";
 import { createSupabaseServerClient } from "../supabase";
 
 
@@ -9,6 +9,10 @@ export async function getUser() {
     const supabase = await createSupabaseServerClient()
 
     const result = await supabase.auth.getUser()
+
+    if (!result.data) {
+        return
+    }
 
     const { data: profile, error} = await supabase
     .from('profile')
