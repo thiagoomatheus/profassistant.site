@@ -24,10 +24,20 @@ export default function AuthContextProvider ({ children }: {
     const [user, setUser] = useState<UserDBSupabase | undefined>(undefined)
 
     useEffect(() => {
-        getUser()
-        .then(user => {
-            if (user) {
+        fetch("/api/login")
+        .then(async r => {
+            if (r.status !== 200) {
+                setIsLogged(false)
+                setUser(undefined)
+                return
+            }
+            if (isLogged !== true) {
                 setIsLogged(true)
+                const user = await r.json()
+                .then((result: UserDBSupabase) => {
+                    return result
+                }
+                )
                 setUser(user)
             }
         })

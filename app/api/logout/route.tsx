@@ -1,26 +1,15 @@
-import { auth } from "@/app/lib/firebase/firebase";
-import { signOut } from "firebase/auth";
+import { createSupabaseServerClient } from "@/app/lib/supabase/supabase";
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function POST(req:NextRequest) {
+export async function POST() {
 
-    let statusCode: number = 0
+    const supabase = await createSupabaseServerClient()
 
-    await signOut(auth)
-    .then(() => {
-        // Sign-out successful.
-        const options = {
-            name: "session",
-            value: "",
-            maxAge: -1,
-          };
-        cookies().set(options)
-        statusCode = 200
-    }).catch((error) => {
-    // An error happened.
-        statusCode = 401
-    })
+    await supabase.auth.signOut()
 
-    return NextResponse.json({}, { status: statusCode})
+    cookies().delete("my-access-token")
+    cookies().delete("my-refresh-token")
+
+    return NextResponse.json({}, { status: 200})
 }

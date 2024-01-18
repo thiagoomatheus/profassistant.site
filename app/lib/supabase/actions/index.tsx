@@ -8,16 +8,16 @@ export async function getUser() {
 
     const supabase = await createSupabaseServerClient()
 
-    const result = await supabase.auth.getUser()
+    const result = (await supabase.auth.getSession()).data.session?.user
 
-    if (!result.data) {
+    if (!result) {
         return
     }
 
     const { data: profile, error} = await supabase
     .from('profile')
     .select('*')
-    .eq("id", result.data.user?.id)
+    .eq("id", result.id)
 
     if (error || !profile) {
         console.log(error)

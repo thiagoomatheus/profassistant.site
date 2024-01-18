@@ -18,7 +18,8 @@ export default function useAuth() {
         .then(async response => {
             if (response.status === 200) {
                 setIsLogged(true)
-                const user = await response.json().then(r => {
+                const user = await response.json()
+                .then(r => {
                     return r
                 })
                 setUser(user)
@@ -45,9 +46,14 @@ export default function useAuth() {
             method: "POST",
             body: JSON.stringify(user)
         })
-        .then(response => {
+        .then(async response => {
             if (response.status === 200) {
                 setIsLogged(true)
+                const user = await response.json()
+                .then(r => {
+                    return r
+                })
+                setUser(user)
                 generateNotification(NotificationTypes.RegiterSuccess, undefined, "success")
                 return
             }
