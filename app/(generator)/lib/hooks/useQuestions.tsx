@@ -1,13 +1,14 @@
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
-import { Question, QuestionDB, UserDB, UserDBSupabase } from "../../../lib/types/types";
+import { Question, QuestionDB, UserDBSupabase } from "../../../lib/types/types";
 import { useContext } from "react";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
-import { db } from "@/app/lib/firebase/firebase";
 
 export default function useQuestions() {
 
     const { response, subject } = useContext(ResponseAPIContext)
 
+    const cookies = document.cookie.split("; ")
+    const access_token = cookies.find(cookie => cookie.startsWith("my-a"))?.split("=")[1]
+    
     function separateQuestion(q: string): Question | undefined {
         if (q) {
             const fullQuestion = q.split("Resposta:")[0]
@@ -56,13 +57,12 @@ export default function useQuestions() {
         return questionsReceiveds
     }
 
-    function saveQuestion(user: UserDBSupabase, question: string, handleStatus: React.Dispatch<React.SetStateAction<boolean>>) {
+    async function saveQuestion(user: UserDBSupabase, question: string, handleStatus: React.Dispatch<React.SetStateAction<boolean>>) {
 
-        const id = Date.now().toString()
         const data = {
             question: question,
             subject: subject!,
-            id: id
+            user_id: user.id
         }
 
         if (user.plan === "basic") {
@@ -80,19 +80,17 @@ export default function useQuestions() {
                 return
             }
         }
-
-        const ref = `users/${user.id}/questions/${id}`
-        fetch("/api/saveQuestion", {
+        
+        fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/questions?columns=question,subject,user_id`, {
             method: "POST",
-            body: JSON.stringify({
-                ref: ref,
-                data: data
-            })
-        })
-        .then(response => {
-            if (response.status === 200) {
-                handleStatus(true)
-            }
+            headers: {
+                "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${access_token}`,
+            },
+            body: JSON.stringify(data)
+        }).then((data: any) => {
+            console.log(data);
         })
     }
 
@@ -104,20 +102,27 @@ export default function useQuestions() {
         }
         else if (user.plan === "premium" || user.plan === "pro") {
             let questionsAccount: QuestionDB[] = []
-                await getDocs(collection(db, "users", user.id, "questions"))
-                .then(r => {
-                    r.forEach(doc => {
-                        if (!doc.exists()) {
-                            console.log("não existe");
-                            return
-                        }
-                        questionsAccount.push(doc.data())
+            
+            await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/questions?select=id,question,subject&user_id=eq.${user.id}`, {
+                headers: {
+                    "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${access_token}`,
+                },
+                next: { revalidate: 1 }
+            }).then(result=> {
+                return result.json()
+            })
+            .then(data => {
+                if (data.length) {
+                    data?.map((question: QuestionDB) => {
+                        questionsAccount.push(question)
                     })
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-                return questionsAccount
+                }
+            })
+
+
+            return questionsAccount
         }
     }
 
@@ -136,13 +141,26 @@ export default function useQuestions() {
             return 200           
         }
         else if (user.plan === "premium" || user.plan === "pro") {
-            try {
-                await updateDoc(doc(db, "users", user.id, "questions", id), {
-                    question: question
-                })
-            } catch (error) {
-                return 401
+
+            const data = {
+                question: question
             }
+
+            fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/questions?id=eq.${id}`, {
+            method: "PATCH",
+            headers: {
+                "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${access_token}`,
+            },
+            body: JSON.stringify(data)
+        }).then((data: any) => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
             return 200
         }
     }
