@@ -1,17 +1,18 @@
 import { Suspense } from "react"
-import MyQuestions from "../components/layout/myquestions"
+import TitleWithButton from "../../components/layout/titleWithButton"
+import MyExams from "../components/myExams"
 
 export default function Page() {
 
     return (
         <>
-            <h1>Minhas Questões</h1>
+            <TitleWithButton title="Minhas Atividades" btnText="Criar" href="/minhas-atividades/nova-atividade" />
             <Suspense fallback={
             <div className="flex w-full md:justify-around flex-col md:flex-row gap-5">
                 <div className="p-5 bg-slate-200 rounded-lg shadow-md w-full md:w-2/5 h-40 animate-pulse"></div>
                 <div className="p-5 bg-slate-200 rounded-lg shadow-md w-full md:w-2/5 h-40 animate-pulse"></div>
             </div>}>
-                <MyQuestions />
+                <MyExams key={"myExams"} />
             </Suspense>
         </>
     )

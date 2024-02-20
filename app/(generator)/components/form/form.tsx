@@ -1,4 +1,3 @@
-import { useChat } from "ai/react";
 import { useContext } from "react";
 import Select from "./select";
 import Fieldset from "./fieldset";
@@ -7,34 +6,43 @@ import { ResponseAPIContext } from "@/app/(generator)/lib/contexts/ResponseAPICo
 import { anoOptions, materiaOptions, quantidadeOptions } from "./options";
 import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification";
 import useGenerator from "../../lib/hooks/useGenerator";
+import OpenAI from "openai";
 
 export default function Form({ setStatus }: {
   setStatus: React.Dispatch<React.SetStateAction<"awaitingResponse" | "finish" | undefined>>
 }) {
     const { generateNotification } = useNotification()
     const { setResponse, setSubject } = useContext(ResponseAPIContext)
-    const { setInput, append } = useChat({onFinish(response) {
-      setStatus("finish")
-      generateNotification(NotificationTypes.GeneratorSuccess, undefined, "success", false)
-      setSubject(info.materia)
-      setResponse(response)
-    }, onError() {
-      generateNotification(undefined,NotificationTypes.GeneratorError, "error")
-    }})
     const { info, handleChange } = useGenerator()
 
     return (
         <form className='flex flex-col gap-3' onSubmit={(e) => {
             e.preventDefault()
-            const prompt = `Sou professor do ${info.ano} e preciso gerar ${info.quantidade} questões para uma prova de ${info.materia} sobre ${info.assunto}. Gere questões com 4 alternativas, sendo a), b), c) e d) e sendo apenas uma a correta. Indique a correta com Resposta:. Os alunos prossuem ${info.idade} anos. As palavras devem fáceis. Retorne com -- antes da questão.`
-            setInput(prompt)
-            append({
-              content: prompt,
+
+            const data: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [{
               role: "user",
-              createdAt: /* @__PURE__ */ new Date()
-            })
-            setInput("")
+              content: `Sou professor do ${info.ano} e preciso gerar ${info.quantidade} questões para uma prova de ${info.materia} sobre ${info.assunto}. Gere questões com 4 alternativas, sendo a), b), c) e d) e sendo apenas uma a correta. Indique a correta com Resposta:. Os alunos possuem ${info.idade} anos. As palavras devem fáceis. Retorne com -- antes da questão.`
+            }]
+
             setStatus("awaitingResponse")
+
+            fetch("api/chat", {
+              method: "POST",
+              body: JSON.stringify(data)
+            })
+            .then(async response => {
+              if (response.status !== 200) {
+                return generateNotification(undefined,NotificationTypes.GeneratorError, "error")
+              }
+              return await response.json()
+            })
+            .then(result => {
+              setSubject(info.materia)
+              setResponse(result.result)
+              setStatus("finish")
+              return generateNotification(NotificationTypes.GeneratorSuccess, undefined, "success", false)
+            })
+            
             generateNotification(NotificationTypes.GeneratorLoading, undefined, "success", false)
           }}>
             <Fieldset legend="Sobre os alunos" borderColor="blue-2">

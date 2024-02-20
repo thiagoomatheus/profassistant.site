@@ -11,20 +11,33 @@ export const runtime = 'edge';
  
 export async function POST(req: Request) {
   // Extract the `messages` from the body of the request
-  const { messages } = await req.json();
+  const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = await req.json()
+
+  let result: string = ""
  
   // Ask OpenAI for a streaming chat completion given the prompt
-  const response = await openai.chat.completions.create({
+  await openai.chat.completions.create({
     model: 'gpt-3.5-turbo',
     messages,
     max_tokens: 600,
-    temperature: 0.8,
-    top_p: 1,
+    temperature: 0.9,
     frequency_penalty: 1,
     presence_penalty: 1,
-  });
+  })
+  .then(response => {
+    if (response) {
 
-  const result = response.choices[0].message.content
-  
-  return NextResponse.json(result)
+      result = response.choices[0].message.content!
+    }
+  })
+  .catch(error => {
+    console.log(error);
+    
+  })
+
+  if (!result) {
+    return NextResponse.json({}, { status: 401 })
+  }
+
+  return NextResponse.json({result}, { status: 200 })
 }

@@ -1,3 +1,4 @@
+import ContainerWithBorder from "@/app/components/layout/containerWithBorder";
 import useQuestions from "../../lib/hooks/useQuestions";
 import CardQuestion from "./cardQuestion";
 
@@ -8,7 +9,7 @@ export default function Questions ({ status }: {
     const questionsText = treatResponseForText()
     
     return (
-        <div className="w-full lg:max-h-[750px] xl:max-h-[850px] sm:w-[55%] lg:w-[46%] flex flex-col gap-5 p-2 rounded-xl border-2 border-orange-2 overflow-auto">
+        <ContainerWithBorder borderColor="orange-2">
             <h3>Suas questões aqui</h3>
             {!status && (
                 <p>Preencha o formulário para gerar as questões. Estamos te aguardando...</p>
@@ -25,6 +26,6 @@ export default function Questions ({ status }: {
                     Carregando. Aguarde!
                 </p>
             )}
-        </div>
+        </ContainerWithBorder>
     )
 }

@@ -52,8 +52,8 @@ export default function Menu() {
                         </li>
                         {user.plan === "pro" && (
                             <li className={pathname === "/minha-prova" ? "text-orange font-bold" : ""}>
-                                <Link href={"/minha-prova"}>
-                                    Prova
+                                <Link href={"/minhas-atividades"}>
+                                    Atividades
                                 </Link>
                             </li>
                         )}

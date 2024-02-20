@@ -8,6 +8,27 @@
     box-sizing: border-box;
 }
 
+/* Works on Firefox */
+* {
+    scrollbar-color: gray none;
+    scrollbar-width: thin;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+background: white;
+}
+
+*::-webkit-scrollbar-thumb {
+background-color: gray;
+border-radius: 20px;
+border: 3px solid white;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -157,18 +178,19 @@ input, select {
     color: #3D4B59
 }
 
+input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 textarea {
     border-radius: 5px;
     padding: 7px;
     border: 1px solid #3D4B59;
 }
 
-input:focus, select:focus, textarea:focus {
+input:hover, select:hover, textarea:hover, input:focus, select:focus, textarea:focus, input[type="radio"]:checked {
     outline: 2px solid #BC9322;
-    border: none;
-}
-
-input:hover, select:hover, textarea:hover {
     border: 1px solid #BC9322;
 }
 
@@ -202,7 +224,68 @@ input[type="submit"]:hover:focus {
     background: rgb(112, 168, 112);
 }
 
+.questionPreview:hover>span {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
 
+#print h1 {
+    font-size: 20px;
+}
+
+#print h3 {
+    font-size: 14px;
+}
+
+#print p {
+    font-size: 10px;
+}
+
+@media (min-width: 768px) {
+    #print h1 {
+        font-size: 32px;
+    }
+    
+    #print h3 {
+        font-size: 20px;
+    }
+    
+    #print p {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 1024px) {
+    #print h1 {
+        font-size: 36px;
+    }
+    
+    #print h3 {
+        font-size: 24px;
+    }
+    
+    #print p {
+        font-size: 16px;
+    }
+}
+
+@media print {
+    #print h1 {
+        font-size: 26pt;
+    }
+
+    #print h3 {
+        font-size: 18pt;
+    }
+
+    #print p {
+        font-size: 14pt;
+    }
+}
 
 @keyframes scrollAnimationLeft {
     from {

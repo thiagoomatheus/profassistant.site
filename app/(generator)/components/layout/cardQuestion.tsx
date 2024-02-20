@@ -8,10 +8,11 @@ import Button from "@/app/components/layout/button"
 import { FaCheckCircle } from "react-icons/fa";
 import useClipboard from "../../lib/hooks/useClipboard"
 
-export default function CardQuestion ({ questionString, id, update }: {
+export default function CardQuestion ({ questionString, id, update, handleSelect }: {
     questionString: string
     id: string
     update?: boolean
+    handleSelect?: (question: string, id: string) => void
 }) {
     const [status, setStatus] = useState<"read" | "edit">("read")
     const [isSaved, setIsSaved] = useState<boolean>(false)
@@ -45,7 +46,13 @@ export default function CardQuestion ({ questionString, id, update }: {
                 </>
             )}
 
-            {status === "read" && (
+            {handleSelect && (
+                <ActionQuestion>
+                    <Button text="Selecionar" handleClick={() => handleSelect(question, id)} />
+                </ActionQuestion>
+            )}
+
+            {status === "read" && !handleSelect && (
                 <ActionQuestion>
                     {!isSaved && user?.plan !== "free" && (
                         <>
@@ -73,15 +80,12 @@ export default function CardQuestion ({ questionString, id, update }: {
                             <Button text="Copiar" handleClick={async () => copyToClipboard.then((copyFunction) => {
                                 copyFunction(question)
                             })} />
-                            {update && (
-                                <Button text="Selecionar" handleClick={() => undefined} />
-                            )}
                         </>
                     )}
                 </ActionQuestion>
             )}
 
-            {status === "edit" && (
+            {status === "edit" && !handleSelect && (
                 <ActionQuestion>
                     <Button text="Voltar" handleClick={() => setStatus("read")} />
                     {!update && (

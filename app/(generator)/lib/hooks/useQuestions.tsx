@@ -36,7 +36,9 @@ export default function useQuestions() {
 
     function treatResponseForText() {
         if (response) {
-            const tratedResponse: string = response?.content.replace(/\\n/g, "  ").replace(/[\\"']/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/, ")")
+            console.log(response);
+            
+            const tratedResponse: string = response.replace(/\\n/g, "  ").replace(/[\\"']/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/, ")")
             const questionsSeparated: string[] = tratedResponse.split("--")
             const questions: string[] = questionsSeparated.filter(item => item.trim().length > 0)
             return questions
@@ -73,7 +75,7 @@ export default function useQuestions() {
                 return
             }
             else {
-                let questions: QuestionDB[] = JSON.parse(questionsLocal)
+                let questions = JSON.parse(questionsLocal)
                 questions.push(data)
                 localStorage.setItem("savedQuestions", JSON.stringify(questions))
                 handleStatus(true)

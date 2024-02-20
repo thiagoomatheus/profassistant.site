@@ -55,20 +55,33 @@ export async function GET(req: NextRequest) {
 
     const supabase = await createSupabaseServerClient()
 
-    const session = await supabase.auth.setSession({
-        refresh_token: refreshToken,
-        access_token: accessToken
-    })
+    const session = await supabase.auth.getSession()
 
-    if (session.error || !session.data.user) {
+    if (session.error || !session.data.session?.user) {
         console.log(session.error)
         return NextResponse.json({}, { status: 401})
     }
 
+    const maxAge = 100 * 365 * 24 * 60 * 60 // 100 years, never expires
+    const access_token = {
+        name: "my-access-token",
+        value: session.data.session.access_token,
+        maxAge: maxAge,
+        secure: true,
+    }
+    const refresh_token = {
+        name: "my-refresh-token",
+        value: session.data.session.refresh_token,
+        maxAge: maxAge,
+        secure: true,
+    }
+    cookies().set(access_token)
+    cookies().set(refresh_token)
+
     const user = await supabase
     .from('profile')
     .select('*')
-    .eq("id", session.data.user.id)
+    .eq("id", session.data.session.user.id)
 
     if (user.error || !user.data) {
         console.log(user.error)

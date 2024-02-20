@@ -19,6 +19,11 @@ export enum NotificationTypes {
     SelectQuestionEmpty = "Selecione alguma questão para salvar",
     CopyToClipboardSuccess = "Copiado com sucesso",
     CopyToClipboardError = "Erro ao copiar, tente novamente mais tarde",
+    ExamSavedSuccess = "Atividade salva com sucesso!",
+    ExamSavedFailed = "Erro ao salvar atividade. Tente novamente mais tarde!",
+    ExamUpdateSuccess = "Atividade atualizada com sucesso!",
+    ExamUpdateFailed = "Erro ao atualizar atividade. Tente novamente mais tarde!",
+    ExamNoUpdate = "Por favor, faça uma alteração antes de atualizar."
 }
 
 export default function useNotification() {
