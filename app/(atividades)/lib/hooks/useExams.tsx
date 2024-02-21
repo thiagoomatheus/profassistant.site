@@ -1,15 +1,15 @@
 "use client"
 
 import { Exam, ExamDB, ExamQuestionDB, ExamSimpleDB, UserDBSupabase } from "@/app/lib/types/types";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function useExams() {
 
-    let access_token: string = ""
+    let access_token: React.MutableRefObject<string> = useRef("")
 
     useEffect(() => {
         const cookies = document.cookie.split("; ")
-        access_token = cookies.find(cookie => cookie.startsWith("my-a"))?.split("=")[1]!
+        access_token.current = cookies.find(cookie => cookie.startsWith("my-a"))?.split("=")[1]!
     },[])
 
     function isEquivalent(a: any, b: any) {
@@ -39,7 +39,7 @@ export default function useExams() {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token}`,
+                "Authorization": `Bearer ${access_token.current}`,
             }
         }).then(result=> {
             return result.json()
@@ -71,7 +71,7 @@ export default function useExams() {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token}`,
+                "Authorization": `Bearer ${access_token.current}`,
             }
         }).then(result=> {
             return result.json()
@@ -98,7 +98,7 @@ export default function useExams() {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token}`,
+                "Authorization": `Bearer ${access_token.current}`,
             }
             }).then(result=> {
                 return result.json()
@@ -131,7 +131,7 @@ export default function useExams() {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token}`,
+                "Authorization": `Bearer ${access_token.current}`,
             },
             body: JSON.stringify(data)
         }).then(result => {
@@ -156,7 +156,7 @@ export default function useExams() {
                 headers: {
                     "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${access_token}`,
+                    "Authorization": `Bearer ${access_token.current}`,
                 },
                 body: JSON.stringify(questions)
             })
@@ -186,7 +186,7 @@ export default function useExams() {
                 headers: {
                     "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${access_token}`,
+                    "Authorization": `Bearer ${access_token.current}`,
                 },
                 body: JSON.stringify(newData)
             })
@@ -208,7 +208,7 @@ export default function useExams() {
                     headers: {
                         "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${access_token}`,
+                        "Authorization": `Bearer ${access_token.current}`,
                     }
                 })
             }
@@ -239,7 +239,7 @@ export default function useExams() {
                         headers: {
                             "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                             "Content-Type": "application/json",
-                            "Authorization": `Bearer ${access_token}`,
+                            "Authorization": `Bearer ${access_token.current}`,
                         }
                     })
                 })
@@ -263,7 +263,7 @@ export default function useExams() {
                     headers: {
                         "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${access_token}`,
+                        "Authorization": `Bearer ${access_token.current}`,
                     },
                     body: JSON.stringify(data)
                 })
@@ -284,7 +284,7 @@ export default function useExams() {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token}`,
+                "Authorization": `Bearer ${access_token.current}`,
             }
         })
         .catch(error => {
