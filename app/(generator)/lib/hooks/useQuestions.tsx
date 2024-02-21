@@ -1,13 +1,20 @@
+"use client"
+
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
 import { Question, QuestionDB, UserDBSupabase } from "../../../lib/types/types";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 export default function useQuestions() {
 
     const { response, subject } = useContext(ResponseAPIContext)
 
-    const cookies = document.cookie.split("; ")
-    const access_token = cookies.find(cookie => cookie.startsWith("my-a"))?.split("=")[1]
+    let access_token: string = ""
+
+    useEffect(() => {
+        const cookies = document.cookie.split("; ")
+        access_token = cookies.find(cookie => cookie.startsWith("my-a"))?.split("=")[1]!
+    },[])
+
     
     function separateQuestion(q: string): Question | undefined {
         if (q) {

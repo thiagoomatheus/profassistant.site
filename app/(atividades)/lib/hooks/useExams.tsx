@@ -1,9 +1,16 @@
+"use client"
+
 import { Exam, ExamDB, ExamQuestionDB, ExamSimpleDB, UserDBSupabase } from "@/app/lib/types/types";
+import { useEffect } from "react";
 
 export default function useExams() {
 
-    const cookies = document.cookie.split("; ")
-    const access_token = cookies.find(cookie => cookie.startsWith("my-a"))?.split("=")[1]
+    let access_token: string = ""
+
+    useEffect(() => {
+        const cookies = document.cookie.split("; ")
+        access_token = cookies.find(cookie => cookie.startsWith("my-a"))?.split("=")[1]!
+    },[])
 
     function isEquivalent(a: any, b: any) {
         var aProps = Object.keys(a);
