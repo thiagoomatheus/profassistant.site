@@ -23,7 +23,7 @@ export default function useAuth() {
                     return r
                 })
                 setUser(user)
-                generateNotification(NotificationTypes.LoginSuccess, "success", "/generator")
+                generateNotification(NotificationTypes.LoginSuccess, "success", "/gerador")
                 return
             }
             return generateNotification(NotificationTypes.LoginFailed, 'error')
