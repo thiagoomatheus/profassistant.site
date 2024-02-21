@@ -16,13 +16,17 @@ export enum NotificationTypes {
     GeneratorLoading = "Carregando! Aguarde alguns instantes...",
     GeneratorError = "Erro ao gerar questão. Tente novamente.",
     SelectQuestionEmpty = "Selecione alguma questão para salvar",
+    QuestionDeleteSuccess = "Questão excluída com sucesso!",
+    QuestionDeleteFailed = "Falha ao excluir questão. Tente mais tarde!",
     CopyToClipboardSuccess = "Copiado com sucesso",
     CopyToClipboardError = "Erro ao copiar, tente novamente mais tarde",
     ExamSavedSuccess = "Atividade salva com sucesso!",
     ExamSavedFailed = "Erro ao salvar atividade. Tente novamente mais tarde!",
     ExamUpdateSuccess = "Atividade atualizada com sucesso!",
     ExamUpdateFailed = "Erro ao atualizar atividade. Tente novamente mais tarde!",
-    ExamNoUpdate = "Por favor, faça uma alteração antes de atualizar."
+    ExamNoUpdate = "Por favor, faça uma alteração antes de atualizar.",
+    ExamDeleteSuccess = "Atividade excluida com sucesso!",
+    ExamDeleteFailed = "Falha ao excluir atividade. Tente mais tarde!"
 }
 
 export default function useNotification() {

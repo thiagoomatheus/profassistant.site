@@ -22,6 +22,10 @@ export default function MyQuestions( { handleSelect }: {
             return setQuestions(result)
         })
     },[])
+
+    function handleDeleteQuestion(id:string) {
+        setQuestions(questions?.filter(question => question.id !== id))
+    }
     
     return (
         <>
@@ -29,7 +33,7 @@ export default function MyQuestions( { handleSelect }: {
                 <CardContainer>
                     <>
                     {questions.map(q => (
-                        <CardQuestion questionString={q.question} id={q.id} update key={q.id} handleSelect={handleSelect} />
+                        <CardQuestion questionString={q.question} id={q.id} update key={q.id} handleSelect={handleSelect} handleDeleteQuestion={handleDeleteQuestion} />
                     ))}
                 </>
                 </CardContainer>

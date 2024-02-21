@@ -54,7 +54,7 @@ export default function useAuth() {
                     return r
                 })
                 setUser(user)
-                generateNotification(NotificationTypes.RegiterSuccess, "success", "/generstor")
+                generateNotification(NotificationTypes.RegiterSuccess, "success", "/gerador")
                 return
             }
             return generateNotification(NotificationTypes.RegisterFailed, "error")
@@ -69,7 +69,7 @@ export default function useAuth() {
             if (response.status === 200) {
                 setIsLogged(false)
                 setUser(undefined)
-                generateNotification(NotificationTypes.LogoutSuccess, "success")
+                generateNotification(NotificationTypes.LogoutSuccess, "success", "/")
                 return
             }
         })

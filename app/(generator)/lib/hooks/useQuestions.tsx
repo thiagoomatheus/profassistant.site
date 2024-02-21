@@ -167,13 +167,32 @@ export default function useQuestions() {
         }
     }
 
+    async function deleteQuestion(id:string) {
+
+        await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/questions?id=eq.${id}`, {
+            method:"DELETE",
+            headers: {
+                "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${access_token}`,
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            return "erro"
+        })
+        
+        return "ok"
+    }
+
     return {
         separateQuestion,
         transformResponseInObject,
         treatResponseForText,
         saveQuestion,
         getQuestions,
-        updateQuestion
+        updateQuestion,
+        deleteQuestion
     }
 
 }

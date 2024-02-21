@@ -7,19 +7,22 @@ import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext"
 import Button from "@/app/components/layout/button"
 import { FaCheckCircle } from "react-icons/fa";
 import useClipboard from "../../lib/hooks/useClipboard"
+import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification"
 
-export default function CardQuestion ({ questionString, id, update, handleSelect }: {
+export default function CardQuestion ({ questionString, id, update, handleSelect, handleDeleteQuestion }: {
     questionString: string
     id: string
     update?: boolean
     handleSelect?: (question: string, id: string) => void
+    handleDeleteQuestion?: (id: string) => void
 }) {
     const [status, setStatus] = useState<"read" | "edit">("read")
     const [isSaved, setIsSaved] = useState<boolean>(false)
     const [question, setQuestion] = useState<string>(questionString)
     const { user } = useContext(AuthContext)
-    const { separateQuestion, saveQuestion, updateQuestion } = useQuestions()
+    const { separateQuestion, saveQuestion, updateQuestion, deleteQuestion } = useQuestions()
     const copyToClipboard = useClipboard()
+    const { generateNotification } = useNotification()
     const questionObject = separateQuestion(question)
 
     function handleChange(e:React.ChangeEvent) {
@@ -63,6 +66,18 @@ export default function CardQuestion ({ questionString, id, update, handleSelect
                                 <Button text="Salvar" handleClick={() => {
                                     saveQuestion(user!, question, setIsSaved)
                                     setStatus("read")
+                                }}/>
+                            )}
+                            {handleDeleteQuestion && (
+                                <Button text="Excluir" handleClick={() => {
+                                    deleteQuestion(id)
+                                    .then(response => {
+                                        if (response === "ok") {
+                                            generateNotification(NotificationTypes.QuestionDeleteSuccess, "success")
+                                            return handleDeleteQuestion(id)
+                                        }
+                                        return generateNotification(NotificationTypes.QuestionDeleteFailed, "error")
+                                    })
                                 }}/>
                             )}
                         </>

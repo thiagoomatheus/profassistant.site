@@ -21,13 +21,17 @@ export default function MyExams() {
         })
     },[])
 
+    function handleDeleteExam(id:string) {
+        setExams(exams?.filter(exam => exam.id !== id))
+    }
+
     return (
         <>
             {exams && (
                 <CardContainer>
                     <>
                         {exams.map(exam => (
-                            <CardExams key={exam.id} exam={exam} />
+                            <CardExams key={exam.id} exam={exam} handleDeleteExam={handleDeleteExam} />
                         ))}
                     </>
                 </CardContainer>

@@ -270,6 +270,24 @@ export default function useExams() {
         return "ok"
     }
 
+    async function deleteExam(id: string) {
+
+        await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?id=eq.${id}`, {
+            method:"DELETE",
+            headers: {
+                "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${access_token}`,
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            return "erro"
+        })
+        
+        return "ok"
+    }
+
     function printExam() {
 
         const printContent = document.querySelector("#print")!.innerHTML
@@ -290,6 +308,7 @@ export default function useExams() {
         getExam,
         addExam,
         updateExam,
+        deleteExam,
         printExam
     }
 }

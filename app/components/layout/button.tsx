@@ -16,7 +16,7 @@ export default function Button ({ text, href, handleClick, aditionalCSS }: {
                 </Link>
             )}
             {!href && (
-                <button onClick={handleClick} className={`p-2 text-white text-xs md:text-sm lg:text-lg bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-blue-2 hover:text-white duration-200 ${aditionalCSS}`}>
+                <button onClick={handleClick} className={`p-2 md:py-2 md:px-4 xl:px-5 text-white text-xs md:text-sm lg:text-lg bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-blue-2 hover:text-white duration-200 ${aditionalCSS}`}>
                     {text}
                 </button>
             )}

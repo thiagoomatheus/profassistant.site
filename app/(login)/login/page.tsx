@@ -4,7 +4,7 @@ import Link from "next/link";
 import Form from "../components/form";
 import useAuth from "../lib/hooks/useLogin";
 
-export default async function Login () {
+export default function Login () {
 
     const { handleLogin } = useAuth()
 

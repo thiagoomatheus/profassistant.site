@@ -3,7 +3,7 @@
 import Form from "../components/form";
 import useAuth from "../lib/hooks/useLogin";
 
-export default async function Register () {
+export default function Register () {
 
     const { handleRegister } = useAuth()
     return (

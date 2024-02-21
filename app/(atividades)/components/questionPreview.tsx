@@ -1,6 +1,7 @@
 import useQuestions from "@/app/(generator)/lib/hooks/useQuestions";
 import Button from "@/app/components/layout/button";
 import { ExamQuestionDB } from "@/app/lib/types/types";
+import Image from "next/image";
 
 export default function QuestionPreview({ question, id, handleRemoveQuestion }: {
     question: ExamQuestionDB
@@ -20,14 +21,14 @@ export default function QuestionPreview({ question, id, handleRemoveQuestion }: 
             {question.layout === "text" && (
                 <div className="flex flex-col gap-3" key={`textQuestion${question.position}`}>
                     <h3 className="text-center">{question.title_text}</h3>
-                    {question.text?.split("//").map(paragraph => {
-                        return <p className="indent-5 text-justify">{paragraph}</p>
+                    {question.text?.split("//").map((paragraph, i) => {
+                        return <p key={i} className="indent-5 text-justify">{paragraph}</p>
                     })}
                 </div>
             )}
             {question.layout === "image" && question.image && (
                 <div key={`imageQuestion${question.position}`}>
-                    <img src={question.image} alt={`Imagem da questão ${question.position}`} />
+                    <Image src={question.image} alt={`Imagem da questão ${question.position}`} />
                 </div>
             )}
             {question.alternative === "yes" && questionObject && (
