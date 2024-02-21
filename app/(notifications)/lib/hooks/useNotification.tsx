@@ -3,7 +3,6 @@
 import { useContext } from "react";
 import { NotificationContext } from "../contexts/NotificationProvider";
 import { useRouter } from "next/navigation";
-import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
 
 export enum NotificationTypes {
     LoginSuccess = "Login realizado com sucesso",
@@ -29,41 +28,24 @@ export enum NotificationTypes {
 export default function useNotification() {
 
     const setNotification = useContext(NotificationContext)
-    const { isLogged } = useContext(AuthContext)
     const router = useRouter()
 
-    const generateNotification = (messageSuccess?: NotificationTypes, messageError?: NotificationTypes, type?: "success" | "error", redirect?: boolean) => {
-        switch (type) {
-            case "success":
-                setNotification({
-                    message: messageSuccess!,
-                    type: type
-                })
-                if (redirect === false) {
-                    const timer = setTimeout(() => {
-                        setNotification(undefined)
-                    }, 3000)
-            
-                    return () => clearTimeout(timer)
-                }
-                !isLogged ? router.push("/gerador") : router.push("/")
-                break;
-            case "error":
-                setNotification({
-                    message: messageError!,
-                    type: type
-                })
-                if (redirect === false) {
+    const generateNotification = (message: NotificationTypes, type: "success" | "error", redirect?: string) => {
 
-                    const timer = setTimeout(() => {
-                        setNotification(undefined)
-                    }, 3000)
-            
-                    return () => clearTimeout(timer)
-                }
-                !isLogged ? router.push("/gerador") : router.push("/")
-                break
-        };
+        setNotification({
+            message: message,
+            type: type
+        })
+
+        if (!redirect) {
+            const timer = setTimeout(() => {
+                setNotification(undefined)
+            }, 3000)
+            return () => clearTimeout(timer)
+        }
+        if (redirect.startsWith("/")) {
+            router.push(redirect)
+        }           
 
         const timer = setTimeout(() => {
             setNotification(undefined)

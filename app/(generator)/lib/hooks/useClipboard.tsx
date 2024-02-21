@@ -8,9 +8,9 @@ export default async function useClipboard() {
 
     try {
       await navigator.clipboard.writeText(text)
-      return generateNotification(NotificationTypes.CopyToClipboardSuccess, undefined, "success", false)
+      return generateNotification(NotificationTypes.CopyToClipboardSuccess, "success")
     } catch (err) {
-      return generateNotification(undefined, NotificationTypes.CopyToClipboardError, "error", false)
+      return generateNotification(NotificationTypes.CopyToClipboardError, "error")
     }
 
   }

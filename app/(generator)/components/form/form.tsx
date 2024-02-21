@@ -32,7 +32,7 @@ export default function Form({ setStatus }: {
             })
             .then(async response => {
               if (response.status !== 200) {
-                return generateNotification(undefined,NotificationTypes.GeneratorError, "error")
+                return generateNotification(NotificationTypes.GeneratorError, "error")
               }
               return await response.json()
             })
@@ -40,10 +40,10 @@ export default function Form({ setStatus }: {
               setSubject(info.materia)
               setResponse(result.result)
               setStatus("finish")
-              return generateNotification(NotificationTypes.GeneratorSuccess, undefined, "success", false)
+              return generateNotification(NotificationTypes.GeneratorSuccess, "success")
             })
             
-            generateNotification(NotificationTypes.GeneratorLoading, undefined, "success", false)
+            generateNotification(NotificationTypes.GeneratorLoading, "success")
           }}>
             <Fieldset legend="Sobre os alunos" borderColor="blue-2">
               <Label label="Selecione sua série:">

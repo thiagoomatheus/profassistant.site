@@ -10,6 +10,7 @@ import { ExamQuestionDB } from "@/app/lib/types/types";
 import { FormEvent, Suspense, useContext, useState } from "react";
 import FormBody from "./formBody";
 import LabelBody from "./labelBody";
+import CardLoading from "@/app/components/layout/cardLoading";
 
 export default function Body( { setState, state, handleAddQuestion }: {
     setState: React.Dispatch<React.SetStateAction<ExamQuestionDB>>
@@ -80,11 +81,7 @@ export default function Body( { setState, state, handleAddQuestion }: {
                     setModal("close")
                 }} customWidth="w-11/12 md:w-4/5 md:min-h-[350px]">
                     <h3>Selecione uma questão</h3>
-                    <Suspense fallback={
-                    <div className="flex w-full md:justify-around flex-col md:flex-row gap-5">
-                        <div className="p-5 bg-slate-200 rounded-lg shadow-md w-full md:w-2/5 h-40 animate-pulse"></div>
-                        <div className="p-5 bg-slate-200 rounded-lg shadow-md w-full md:w-2/5 h-40 animate-pulse"></div>
-                    </div>}>
+                    <Suspense fallback={<CardLoading />}>
                         <MyQuestions handleSelect={handleSelect} />
                     </Suspense>
                 </Modal>

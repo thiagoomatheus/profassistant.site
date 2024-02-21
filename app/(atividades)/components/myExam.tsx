@@ -98,9 +98,9 @@ export default function MyExam( { data }: {
                             addExam(exam)
                             .then(response => {
                                 if (response !== "ok") {
-                                    return generateNotification(undefined, NotificationTypes.ExamSavedFailed, "error")
+                                    return generateNotification(NotificationTypes.ExamSavedFailed, "error")
                                 }
-                                return generateNotification(NotificationTypes.ExamSavedSuccess, undefined, "success")
+                                return generateNotification(NotificationTypes.ExamSavedSuccess, "success", "/minhas-atividades")
                             })
                             return
                         }} />
@@ -108,14 +108,14 @@ export default function MyExam( { data }: {
                     {data && (
                         <Button text="Atualizar" handleClick={() => {
                             if (data === exam) {
-                                return generateNotification(undefined, NotificationTypes.ExamNoUpdate, "error", false)
+                                return generateNotification(NotificationTypes.ExamNoUpdate, "error")
                             }
                             updateExam(data, exam)
                             .then(response => {
                                 if (response !== "ok") {
-                                    return generateNotification(undefined, NotificationTypes.ExamUpdateFailed, "error", false)
+                                    return generateNotification(NotificationTypes.ExamUpdateFailed, "error")
                                 }
-                                return generateNotification(NotificationTypes.ExamUpdateSuccess, undefined, "success", false)
+                                return generateNotification(NotificationTypes.ExamUpdateSuccess, "success")
                             })
                         }} />
                     )}

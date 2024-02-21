@@ -23,10 +23,10 @@ export default function useAuth() {
                     return r
                 })
                 setUser(user)
-                generateNotification(NotificationTypes.LoginSuccess, undefined, "success")
+                generateNotification(NotificationTypes.LoginSuccess, "success", "/generator")
                 return
             }
-            return generateNotification(undefined, NotificationTypes.LoginFailed, 'error', false)
+            return generateNotification(NotificationTypes.LoginFailed, 'error')
         })
     }
 
@@ -37,9 +37,9 @@ export default function useAuth() {
         const regexPassword: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/
 
         if (!user?.email || !regexEmail.test(user?.email)) { // Validando email
-            return generateNotification(undefined, NotificationTypes.EmailInvalid, "error", false)
+            return generateNotification(NotificationTypes.EmailInvalid, "error")
         } else if (!user.password || !regexPassword.test(user.password)) {
-            return generateNotification(undefined, NotificationTypes.PasswordInvalid, "error", false)
+            return generateNotification(NotificationTypes.PasswordInvalid, "error")
         }
 
         fetch("/api/register", {
@@ -54,10 +54,10 @@ export default function useAuth() {
                     return r
                 })
                 setUser(user)
-                generateNotification(NotificationTypes.RegiterSuccess, undefined, "success")
+                generateNotification(NotificationTypes.RegiterSuccess, "success", "/generstor")
                 return
             }
-            return generateNotification(undefined, NotificationTypes.RegisterFailed, "error", false)
+            return generateNotification(NotificationTypes.RegisterFailed, "error")
         })
     }
 
@@ -69,7 +69,7 @@ export default function useAuth() {
             if (response.status === 200) {
                 setIsLogged(false)
                 setUser(undefined)
-                generateNotification(NotificationTypes.LogoutSuccess, undefined, "success")
+                generateNotification(NotificationTypes.LogoutSuccess, "success")
                 return
             }
         })

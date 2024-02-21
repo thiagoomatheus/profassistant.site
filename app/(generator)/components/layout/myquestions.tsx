@@ -6,6 +6,7 @@ import CardContainer from "./cardContainer";
 import { useContext, useEffect, useState } from "react";
 import CardQuestion from "./cardQuestion";
 import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
+import CardLoading from "@/app/components/layout/cardLoading";
 
 export default function MyQuestions( { handleSelect }: {
     handleSelect?: (question: string, id: string) => void
@@ -17,7 +18,7 @@ export default function MyQuestions( { handleSelect }: {
 
     useEffect(() => {
         getQuestions(user!)
-        .then(result => {
+        .then(result => {            
             return setQuestions(result)
         })
     },[])
@@ -33,7 +34,10 @@ export default function MyQuestions( { handleSelect }: {
                 </>
                 </CardContainer>
             )}
-            {!questions && (
+            {questions === undefined && (
+                <CardLoading />
+            )}
+            {questions !== undefined && questions.length === 0 && (
                 <p>Não foi possível encontrarmos suas questões salvas. Se você já salvou uma questão e ela não aparece aqui, por favor, recarregue a página. Mas, se você não salvou um questão podrá fazer isso por meio do gerador.</p>
             )}
         </>
