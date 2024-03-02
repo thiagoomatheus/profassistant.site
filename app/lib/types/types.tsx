@@ -21,10 +21,43 @@ export type User = {
     plan: "free" | "basic" | "premium" | "pro" 
 }
 
-export type UserDBSupabase = {
+export type UserSession = {
+    access_token: string,
+    refresh_token: string,
+    user: {
+      id: string,
+      aud: string,
+      role: string,
+      email: string,
+      email_confirmed_at: string,
+      phone: string,
+      confirmed_at: string,
+      last_sign_in_at: string,
+      app_metadata: { provider: string, providers: string[] },
+      user_metadata: {},
+      identities: string[],
+      created_at: string,
+      updated_at: string
+    },
+    token_type: 'bearer',
+    expires_in: number,
+    expires_at: number
+  }
+
+export type UserDBSimple = {
     name: string,
     plan: "free" | "basic" | "premium" | "pro",
     id: string
+}
+
+export type UserDBComplete = {
+    name: string,
+    plan: "free" | "basic" | "premium" | "pro",
+    id: string,
+    created_at: string,
+    school_name: string,
+    theme: string,
+    email: string
 }
 
 export type Exam = {

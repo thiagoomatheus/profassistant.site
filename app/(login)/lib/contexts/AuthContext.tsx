@@ -1,12 +1,12 @@
 "use client"
-import { UserDBSupabase } from "@/app/lib/types/types";
+import { UserDBSimple } from "@/app/lib/types/types";
 import { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext<{
     isLogged: boolean,
     setIsLogged: React.Dispatch<React.SetStateAction<boolean>>
-    user: UserDBSupabase | undefined,
-    setUser: React.Dispatch<React.SetStateAction<UserDBSupabase | undefined>>
+    user: UserDBSimple | undefined,
+    setUser: React.Dispatch<React.SetStateAction<UserDBSimple | undefined>>
 }>({
     isLogged: false,
     setIsLogged: () => {},
@@ -19,7 +19,7 @@ export default function AuthContextProvider ({ children }: {
 }) {
     
     const [isLogged, setIsLogged] = useState<boolean>(false)
-    const [user, setUser] = useState<UserDBSupabase | undefined>(undefined)
+    const [user, setUser] = useState<UserDBSimple | undefined>(undefined)
 
     useEffect(() => {
         fetch("/api/login")
@@ -32,7 +32,7 @@ export default function AuthContextProvider ({ children }: {
             if (isLogged !== true) {
                 setIsLogged(true)
                 const user = await r.json()
-                .then((result: UserDBSupabase) => {
+                .then((result: UserDBSimple) => {
                     return result
                 }
                 )

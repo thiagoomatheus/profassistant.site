@@ -1,7 +1,7 @@
 "use client"
 
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
-import { Question, QuestionDB, UserDBSupabase } from "../../../lib/types/types";
+import { Question, QuestionDB, UserDBSimple } from "../../../lib/types/types";
 import { useContext, useEffect, useRef } from "react";
 
 export default function useQuestions() {
@@ -66,7 +66,7 @@ export default function useQuestions() {
         return questionsReceiveds
     }
 
-    async function saveQuestion(user: UserDBSupabase, question: string, handleStatus: React.Dispatch<React.SetStateAction<boolean>>) {
+    async function saveQuestion(user: UserDBSimple, question: string, handleStatus: React.Dispatch<React.SetStateAction<boolean>>) {
 
         const data = {
             question: question,
@@ -98,12 +98,13 @@ export default function useQuestions() {
                 "Authorization": `Bearer ${access_token.current}`,
             },
             body: JSON.stringify(data)
-        }).then((data: any) => {
-            console.log(data);
+        })
+        .catch(error => {
+            console.log(error);
         })
     }
 
-    async function getQuestions(user: UserDBSupabase) {
+    async function getQuestions(user: UserDBSimple) {
 
         if (user.plan === "basic") {
             const questionsLocal: QuestionDB[] = JSON.parse(localStorage.getItem("savedQuestions") || "")
@@ -135,7 +136,7 @@ export default function useQuestions() {
         }
     }
 
-    async function updateQuestion(user: UserDBSupabase, question: string, id: string) {
+    async function updateQuestion(user: UserDBSimple, question: string, id: string) {
         if (user.plan === "basic") {
             getQuestions(user).then(questionsLocal => {
                 questionsLocal!.map(q => {

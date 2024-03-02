@@ -1,6 +1,6 @@
 "use client"
 
-import { Exam, ExamDB, ExamQuestionDB, ExamSimpleDB, UserDBSupabase } from "@/app/lib/types/types";
+import { Exam, ExamDB, ExamQuestionDB, ExamSimpleDB, UserDBSimple } from "@/app/lib/types/types";
 import { useEffect, useRef } from "react";
 
 export default function useExams() {
@@ -31,7 +31,7 @@ export default function useExams() {
         return true;
     }
 
-    async function getExams(user: UserDBSupabase) {
+    async function getExams(user: UserDBSimple) {
 
         let exams: ExamSimpleDB[] = []
 

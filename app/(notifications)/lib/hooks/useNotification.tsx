@@ -26,7 +26,9 @@ export enum NotificationTypes {
     ExamUpdateFailed = "Erro ao atualizar atividade. Tente novamente mais tarde!",
     ExamNoUpdate = "Por favor, faça uma alteração antes de atualizar.",
     ExamDeleteSuccess = "Atividade excluida com sucesso!",
-    ExamDeleteFailed = "Falha ao excluir atividade. Tente mais tarde!"
+    ExamDeleteFailed = "Falha ao excluir atividade. Tente mais tarde!",
+    UpdateProfileSuccess = "Perfil atualizado com sucesso!",
+    UpdateProfileFailed = "Falha ao atualizar perfil. Tente mais tarde!"
 }
 
 export default function useNotification() {

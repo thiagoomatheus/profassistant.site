@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSupabaseServerClient } from "@/app/lib/supabase/supabase";
-import { User } from "@/app/lib/types/types";
+import { User, UserDBSimple, UserSession } from "@/app/lib/types/types";
 import { cookies } from "next/headers";
+import { createClient } from "@/app/lib/supabase/server";
 
 export async function POST(req: NextRequest) {
 
     const { email, password }: User = await req.json()
 
-    const supabase = await createSupabaseServerClient()
+    const supabase = createClient()
       
     const result = await supabase.auth.signInWithPassword({email, password})
 
@@ -15,78 +15,80 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({}, {status: 401})
     }
 
-    let { data: profile, error } = await supabase
-    .from('profile')
-    .select('*')
-    .eq("id", result.data.user?.id)
-        
-    if (error || !profile) {
-        console.log(error)
-        return NextResponse.json({}, {status: 401})
+    let data: UserDBSimple = {
+        id: "",
+        name: "",
+        plan: "free"
     }
 
-    const maxAge = 100 * 365 * 24 * 60 * 60 // 100 years, never expires
-    const access_token = {
-        name: "my-access-token",
-        value: result.data.session.access_token,
-        maxAge: maxAge,
-        secure: true,
+    await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=id,name,plan&id=eq.${result.data.user.id}`, {
+    headers: {
+        "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${result.data.session.access_token}`,
     }
-    const refresh_token = {
-        name: "my-refresh-token",
-        value: result.data.session.refresh_token,
-        maxAge: maxAge,
-        secure: true,
-    }
-    cookies().set(access_token)
-    cookies().set(refresh_token)
+    }).then(result=> {
+        return result.json()
+    })
+    .then(response => {
+        data = response[0]
+    })
+    .catch(error => {
+        console.log(error);
+        return NextResponse.json({}, { status: 401 })
+    })
     
-    return NextResponse.json(profile[0], {status: 200})
+    return NextResponse.json(data, {status: 200})
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
 
-    const accessToken = cookies().get("my-access-token")?.value || ""
-    const refreshToken = cookies().get("my-refresh-token")?.value || ""
-
-    if (!accessToken || !refreshToken) {
-        return NextResponse.json({}, { status: 401})
+    function getCookies() {
+        const cookieStore = cookies().get("sb-tzohqwteaoakaifwffnm-auth-token")?.value
+        const auth: UserSession = JSON.parse(cookieStore!)
+        return auth
     }
 
-    const supabase = await createSupabaseServerClient()
-
-    const session = await supabase.auth.getSession()
-
-    if (session.error || !session.data.session?.user) {
-        console.log(session.error)
-        return NextResponse.json({}, { status: 401})
-    }
-
-    const maxAge = 100 * 365 * 24 * 60 * 60 // 100 years, never expires
-    const access_token = {
-        name: "my-access-token",
-        value: session.data.session.access_token,
-        maxAge: maxAge,
-        secure: true,
-    }
-    const refresh_token = {
-        name: "my-refresh-token",
-        value: session.data.session.refresh_token,
-        maxAge: maxAge,
-        secure: true,
-    }
-    cookies().set(access_token)
-    cookies().set(refresh_token)
-
-    const user = await supabase
-    .from('profile')
-    .select('*')
-    .eq("id", session.data.session.user.id)
-
-    if (user.error || !user.data) {
-        console.log(user.error)
-        return NextResponse.json({}, { status: 401 })
-    }
+    const auth = getCookies()
     
-    return NextResponse.json(user.data[0], { status: 200 })
+    if (!auth.access_token || !auth.refresh_token) {
+        return NextResponse.json({}, { status: 401})
+    }
+
+    let data: UserDBSimple = {
+        id: "",
+        name: "",
+        plan: "free"
+    }
+
+    const supabase = createClient()
+
+    const session = await supabase.auth.refreshSession()
+
+    console.log(session);
+
+    const newAuth = getCookies()
+
+    console.log(newAuth);
+    
+
+    await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=id,name,plan&id=eq.${session.data.user?.id}`, {
+    headers: {
+        "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${newAuth.access_token}`,
+    }
+    }).then(result=> {
+        return result.json()
+    })
+    .then(response => {
+        console.log(response);
+        data = response[0]
+    })
+    .catch(error => {
+        console.log(error);
+        return NextResponse.json({}, { status: 401 })
+    })
+    
+    return NextResponse.json(data, { status: 200 })
 }

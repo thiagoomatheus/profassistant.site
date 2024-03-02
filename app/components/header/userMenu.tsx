@@ -24,7 +24,7 @@ export default function UserMenu () {
                         Olá {user?.name}
                     </li>
                     <li>
-                        <Link href={"/"} className="hover:border-b hover:text-white hover:border-white">
+                        <Link href={"/minha-conta"} className="hover:border-b hover:text-white hover:border-white">
                             Minha Conta
                         </Link>
                     </li>

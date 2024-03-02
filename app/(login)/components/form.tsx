@@ -14,7 +14,7 @@ export default function Form ({btnText, handleSubmit, register}: {
         name: "",
         email: "",
         password: "",
-        plan: "free"
+        plan: "free",
     })
 
     function handleChange(e:React.ChangeEvent) {

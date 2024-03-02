@@ -54,9 +54,9 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const user = await supabase.auth.getSession()
+  const user = await supabase.auth.getUser()
 
-  if (!user.data.session?.access_token) {    
+  if (!user.data.user) {    
     return NextResponse.redirect(new URL("/", request.url))
   }
 
@@ -64,5 +64,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/gerador/:path*", "/minhas-atividades/:path*", "/minhas-questoes/:path*"],
+  matcher: ["/gerador/:path*", "/minhas-atividades/:path*", "/minhas-questoes/:path*", "/minhas-conta/:path*"]
 }
