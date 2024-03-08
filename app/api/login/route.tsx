@@ -49,7 +49,7 @@ export async function GET() {
         return auth
     }
 
-    const auth = getCookies()
+    const auth = getCookies()    
     
     if (!auth.access_token || !auth.refresh_token) {
         return NextResponse.json({}, { status: 401})
@@ -62,27 +62,19 @@ export async function GET() {
     }
 
     const supabase = createClient()
-
-    const session = await supabase.auth.refreshSession()
-
-    console.log(session);
-
-    const newAuth = getCookies()
-
-    console.log(newAuth);
     
-
+    const session = await supabase.auth.refreshSession({refresh_token: auth.refresh_token})
+    
     await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=id,name,plan&id=eq.${session.data.user?.id}`, {
     headers: {
         "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${newAuth.access_token}`,
+        "Authorization": `Bearer ${session.data.session?.access_token}`,
     }
     }).then(result=> {
         return result.json()
     })
     .then(response => {
-        console.log(response);
         data = response[0]
     })
     .catch(error => {

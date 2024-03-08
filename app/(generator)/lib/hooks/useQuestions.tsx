@@ -3,18 +3,19 @@
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
 import { Question, QuestionDB, UserDBSimple } from "../../../lib/types/types";
 import { useContext, useEffect, useRef } from "react";
+import { createClient } from "@/app/lib/supabase/client";
 
 export default function useQuestions() {
 
     const { response, subject } = useContext(ResponseAPIContext)
 
-    let access_token: React.MutableRefObject<string> = useRef("")
+    // let access_token: React.MutableRefObject<string> = useRef("")
 
-    useEffect(() => {
-        const cookies = document.cookie.split("; ")
-        access_token.current = cookies.find(cookie => cookie.startsWith("my-a"))?.split("=")[1]!
-    },[])
-
+    // useEffect(() => {
+    //     const cookies = document.cookie.split("sb-tzohqwteaoakaifwffnm-auth-token=%7B%22access_token%22%3A%22")[1]
+    //     const token = cookies.split("%22%2C%22")[0]
+    //     access_token.current = token
+    // },[])
     
     function separateQuestion(q: string): Question | undefined {
         if (q) {
@@ -43,8 +44,6 @@ export default function useQuestions() {
 
     function treatResponseForText() {
         if (response) {
-            console.log(response);
-            
             const tratedResponse: string = response.replace(/\\n/g, "  ").replace(/[\\"']/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/, ")")
             const questionsSeparated: string[] = tratedResponse.split("--")
             const questions: string[] = questionsSeparated.filter(item => item.trim().length > 0)
@@ -67,6 +66,10 @@ export default function useQuestions() {
     }
 
     async function saveQuestion(user: UserDBSimple, question: string, handleStatus: React.Dispatch<React.SetStateAction<boolean>>) {
+
+        const supabase = createClient()
+
+        const accessToken = (await supabase.auth.getSession()).data.session?.access_token
 
         const data = {
             question: question,
@@ -95,7 +98,7 @@ export default function useQuestions() {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token.current}`,
+                "Authorization": `Bearer ${accessToken}`,
             },
             body: JSON.stringify(data)
         })
@@ -105,6 +108,10 @@ export default function useQuestions() {
     }
 
     async function getQuestions(user: UserDBSimple) {
+        
+        const supabase = createClient()
+
+        const accessToken = (await supabase.auth.getSession()).data.session?.access_token
 
         if (user.plan === "basic") {
             const questionsLocal: QuestionDB[] = JSON.parse(localStorage.getItem("savedQuestions") || "")
@@ -117,7 +124,7 @@ export default function useQuestions() {
                 headers: {
                     "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${access_token.current}`,
+                    "Authorization": `Bearer ${accessToken}`,
                 },
                 next: { revalidate: 1 }
             }).then(result=> {
@@ -137,6 +144,11 @@ export default function useQuestions() {
     }
 
     async function updateQuestion(user: UserDBSimple, question: string, id: string) {
+
+        const supabase = createClient()
+
+        const accessToken = (await supabase.auth.getSession()).data.session?.access_token
+
         if (user.plan === "basic") {
             getQuestions(user).then(questionsLocal => {
                 questionsLocal!.map(q => {
@@ -161,7 +173,7 @@ export default function useQuestions() {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token.current}`,
+                "Authorization": `Bearer ${accessToken}`,
             },
             body: JSON.stringify(data)
         }).then((data: any) => {
@@ -177,12 +189,16 @@ export default function useQuestions() {
 
     async function deleteQuestion(id:string) {
 
+        const supabase = createClient()
+
+        const accessToken = (await supabase.auth.getSession()).data.session?.access_token
+
         await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/questions?id=eq.${id}`, {
             method:"DELETE",
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token.current}`,
+                "Authorization": `Bearer ${accessToken}`,
             }
         })
         .catch(error => {

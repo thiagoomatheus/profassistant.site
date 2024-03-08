@@ -15,7 +15,7 @@ export default function Page () {
     
     return (
         <>
-            <TitleWithButton title="Minhas Questões" state={modalOpen} handleClick={setModalOpen} />
+            <TitleWithButton title="Gerador" state={modalOpen} handleClick={setModalOpen} />
             {user && isLogged && (
                 <>
                     {modalOpen && (

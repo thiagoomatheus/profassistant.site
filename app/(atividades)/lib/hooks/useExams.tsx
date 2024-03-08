@@ -1,16 +1,18 @@
 "use client"
 
+import { createClient } from "@/app/lib/supabase/client";
 import { Exam, ExamDB, ExamQuestionDB, ExamSimpleDB, UserDBSimple } from "@/app/lib/types/types";
 import { useEffect, useRef } from "react";
 
 export default function useExams() {
 
-    let access_token: React.MutableRefObject<string> = useRef("")
+    // let access_token: React.MutableRefObject<string> = useRef("")
 
-    useEffect(() => {
-        const cookies = document.cookie.split("; ")
-        access_token.current = cookies.find(cookie => cookie.startsWith("my-a"))?.split("=")[1]!
-    },[])
+    // useEffect(() => {
+    //     const cookies = document.cookie.split("sb-tzohqwteaoakaifwffnm-auth-token=%7B%22access_token%22%3A%22")[1]
+    //     const token = cookies.split("%22%2C%22")[0]
+    //     access_token.current = token
+    // },[])
 
     function isEquivalent(a: any, b: any) {
         var aProps = Object.keys(a);
@@ -33,13 +35,17 @@ export default function useExams() {
 
     async function getExams(user: UserDBSimple) {
 
+        const supabase = createClient()
+
+        const accessToken = (await supabase.auth.getSession()).data.session?.access_token
+
         let exams: ExamSimpleDB[] = []
 
         await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?select=id,title,school_name,subject&user_id=eq.${user.id}`, {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token.current}`,
+                "Authorization": `Bearer ${accessToken}`,
             }
         }).then(result=> {
             return result.json()
@@ -57,6 +63,10 @@ export default function useExams() {
 
     async function getExam(id: string) {
 
+        const supabase = createClient()
+
+        const accessToken = (await supabase.auth.getSession()).data.session?.access_token
+
         let exam: Exam = {
             title: "",
             teacher: "",
@@ -71,7 +81,7 @@ export default function useExams() {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token.current}`,
+                "Authorization": `Bearer ${accessToken}`,
             }
         }).then(result=> {
             return result.json()
@@ -98,7 +108,7 @@ export default function useExams() {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token.current}`,
+                "Authorization": `Bearer ${accessToken}`,
             }
             }).then(result=> {
                 return result.json()
@@ -117,6 +127,10 @@ export default function useExams() {
 
     async function addExam(exam: Exam) {
 
+        const supabase = createClient()
+
+        const accessToken = (await supabase.auth.getSession()).data.session?.access_token
+
         const data = {
             title: exam.title,
             school_name: exam.school_name,
@@ -131,7 +145,7 @@ export default function useExams() {
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token.current}`,
+                "Authorization": `Bearer ${accessToken}`,
             },
             body: JSON.stringify(data)
         }).then(result => {
@@ -156,7 +170,7 @@ export default function useExams() {
                 headers: {
                     "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${access_token.current}`,
+                    "Authorization": `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify(questions)
             })
@@ -174,6 +188,10 @@ export default function useExams() {
 
     async function updateExam(previousExam: Exam, newExam: Exam) {
 
+        const supabase = createClient()
+
+        const accessToken = (await supabase.auth.getSession()).data.session?.access_token
+
         const previousData: Partial<Exam> = {...previousExam}
         delete previousData.questions
 
@@ -186,7 +204,7 @@ export default function useExams() {
                 headers: {
                     "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${access_token.current}`,
+                    "Authorization": `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify(newData)
             })
@@ -202,13 +220,13 @@ export default function useExams() {
 
             const questionsWithId: ExamQuestionDB[] = newExam.questions.filter(question => question.id !== undefined)
             
-            if (questionsWithId.length === 0) {
+            if (questionsWithId.length === 0 && oldQuestions.length > 0) {
                 await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam_question?exam_id=eq.${newExam.id}`, {
                     method:"DELETE",
                     headers: {
                         "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${access_token.current}`,
+                        "Authorization": `Bearer ${accessToken}`,
                     }
                 })
             }
@@ -239,7 +257,7 @@ export default function useExams() {
                         headers: {
                             "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                             "Content-Type": "application/json",
-                            "Authorization": `Bearer ${access_token.current}`,
+                            "Authorization": `Bearer ${accessToken}`,
                         }
                     })
                 })
@@ -263,7 +281,7 @@ export default function useExams() {
                     headers: {
                         "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${access_token.current}`,
+                        "Authorization": `Bearer ${accessToken}`,
                     },
                     body: JSON.stringify(data)
                 })
@@ -279,12 +297,16 @@ export default function useExams() {
 
     async function deleteExam(id: string) {
 
+        const supabase = createClient()
+
+        const accessToken = (await supabase.auth.getSession()).data.session?.access_token
+
         await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?id=eq.${id}`, {
             method:"DELETE",
             headers: {
                 "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${access_token.current}`,
+                "Authorization": `Bearer ${accessToken}`,
             }
         })
         .catch(error => {

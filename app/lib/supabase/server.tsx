@@ -10,7 +10,7 @@ export function createClient() {
     
     {
       auth: {
-        autoRefreshToken: false,
+        autoRefreshToken: false
       },
       cookies: {
         get(name: string) {

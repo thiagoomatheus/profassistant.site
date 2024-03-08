@@ -16,8 +16,8 @@ export default function CardExams( { exam, handleDeleteExam }: {
             <h3>{exam.school_name}</h3>
             <p>{exam.title} - {exam.subject}</p>
             <div className="flex flex-row self-start gap-5 justify-start">
-                <Button text="Abrir" key={exam.id} href={`/minhas-atividades/${exam.id}`} />
-                <Button text="Excluir" key={exam.id} handleClick={() => {
+                <Button text="Abrir" key={`open_${exam.id}`} href={`/minhas-atividades/${exam.id}`} />
+                <Button text="Excluir" key={`delete_${exam.id}`} handleClick={() => {
                     deleteExam(exam.id)
                     .then(response => {
                         if (response === "ok") {
