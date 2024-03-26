@@ -64,5 +64,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/gerador/:path*", "/minhas-atividades/:path*", "/minhas-questoes/:path*", "/minhas-conta/:path*"]
+  matcher: ["/gerador/:path*", "/minhas-atividades/:path*", "/minhas-questoes/:path*", "/minha-conta/:path*", "/reset/update/:path*"],
 }

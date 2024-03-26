@@ -28,7 +28,11 @@ export enum NotificationTypes {
     ExamDeleteSuccess = "Atividade excluida com sucesso!",
     ExamDeleteFailed = "Falha ao excluir atividade. Tente mais tarde!",
     UpdateProfileSuccess = "Perfil atualizado com sucesso!",
-    UpdateProfileFailed = "Falha ao atualizar perfil. Tente mais tarde!"
+    UpdateProfileFailed = "Falha ao atualizar perfil. Tente mais tarde!",
+    ResetPasswordEmailSuccess = "Email enviado! Verifique a caixa de entrada ou a caixa de spam.",
+    ResetPasswordEmailFailed = "Falha ao enviar email de redefinição. Tente novamente mais tarde!",
+    UpdatePasswordSuccess = "Senha atualizada com sucesso!",
+    UpdatePasswordFailed = "Falha ao atualizar senha. Tente novamente mais tarde!",
 }
 
 export default function useNotification() {

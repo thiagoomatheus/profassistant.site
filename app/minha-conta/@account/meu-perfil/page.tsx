@@ -1,6 +1,7 @@
 import useAccount from "../../lib/useAccount"
 import { createClient } from "@/app/lib/supabase/server"
 import Field from "../../components/field"
+import Button from "@/app/components/layout/button"
 
 export default async function Page() {
 
@@ -20,9 +21,9 @@ export default async function Page() {
                   <Field key="school_name" field="Instiuição de Ensino" data={data.school_name ? data.school_name : undefined} column="school_name" />
                   <Field key="user_email" field="Email" data={data.user_email ? data.user_email : undefined} column="user_email" />
                   <Field key="theme" field="Tema" data={data.theme ? data.theme : undefined} column="theme" />
+                  <Button text="Alterar senha" href="/reset" />
                   {/*
                   <p>Logo da Instituição de Ensino:</p>
-                  <p>Alterar senha:</p> 
                   */}
                 </section>
             )}

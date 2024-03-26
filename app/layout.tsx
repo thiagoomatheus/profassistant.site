@@ -25,8 +25,6 @@ export default function RootLayout({
   
   const theme = verifyTheme()
 
-  console.log(theme);
-
   return (
     <html lang="pt-br" className={theme}>
       <body className={`${inter.className}`} >
