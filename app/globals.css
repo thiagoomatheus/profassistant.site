@@ -33,6 +33,18 @@ html {
     scroll-behavior: smooth;
 }
 
+.dark, .dark input, .dark label, .dark select, .dark textarea, .dark legend {
+    background-color: #000000;
+}
+
+.dark p, .dark li, .dark a, .dark input, .dark input::placeholder, .dark label, .dark select, .dark textarea, .dark legend {
+    color: #fff
+}
+
+.dark h1, .dark h2, .dark h3 {
+    color: #D97927
+}
+
 h1 {
     font-weight: bold;
     font-size: 1.875rem /* 30px */;

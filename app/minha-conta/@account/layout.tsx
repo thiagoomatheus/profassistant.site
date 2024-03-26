@@ -15,7 +15,7 @@ export default function MinhaContaLayout({
               <Link className="pr-2 border-r md:border-r-0 md:border-b-2 border-orange-2 hover:border-blue-2 duration-200" href="/minha-conta/meu-plano">Meu Plano</Link>
               <Link className="pr-2 border-r md:border-r-0 md:border-b-2 border-orange-2 hover:border-blue-2 duration-200" href="/minha-conta/meu-uso">Meu Uso</Link>
             </nav>
-            <section className="border-2 border-orange-2 rounded-xl p-5 md:p-10 w-full">
+            <section className="border-2 border-orange-2 rounded-xl p-5 md:p-10 w-full flex flex-col gap-5">
               {children}
             </section>
         </div>

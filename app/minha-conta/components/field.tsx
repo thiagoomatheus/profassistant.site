@@ -6,6 +6,7 @@ import { useState } from "react"
 import useAccount from "../lib/useAccount"
 import { createClient } from "@/app/lib/supabase/client"
 import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification"
+import { setTheme } from "@/app/lib/theme/action"
 
 export default function Field( { field, data, column }: {
     field: string
@@ -26,7 +27,7 @@ export default function Field( { field, data, column }: {
     }
 
     return (
-        <div className="flex flex-col md:flex-row md:justify-start items-center gap-3">
+        <div className="flex flex-col md:flex-row md:justify-between items-center gap-3">
             {modal && data && (
                 <Modal key="update" close={() => {
                     setModal(false)
@@ -36,17 +37,47 @@ export default function Field( { field, data, column }: {
                         <h3>Alterar {field.toLowerCase()}</h3>
                         <p>{field} atual: {data}</p>
                         <p>Alterar para:</p>
-                        <input id="newValue" type="text" onChange={handleChange} />
-                        <Button text="Salvar" handleClick={() => {
-                            updateProfile(column, value!)
-                            .then(result => {
-                                if (result === "ok") {
-                                    generateNotification(NotificationTypes.UpdateProfileSuccess, "success")
-                                    return setModal(false)
-                                }
-                                return generateNotification(NotificationTypes.UpdateProfileFailed, "error")
-                            })
-                        }} />
+                        {column !== "theme" && (
+                            <>
+                                <input id="newValue" type="text" onChange={handleChange} />
+                                <Button text="Salvar" handleClick={() => {
+                                    updateProfile(column, value!)
+                                    .then(result => {
+                                        if (result === "ok") {
+                                            generateNotification(NotificationTypes.UpdateProfileSuccess, "success")
+                                            return setModal(false)
+                                        }
+                                        return generateNotification(NotificationTypes.UpdateProfileFailed, "error")
+                                    })
+                                }} />
+                            </>
+                        )}
+                        {column === "theme" && (
+                            <>
+                                <select id="newValue" onChange={handleChange} defaultValue={value}>
+                                    <option value="light">Light</option>
+                                    <option value="dark">Dark</option>
+                                </select>
+                                <Button text="Salvar" handleClick={() => {
+                                    setTheme(value!)
+                                    .then(result => {
+                                        if (result === "ok") {
+                                            const html = document.querySelector("html")
+                                            if (value === "dark") {
+                                                html!.classList.add("dark")
+                                            }
+                                            if (value === "light") {
+                                                html!.classList.remove("dark")
+                                            }
+                                            generateNotification(NotificationTypes.UpdateProfileSuccess, "success")
+                                            return setModal(false)
+                                        }
+                                        return generateNotification(NotificationTypes.UpdateProfileFailed, "error")
+                                    })
+                                }} />
+                            </>
+                        )}
+                        
                     </>
                 </Modal>
             )}
@@ -71,9 +102,21 @@ export default function Field( { field, data, column }: {
             {value && (
                 <>
                     <p>{field}: <span id="name">{value}</span></p>
-                    <Button text="Alterar" handleClick={() => {
-                        setModal(true)
-                    }}></Button>    
+                    {column !== "user_email" && (
+                        <Button text="Alterar" handleClick={() => {
+                            setModal(true)
+                        }}></Button>
+                    )}
+                </>
+            )}
+            {!value && (
+                <>
+                    <p>{field}: <span id="name">Você ainda não adicionou nenhum {field.toLowerCase()}</span></p>
+                    {column !== "user_email" && (
+                        <Button text="Adicionar" handleClick={() => {
+                            setModal(true)
+                        }}></Button>
+                    )}
                 </>
             )}
         </div>

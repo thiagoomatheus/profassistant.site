@@ -1,35 +1,22 @@
-// import { useState } from "react"
+import { cookies } from "next/headers"
 
-// export default function useTheme() {
+export default function useTheme() {
 
-//     const [darkTheme, setDarkTheme ] = useState<boolean>(false)
+    function verifyTheme() {
 
-//     function verifyTheme() {
-//         if (localStorage.getItem("theme") === "dark") {
-//             setDarkTheme(true)
-//             localStorage.setItem("theme", "dark")
-//             const html = document.querySelector("html")
-//             html!.classList.toggle("dark")
-//             return
-//         }
-//     }
+        const cookieStore = cookies()
 
-//     function handleDarkTheme(isDark: boolean) {
-//         if (isDark === true) {
-//             localStorage.setItem("theme", "light")
-//             const html = document.querySelector("html")
-//             html!.classList.toggle("dark")
-//             return
-//         }
-//         localStorage.setItem("theme", "dark")
-//         const html = document.querySelector("html")
-//         html!.classList.toggle("dark")
-//     }
+        const theme = cookieStore.get("theme")?.value
 
-//     return {
-//         darkTheme,
-//         setDarkTheme,
-//         handleDarkTheme,
-//         verifyTheme
-//     }
-// }
+        if (theme === "dark") {
+            return theme
+        }
+        else {
+            return
+        }
+    }
+
+    return {
+        verifyTheme
+    }
+}

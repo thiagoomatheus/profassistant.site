@@ -14,7 +14,7 @@ export default function QuestionPreview({ question, id, handleRemoveQuestion }: 
     const questionObject = separateQuestion(question.question ? question.question : question.question_id!)
     
     return (
-        <div className="flex flex-col gap-5 duration-200 p-2 rounded-xl hover:bg-red-200 relative questionPreview">
+        <div className="flex flex-col gap-5 duration-200 p-2 rounded-xl hover:bg-red-400 dark:hover:bg-red-700 relative questionPreview">
             <span className="hidden"><Button text="Remover" handleClick={() => {
                 handleRemoveQuestion(id)
             }} /></span>

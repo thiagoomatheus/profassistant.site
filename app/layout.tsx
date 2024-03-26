@@ -6,6 +6,7 @@ import Footer from './components/footer/footer'
 import ResponseAPIProvider from './(generator)/lib/contexts/ResponseAPIContext'
 import AuthContextProvider from './(login)/lib/contexts/AuthContext'
 import NotificationProvider from './(notifications)/lib/contexts/NotificationProvider'
+import useTheme from './lib/theme/useTheme'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,8 +20,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
+  const { verifyTheme } = useTheme()
+  
+  const theme = verifyTheme()
+
+  console.log(theme);
+
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" className={theme}>
       <body className={`${inter.className}`} >
           <NotificationProvider>
             <AuthContextProvider>

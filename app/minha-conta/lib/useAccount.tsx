@@ -13,7 +13,7 @@ export default function useAccount( supabase: SupabaseClient<any, "public", any>
             created_at: "",
             school_name: "",
             theme: "",
-            email: ""
+            user_email: ""
         }
 
         const session = await supabase.auth.getSession()

@@ -57,7 +57,7 @@ export type UserDBComplete = {
     created_at: string,
     school_name: string,
     theme: string,
-    email: string
+    user_email: string
 }
 
 export type Exam = {
