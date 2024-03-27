@@ -17,7 +17,7 @@ export default function Preview( { exam, handleRemoveQuestion }: {
     return (
         <div id="print" className="flex flex-col gap-10 p-3 md:p-7 border-2">
             {exam.school_name && (
-                <header className="flex flex-col gap-5 justify-center items-center">
+                <header className="flex flex-col gap-5 justify-center items-center print:mb-9">
                     <h1 className="text-center">{exam.school_name}</h1>
                     {exam.title && (
                         <p>{exam.title} - {exam.subject}</p>
@@ -26,11 +26,11 @@ export default function Preview( { exam, handleRemoveQuestion }: {
                         <p className="self-start"><span className="font-bold">Professora:</span> {exam.teacher}</p>
                     )}
                     {exam.grade && (
-                        <div className="grid grid-cols-[80px_0.80fr_40px_0.15fr] md:grid-cols-[110px_0.80fr_50px_0.15fr] lg:grid-cols-[130px_0.80fr_60px_0.15fr] w-full gap-1">
+                        <div className="grid grid-cols-[auto_0.80fr_auto_0.15fr] w-full gap-1">
                             <p className="font-bold">Nome do Aluno:</p>
-                            <div className="border-b border-black"></div>
+                            <div className="border-b border-black dark:border-white"></div>
                             <p>{exam.grade}:</p>
-                            <div className="border-b border-black"></div>
+                            <div className="border-b border-black dark:border-white"></div>
                         </div>
                     )}
                     {exam.obs && (

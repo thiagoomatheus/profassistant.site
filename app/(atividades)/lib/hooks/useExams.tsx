@@ -1,18 +1,7 @@
-"use client"
-
 import { createClient } from "@/app/lib/supabase/client";
 import { Exam, ExamDB, ExamQuestionDB, ExamSimpleDB, UserDBSimple } from "@/app/lib/types/types";
-import { useEffect, useRef } from "react";
 
 export default function useExams() {
-
-    // let access_token: React.MutableRefObject<string> = useRef("")
-
-    // useEffect(() => {
-    //     const cookies = document.cookie.split("sb-tzohqwteaoakaifwffnm-auth-token=%7B%22access_token%22%3A%22")[1]
-    //     const token = cookies.split("%22%2C%22")[0]
-    //     access_token.current = token
-    // },[])
 
     function isEquivalent(a: any, b: any) {
         var aProps = Object.keys(a);
@@ -324,7 +313,7 @@ export default function useExams() {
         const win = window.open(undefined, undefined, "popup=true")!
         win.document.write("<html><head>")
         win.document.write("<title>Página de Impressão</title>")
-        win.document.write('<link rel="stylesheet" href="/_next/static/css/app/layout.css?v=1707780007622" data-precedence="next_static/css/app/layout.css" />')
+        win.document.write('<link rel="stylesheet" href="/_next/static/css/app/layout.css" />')
         win.document.write("</head><body>")
         win.document.write("<button class='block my-5 mx-auto p-2 border bg-blue-2 text-white rounded-xl print:hidden' onclick='window.print()'>Imprimir</button>")
         win.document.write(printContent)
