@@ -16,11 +16,11 @@ import { plans } from "./(plans)/plans";
 export default function Home() {
   return (
     <main className="mx-auto w-full p-0 flex flex-col gap-14 md:gap-20 xl:gap-28">
-      <section className="grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 gap-5">
+      <section className="grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 self-center max-w-[1440px] self gap-5">
         <ContainerText aditionalCSS="lg:text-left lg:max-w-[400px] xl:max-w-lg">
           <h1>Crie questões para seus alunos em segundos</h1>
           <p className="w-5/6">A solução que ajuda você a criar provas e atividades de forma fácil, simples e rápida!</p>
-          <Link className="font-bold text-white text-center w-40 lg:w-60 xl:w-80 p-2 cursor-pointer bg-orange rounded-2xl shadow-lg" href={""}>Teste agora</Link>
+          <Link className="font-bold text-white hover:text-white text-center w-40 lg:w-60 xl:w-80 p-2 cursor-pointer bg-orange hover:bg-blue-2 rounded-2xl shadow-lg duration-200" href={"/register"}>Teste agora</Link>
         </ContainerText>
         <div className="bg-blue p-5 rounded-lg mx-auto max-w-md md:max-w-none">
           <Image src={Educator} alt="Professor aplicando prova para alunos" />

@@ -1,7 +1,7 @@
 "use client"
 
 import { FaUser } from "react-icons/fa6";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
 import Link from "next/link";
 import Button from "../layout/button";
@@ -13,8 +13,18 @@ export default function UserMenu () {
     const [showMenu, setShowMenu] = useState<boolean>(false)
     const { handleLogout } = useAuth()
 
+    const menuRef = useRef<HTMLDivElement>(null)
+
+    const closeOpenMenus = (e:any)=>{
+        if(showMenu && !menuRef.current?.contains(e.target)){
+          setShowMenu(false)
+        }
+    }
+
+    document.addEventListener('click', closeOpenMenus)
+
     return (
-        <nav>
+        <nav ref={menuRef}>
             <div className="bg-blue-2 p-2 text-lg xl:p-3 lg:text-2xl text-white rounded-md shadow-md cursor-pointer hover:bg-orange-2 hover:text-blue-2 duration-200" onClick={() => {
                 setShowMenu(!showMenu)
             }}><FaUser /></div>
@@ -23,16 +33,13 @@ export default function UserMenu () {
                     <li className="border-b pb-2">
                         Olá {user?.name}
                     </li>
-                    <li>
+                    <li onClick={() => setShowMenu(!showMenu)}>
                         <Link href={"/minha-conta"} className="hover:border-b hover:text-white hover:border-white">
                             Minha Conta
                         </Link>
                     </li>
-                    {/* <li>
-                        <ToggleTheme />
-                    </li> */}
                     <li>
-                        <Button text="Sair" handleClick={handleLogout} />
+                        <Button text="Sair" handleClick={handleLogout} aditionalCSS="font-bold hover:bg-orange" />
                     </li>
                 </ul>
             )}

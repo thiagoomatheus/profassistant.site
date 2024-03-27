@@ -21,7 +21,7 @@ export default function Card({ title, children, img, price, aditionalCSS }: {
                 {price && (
                     <div className="flex flex-col justify-center gap-5 lg:gap-10 items-center">
                         <p className="flex flex-row items-center justify-center text-3xl lg:text-4xl xl:text-5xl font-bold gap-2 text-orange"><span className="font-normal text-sm">R$</span>{price}<span className="font-normal text-sm">/mês</span></p>
-                        <Button href="plans" text="Escolher" />
+                        <Button href="/register" text="Escolher" />
                     </div>
                 )}
             </div>
