@@ -8,14 +8,6 @@ import { createClient } from "@/app/lib/supabase/client";
 export default function useQuestions() {
 
     const { response, subject } = useContext(ResponseAPIContext)
-
-    // let access_token: React.MutableRefObject<string> = useRef("")
-
-    // useEffect(() => {
-    //     const cookies = document.cookie.split("sb-tzohqwteaoakaifwffnm-auth-token=%7B%22access_token%22%3A%22")[1]
-    //     const token = cookies.split("%22%2C%22")[0]
-    //     access_token.current = token
-    // },[])
     
     function separateQuestion(q: string): Question | undefined {
         if (q) {
