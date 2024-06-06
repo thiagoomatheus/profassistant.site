@@ -32,7 +32,7 @@ export default function RootLayout({
             <AuthContextProvider>
               <Header />
               <ResponseAPIProvider>
-                <main className='m-3 md:m-5 lg:m-10 xl:m-14 min-h-[60.5vh]'>
+                <main className='m-3 md:m-5 lg:m-10 xl:m-14 min-h-[65.5vh]'>
                   {children}
                 </main>
               </ResponseAPIProvider>

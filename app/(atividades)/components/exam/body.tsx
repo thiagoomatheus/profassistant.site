@@ -1,194 +1,101 @@
 "use client"
 
-import Label from "@/app/(generator)/components/form/label";
-import MyQuestions from "@/app/(generator)/components/layout/myquestions";
-import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
 import Button from "@/app/components/layout/button";
-import Modal from "@/app/components/layout/modal";
 import SectionWithBorder from "@/app/components/layout/sectionWithBorder";
 import { ExamQuestionDB } from "@/app/lib/types/types";
-import { FormEvent, Suspense, useContext, useState } from "react";
+import { useState } from "react";
 import FormBody from "./formBody";
 import LabelBody from "./labelBody";
-import CardLoading from "@/app/components/layout/cardLoading";
+import Modals from "../modals";
+import FieldActions from "./fieldActions";
 
-export default function Body( { setState, state, handleAddQuestion }: {
-    setState: React.Dispatch<React.SetStateAction<ExamQuestionDB>>
-    state: ExamQuestionDB
+export default function Body( { setQuestionsExam, questionsExam, handleAddQuestion }: {
+    setQuestionsExam: React.Dispatch<React.SetStateAction<ExamQuestionDB>>
+    questionsExam: ExamQuestionDB
     handleAddQuestion: () => void
 }) {
-
-    const { user } = useContext(AuthContext)
-    const [modal, setModal] = useState<"selectText" | "selectImage" | "selectQuestion" | "insertText" | "insertImage"| "insertQuestion" | "close">()
+    const [modal, setModal] = useState<"selectSupport" | "selectMathExpressions" | "selectQuestion" | "insertSupport" | "insertMathExpressions"| "insertQuestion" | "close">("close")
 
     function handleChange(e:React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
-        setState({
-            ...state,
+        setQuestionsExam({
+            ...questionsExam,
             [target.name]: target.value
         })
-    }
-
-    function handleSelect(question:string, id: string) {
-        setState({
-            ...state,
-            question_id: id,
-            question: question
-        })
-        setModal("close")
     }
     
     return (
         <>
-            {modal === "insertText" && (
-                <Modal key="insertText" close={() => {
-                    setModal("close")
-                }}>
-                    <h3>Insira um texto</h3>
-                    <form className="flex flex-col gap-3 md:gap-5" onSubmit={(e: FormEvent) => {
-                        e.preventDefault()
-                        setModal("close")
-                    }}>
-                        <Label label="Título">
-                            <input type="text" name="title_text" onChange={handleChange} />
-                        </Label>
-                        <Label label="Texto">
-                            <p className="text-sm font-normal">Atenção: Separe os parágrafos com //</p>
-                            <textarea placeholder="Digite ou cole seu texto aqui" className="font-normal overflow-auto h-[180px] max-h-[300px] text-xs" name="text" onChange={handleChange}></textarea>
-                        </Label>
-                        <input type="submit" value={"Salvar"} />
-                    </form>
-                </Modal>
-            )}
-             {modal === "insertQuestion" && (
-                <Modal key="insertQuestion" close={() => {
-                    setModal("close")
-                }}>
-                    <h3>Insira uma questão</h3>
-                    <form className="flex flex-col gap-3 md:gap-5" onSubmit={(e: FormEvent) => {
-                        e.preventDefault()
-                        setModal("close")
-                    }}>
-                        <Label label="Questão">
-                            <textarea placeholder="Ex.: Qual o melhor amigo do professor? a) Um café b) Um café c) Um caderno d) O Question! Generator" className="font-normal overflow-auto h-[180px] max-h-[300px] text-xs" name="question" onChange={handleChange}></textarea>
-                        </Label>
-                        <input type="submit" value={"Salvar"} />
-                    </form>
-                </Modal>
-            )}
-            {modal === "selectQuestion" && (
-                <Modal key="selectQuestion" close={() => {
-                    setModal("close")
-                }} customWidth="w-11/12 md:w-4/5 md:min-h-[350px]">
-                    <h3>Selecione uma questão</h3>
-                    <Suspense fallback={<CardLoading />}>
-                        <MyQuestions handleSelect={handleSelect} />
-                    </Suspense>
-                </Modal>
+            {modal !== "close" && (
+                <Modals type={modal} close={() => setModal("close")} state={{ questionsExam, setQuestionsExam }} />
             )}
             <div className="flex flex-col md:flex-row gap-2 md-gap:5">
                 <SectionWithBorder key="layoutForm" borderColor="border-orange">
-                    <p className="text-xs md:text-sm font-bold text-blue">Selecione o layout:</p>
+                    <p className="text-xs md:text-sm font-bold text-blue">Layout da questão:</p>
                     <FormBody>
                         <LabelBody>
                             Simples
                             <input id="radio" className="h-14 w-20 bg-[url('../public/images/question_simple.jpg')]" type="radio" name="layout" value={"simple"} onChange={handleChange} />
                         </LabelBody>
-                        <LabelBody>Com Texto
-                            <input id="radio" className="h-14 w-20 bg-[url('../public/images/question_with_text.jpg')]" type="radio" name="layout" value={"text"} onChange={handleChange} />
-                        </LabelBody>
-                        {/* <LabelBody>
-                            Com Imagem
-                            <input id="radio" className="h-14 w-20 bg-[url('../public/images/question_with_image.jpg')]" type="radio" name="layout" value={"image"} onChange={handleChange} disabled />
-                        </LabelBody> */}
-                    </FormBody>
-                </SectionWithBorder>
-                <SectionWithBorder key="alternativeForm" borderColor="border-blue">
-                    <p className="text-xs md:text-sm font-bold text-orange-2">Tipo de questão:</p>
-                    <FormBody>
                         <LabelBody>
-                            Com Alternativas
-                            <input id="radio" className="h-14 w-20 bg-[url('../public/images/question_simple.jpg')]" type="radio" name="alternative" value="yes" onChange={handleChange} />
+                            Com apoio
+                            <input id="radio" className="h-14 w-20 bg-[url('../public/images/question_with_text.jpg')]" type="radio" name="layout" value={"support"} onChange={handleChange} />
                         </LabelBody>
-                        <LabelBody>Sem Alternativas
-                            <input id="radio" className="h-14 w-20 bg-[url('../public/images/question_no_alternative.jpg')]" type="radio" name="alternative" value="no" onChange={handleChange} />
+                        <LabelBody>
+                            Expressões matemáticas
+                            <input id="radio" className="h-14 w-20 bg-[url('../public/images/question_with_image.jpg')]" type="radio" name="layout" value={"math_expressions"} onChange={handleChange} />
                         </LabelBody>
                     </FormBody>
                 </SectionWithBorder>
             </div>
-            {state.layout && state.alternative && (
-                <div className="flex flex-row flex-wrap gap-5 justify-start">
-                    {state.layout && state.alternative !== undefined && !state.question && (
-                        <div className="flex flex-row justify-start items-center gap-5 border-r-2 pr-3 border-orange-2" key={"insert_question"}>
-                            <p className="text-xs md:text-sm font-bold text-orange-2">Questão:</p>
-                            <Button text="Selecionar" handleClick={() => {
-                                setModal("selectQuestion")
+            <div className="flex flex-col flex-wrap gap-5 justify-start">
+                {questionsExam.layout !== "math_expressions" && (
+                    <>
+                        {questionsExam.layout && !questionsExam.question && (
+                            <FieldActions key={"insert_question"} field="Questão" handles={{ handleSelect: () => setModal("selectQuestion"), handleInsert: () => setModal("insertQuestion")}} />
+                        )}
+                        {questionsExam.layout && questionsExam.question && (
+                            <FieldActions key={"preview_question"} field="Questão" data={questionsExam.question} handles={{ 
+                                handleDelete: () => 
+                                    setQuestionsExam({ ...questionsExam, question: null, question_id: null }) 
                             }} />
-                            <Button text="Inserir" handleClick={() => {
-                                setModal("insertQuestion")
+                        )}
+                        {questionsExam.layout === "support" && !questionsExam.support && (
+                            <FieldActions key={"insert_support"} field="Apoio" handles={{ handleSelect: () => setModal("selectSupport"), handleInsert: () => setModal("insertSupport")}} />
+                        )}
+                        {questionsExam.layout === "support" && questionsExam.support && (
+                            <FieldActions key={"preview_support"} field="Apoio" data={questionsExam.support} handles={{ 
+                                handleDelete: () => 
+                                    setQuestionsExam({ ...questionsExam, support: null, support_id: null }) 
                             }} />
-                        </div>
-                    )}
-                    {state.layout && state.alternative !== undefined && state.question && (
-                        <div className="flex flex-row justify-between items-center gap-2" key={"preview_question"}>
-                            <p className="text-xs md:text-sm font-bold text-orange-2">Questão:</p>
-                            <p className="text-xs">{state.question.length >= 110 ? `${state.question.substring(0,110)}...` : state.question}</p>
-                            <Button text="Excluir" handleClick={() => {
-                                setState({
-                                    ...state,
-                                    question: null,
-                                    question_id:null
-                                })
+                        )}
+                    </>
+                )}
+                {questionsExam.layout === "math_expressions" && (
+                    <>
+                        {!questionsExam.question && (
+                            <FieldActions key={"insert_question"} field="Expressões matemáticas" handles={{ handleSelect: () => setModal("selectMathExpressions"), handleInsert: () => setModal("insertMathExpressions")}} />
+                        )}
+                        {questionsExam.question && (
+                            <FieldActions key={"preview_question"} field="Expressões matemáticas" data={questionsExam.question} handles={{ 
+                                handleDelete: () => 
+                                    setQuestionsExam({ ...questionsExam, question: null, question_id: null }) 
                             }} />
-                        </div>
-                    )}
-                    {state.layout === "text" && !state.title_text && !state.text && (
-                        <div className="flex flex-row justify-start items-center gap-5 border-r-2 pr-3 border-blue" key={"insert_text"}>
-                            <p className="text-xs md:text-sm font-bold text-blue">Texto:</p>
-                            {/* <Button text="Selecionar" /> */}
-                            <Button text="Inserir" handleClick={() => {
-                                setModal("insertText")
-                            }} />
-                        </div>
-                    )}
-                    {state.layout === "text" && state.title_text && state.text && (
-                        <div className="flex flex-row justify-between items-center gap-2" key={"preview_text"}>
-                            <p className="text-xs md:text-sm font-bold text-blue">Texto:</p>
-                            <p className="text-xs">Título: {state.title_text} / Texto: {state.text.substring(0,50)}...</p>
-                            <Button text="Excluir" handleClick={() => {
-                                setState({
-                                    ...state,
-                                    title_text: null,
-                                    text: null
-                                })
-                            }} />
-                        </div>
-                    )}
-                    {state.question && (
-                        <div className="flex flex-row justify-start items-center gap-2" key={"insert_question"}>
-                            <p className="text-xs md:text-sm font-bold text-orange-2">Número da Questão:</p>
-                            <input type="number" name="position" min={1} max={20} onChange={handleChange} />
-                        </div>
-                    )}
-                    {state.position && (
-                        <Button text="Adicionar Questão" aditionalCSS="w-full" handleClick={() => {
-                            handleAddQuestion()
-                        }} />
-                    )}
-                </div>
-            )}
-            {/* Imagens ainda não estão disponíveis
-
-
-            {state.layout === "image" && (
-                <div className="flex flex-row justify-start items-center gap-2" key={"insert_image"}>
-                    <p className="text-xs md:text-sm font-bold text-blue w-20">Imagem:</p>
-                    <Button text="Selecionar" />
-                    <Button text="Inserir" />
-                </div>
-            )} */}
-            
+                        )}
+                    </>
+                )}
+                {questionsExam.question && (
+                            <div className="flex flex-row justify-start items-center gap-2" key={"insert_question"}>
+                                <p className="text-xs md:text-base font-bold">Número da questão:</p>
+                                <input type="number" name="position" min={1} max={20} onChange={handleChange} />
+                            </div>
+                        )}
+                {questionsExam.position && (
+                    <Button key={"add_question"} text="Adicionar Questão" aditionalCSS="w-full" handleClick={() => {
+                        handleAddQuestion()
+                    }} />
+                )}
+            </div> 
         </>
-        
     )
 }

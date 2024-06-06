@@ -36,6 +36,7 @@
 .dark *::-webkit-scrollbar-thumb:active {
     background-color: orange;
 }
+/* aplication */
 html {
     scroll-behavior: smooth;
 }
@@ -156,14 +157,28 @@ input[type="submit"]:hover:focus {
     font-size: 10px;
 }
 @media print {
-    #print h1 {
-        font-size: 26pt;
+    body * {
+        visibility: hidden;
     }
-    #print h3 {
+    .section-to-print, .section-to-print * {
+        visibility: visible;
+    }
+    .section-to-print {
+        position: absolute;
+        border: none;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+    .section-to-print h1 {
+        font-size: 22pt;
+    }
+    .section-to-print h3 {
         font-size: 18pt;
     }
-    #print p {
-        font-size: 14pt;
+    .section-to-print p {
+        font-size: 12pt;
+        color: #000000;
     }
 }
 @media (min-width: 768px) {

@@ -15,22 +15,22 @@ export default function Preview( { exam, handleRemoveQuestion }: {
     })
 
     return (
-        <div id="print" className="flex flex-col gap-10 p-3 md:p-7 border-2">
+        <div  className="section-to-print flex flex-col gap-10 p-3 md:p-7 border-2">
             {exam.school_name && (
-                <header className="flex flex-col gap-5 justify-center items-center print:mb-9">
-                    <h1 className="text-center">{exam.school_name}</h1>
+                <header className="flex flex-col gap-5 justify-center items-center print:mb-3">
+                    <h3 className="font-bold">{exam.title} - {exam.subject}</h3>
                     {exam.title && (
-                        <p>{exam.title} - {exam.subject}</p>
+                       <p className="text-center">{exam.school_name}</p>
                     )}
                     {exam.teacher && (
-                        <p className="self-start"><span className="font-bold">Professora:</span> {exam.teacher}</p>
+                        <p className="self-start"><span className="font-bold">Professora: </span>{exam.teacher}</p>
                     )}
                     {exam.grade && (
                         <div className="grid grid-cols-[auto_0.80fr_auto_0.15fr] w-full gap-1">
                             <p className="font-bold">Nome do Aluno:</p>
-                            <div className="border-b border-black dark:border-white"></div>
+                            <div className="border-b border-black dark:border-white dark:print:border-black"></div>
                             <p>{exam.grade}:</p>
-                            <div className="border-b border-black dark:border-white"></div>
+                            <div className="border-b border-black dark:border-white dark:print:border-black"></div>
                         </div>
                     )}
                     {exam.obs && (

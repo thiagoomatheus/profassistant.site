@@ -1,4 +1,4 @@
-import OpenAI from 'openai';
+/* import OpenAI from 'openai';
 import { NextResponse } from 'next/server';
  
 // Create an OpenAI API client (that's edge friendly!)
@@ -40,4 +40,4 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({result}, { status: 200 })
-}
+} */

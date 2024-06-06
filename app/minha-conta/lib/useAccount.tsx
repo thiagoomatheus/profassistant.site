@@ -1,4 +1,3 @@
-
 import { UserDBComplete } from "@/app/lib/types/types"
 import { SupabaseClient } from "@supabase/supabase-js"
 

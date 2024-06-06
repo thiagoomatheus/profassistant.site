@@ -46,8 +46,8 @@ export default function Menu() {
                             </Link>
                         </li>
                         <li className={pathname === "/minhas-questoes" ? "text-orange font-bold" : ""}>
-                            <Link href={"/minhas-questoes"}>
-                                Questões
+                            <Link href={"/dados-gerados"}>
+                                Dados Gerados
                             </Link>
                         </li>
                         {user.plan === "pro" && (

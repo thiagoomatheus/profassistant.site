@@ -6,19 +6,17 @@ import Body from "./exam/body"
 import Preview from "./preview"
 import Button from "@/app/components/layout/button"
 import { useEffect, useState } from "react"
-import useExams from "../lib/hooks/useExams"
 import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification"
 import { Exam, ExamQuestionDB } from "@/app/lib/types/types"
+import { addExam, updateExam } from "../lib/actions"
 
 export const initialQuestionsExam = {
-    title_text: null,
-    text: null,
-    image: null,
+    support: null,
+    support_id: null,
     question: null,
     question_id: null,
     exam_id: null,
     position: undefined,
-    alternative: undefined,
     layout: undefined
 }
 
@@ -36,16 +34,15 @@ export default function MyExam( { data }: {
     data?: Exam
 } ) {
 
-    const [questionsExam, setQuestionExams] = useState<ExamQuestionDB>(initialQuestionsExam)
     const [exam, setExam] = useState<Exam>(data ? data : initialExam)
+    const [questionsExam, setQuestionsExams] = useState<ExamQuestionDB>(initialQuestionsExam)
 
     useEffect(() => {
         if (data) {
             setExam(data)
         }
     },[data])
-
-    const { addExam, printExam, updateExam } = useExams()
+    
     const { generateNotification } = useNotification()
 
     function handleChangeHeader(e:React.ChangeEvent) {
@@ -68,7 +65,7 @@ export default function MyExam( { data }: {
         el.forEach(radioBtn => {
             radioBtn.checked = false
         })
-        setQuestionExams(initialQuestionsExam)
+        setQuestionsExams(initialQuestionsExam)
     }
 
     function handleRemoveQuestion(id:number) {
@@ -84,7 +81,7 @@ export default function MyExam( { data }: {
                 <Header handleChange={handleChangeHeader} value={exam ? exam : undefined} />
             </Accordion>
             <Accordion text="Conteúdo" color="orange-2">
-                <Body state={questionsExam} setState={setQuestionExams} handleAddQuestion={handleAddQuestion} />
+                <Body setQuestionsExam={setQuestionsExams} questionsExam={questionsExam} handleAddQuestion={handleAddQuestion} />
             </Accordion>
             {exam.school_name && (
                 <Accordion text="Preview">
@@ -97,12 +94,11 @@ export default function MyExam( { data }: {
                         <Button text="Salvar" handleClick={() => {
                             addExam(exam)
                             .then(response => {
-                                if (response !== "ok") {
+                                if (response !== 201) {
                                     return generateNotification(NotificationTypes.ExamSavedFailed, "error")
                                 }
                                 return generateNotification(NotificationTypes.ExamSavedSuccess, "success", "/minhas-atividades")
                             })
-                            return
                         }} />
                     )}
                     {data && (
@@ -112,7 +108,7 @@ export default function MyExam( { data }: {
                             }
                             updateExam(data, exam)
                             .then(response => {
-                                if (response !== "ok") {
+                                if (response !== 201) {
                                     return generateNotification(NotificationTypes.ExamUpdateFailed, "error")
                                 }
                                 return generateNotification(NotificationTypes.ExamUpdateSuccess, "success")
@@ -120,7 +116,7 @@ export default function MyExam( { data }: {
                         }} />
                     )}
                     <Button text="Imprimir" handleClick={() => {
-                        printExam()
+                        window.print()
                     }} />
                 </div>
             )}

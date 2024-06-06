@@ -8,10 +8,34 @@ export type Question = {
     correctAlternative: string
 }
 
+export type GeneratedDB = {
+    id?: string
+    type: "text" | "question" | "quote" | "math_expression"
+    data: string
+    subject: string
+}
+
 export type QuestionDB = {
     question: string,
     id: string,
     subject: string
+}
+
+export type TextDB = {
+    text: string,
+    id: string,
+    subject: string
+}
+
+export type QuoteDB = {
+    quote: string,
+    id: string,
+    subject: string
+}
+
+export type MathExpressionDB = {
+    question: string,
+    id: string,
 }
 
 export type User = {
@@ -90,13 +114,11 @@ export type ExamSimpleDB = {
 
 export type ExamQuestionDB = {
     id?: string,
-    title_text: string | null,
-    text: string | null,
-    image: string | null,
+    support: string | null,
+    support_id: string | null,
     question: string | null,
     question_id: string | null,
     exam_id: string | null,
     position: number | undefined,
-    alternative: "yes" | "no" | undefined,
-    layout: "simple" | "text" | "image" | undefined
+    layout: "simple" | "support" | "math_expressions" | undefined
 }
