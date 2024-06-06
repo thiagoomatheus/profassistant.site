@@ -21,7 +21,7 @@ export default function Reset () {
         <>
             <h2>Insira o email cadastrado</h2>
             <p className="max-w-3xl text-center">Caso o email inserido seja válido e conste em nossa base de dados você receberá um email para redefinir sua senha.</p>
-            <form className="flex flex-col gap-7 w-full max-w-3xl" onSubmit={async (e: React.FormEvent) => {
+            <form className="flex flex-col gap-7 w-full max-w-2xl" onSubmit={async (e: React.FormEvent) => {
                 e.preventDefault()
                 await supabase.auth.resetPasswordForEmail(email, {
                     redirectTo: "http://localhost:3000/reset/update"
