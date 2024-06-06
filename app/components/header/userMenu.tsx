@@ -24,7 +24,7 @@ export default function UserMenu () {
     document.addEventListener('click', closeOpenMenus)
 
     return (
-        <nav ref={menuRef}>
+        <nav className="z-40" ref={menuRef}>
             <div className="bg-blue-2 p-2 text-lg xl:p-3 lg:text-2xl text-white rounded-md shadow-md cursor-pointer hover:bg-orange-2 hover:text-blue-2 duration-200" onClick={() => {
                 setShowMenu(!showMenu)
             }}><FaUser /></div>
