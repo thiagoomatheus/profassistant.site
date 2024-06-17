@@ -1,9 +1,10 @@
 import Label from "@/app/(generator)/components/form/label"
 import MyGenerateds from "@/app/(generator)/components/layout/myGenerateds"
+import { getGenerated } from "@/app/(generator)/lib/actions"
 import CardLoading from "@/app/components/layout/cardLoading"
 import Modal from "@/app/components/layout/modal"
-import { ExamQuestionDB } from "@/app/lib/types/types"
-import { FormEvent, Suspense } from "react"
+import { ExamQuestionDB, GeneratedDB } from "@/app/lib/types/types"
+import { FormEvent, Suspense, useEffect, useState } from "react"
 
 export default function Modals( { type, close, state}: {
     type: "selectSupport" | "selectMathExpressions" | "selectQuestion" | "insertSupport" | "insertMathExpressions"| "insertQuestion",
@@ -13,6 +14,34 @@ export default function Modals( { type, close, state}: {
         setQuestionsExam: React.Dispatch<React.SetStateAction<ExamQuestionDB>>
     }
 } ) {
+
+    const [data, setData] = useState<GeneratedDB[]>()
+
+    useEffect(() => {
+        switch (type) {
+            case "selectSupport":
+                getGenerated("or=(type.eq.text,type.eq.quote)")
+                .then(data => {
+                    setData(data)
+                })
+                break;
+            case "selectMathExpressions":
+                getGenerated("type=eq.math_expression")
+                .then(data => {
+                    setData(data)
+                })
+                break;
+            case "selectQuestion":
+                getGenerated("type=eq.question")
+                .then(data => {
+                    setData(data)
+                })
+                break;
+            default:
+                console.log("teste");
+                break;
+        }
+    }, [type])
 
     function handleChange(e:React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
@@ -101,7 +130,7 @@ export default function Modals( { type, close, state}: {
                 <Modal key={type} close={close} customWidth="w-11/12 md:w-4/5 md:min-h-[350px]">
                     <h3>Selecione uma questão</h3>
                     <Suspense fallback={<CardLoading />}>
-                        <MyGenerateds filter="type=eq.question" handleSelect={handleSelectQuestionAndMathExpression} />
+                        <MyGenerateds data={{ generates: data }} handleSelect={handleSelectQuestionAndMathExpression} />
                     </Suspense>
                 </Modal>
             )}
@@ -109,7 +138,7 @@ export default function Modals( { type, close, state}: {
                 <Modal key={type} close={close} customWidth="w-11/12 md:w-4/5 md:min-h-[350px]">
                     <h3>Selecione um texto ou frase</h3>
                     <Suspense fallback={<CardLoading />}>
-                        <MyGenerateds filter="or=(type.eq.text,type.eq.quote)" handleSelect={handleSelectSupport} />
+                        <MyGenerateds data={{ generates: data }} handleSelect={handleSelectSupport} />
                     </Suspense>
                 </Modal>
             )}
@@ -117,7 +146,7 @@ export default function Modals( { type, close, state}: {
                 <Modal key={type} close={close} customWidth="w-11/12 md:w-4/5 md:min-h-[350px]">
                     <h3>Selecione um conjunto de expressões matemática</h3>
                     <Suspense fallback={<CardLoading />}>
-                        <MyGenerateds filter="type=eq.math_expression" handleSelect={handleSelectQuestionAndMathExpression} />
+                        <MyGenerateds data={{ generates: data }} handleSelect={handleSelectQuestionAndMathExpression} />
                     </Suspense>
                 </Modal>
             )}

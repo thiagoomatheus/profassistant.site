@@ -1,6 +1,5 @@
 "use client"
 
-
 import Link from "next/link";
 import Login from "./login";
 import { usePathname } from "next/navigation";

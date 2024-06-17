@@ -2,6 +2,8 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  
+
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -9,8 +11,8 @@ export async function middleware(request: NextRequest) {
   })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_ANON_KEY!,
     {
       cookies: {
         get(name: string) {
@@ -64,5 +66,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/gerador/:path*", "/minhas-atividades/:path*", "/minhas-questoes/:path*", "/minha-conta/:path*", "/reset/update/:path*"],
+  matcher: ["/gerador/:path*", "/minhas-atividades/:path*", "/dados-gerados/:path*", "/minha-conta/:path*", "/reset/update/:path*"],
 }

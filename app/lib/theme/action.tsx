@@ -14,7 +14,7 @@ export async function setTheme(theme:string) {
             theme: theme
         }),
         headers: {
-            "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${auth.access_token}`,
         }

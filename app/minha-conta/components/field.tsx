@@ -3,10 +3,9 @@
 import Button from "@/app/components/layout/button"
 import Modal from "@/app/components/layout/modal"
 import { useState } from "react"
-import useAccount from "../lib/useAccount"
-import { createClient } from "@/app/lib/supabase/client"
 import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification"
 import { setTheme } from "@/app/lib/theme/action"
+import { updateProfile } from "../lib/actions"
 
 export default function Field( { field, data, column }: {
     field: string
@@ -18,7 +17,6 @@ export default function Field( { field, data, column }: {
 
     const [modal, setModal] = useState<boolean>(false)
 
-    const { updateProfile } = useAccount(createClient())
     const { generateNotification } = useNotification()
 
     function handleChange(e:React.ChangeEvent) {

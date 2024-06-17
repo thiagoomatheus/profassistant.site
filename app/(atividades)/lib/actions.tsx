@@ -6,19 +6,20 @@ import { revalidateTag } from "next/cache";
 
 export async function getExams() {
     const supabase = createClient()
-    const accessToken = (await supabase.auth.getSession()).data.session?.access_token
-    const id = (await supabase.auth.getUser()).data.user?.id
+    const session = await supabase.auth.getSession()
+    const id = session.data.session?.user.id
+    const accessToken = session.data.session?.access_token
 
     let exams: ExamSimpleDB[] = []
 
     await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?select=id,title,school_name,subject&user_id=eq.${id}`, {
         headers: {
-            "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`,
         },
         next: { 
-            revalidate: 1, 
+            revalidate: 1,
             tags: ["get_exams"] 
         }
     }).then(result=> {
@@ -49,7 +50,7 @@ export async function getExam(exam_id: string) {
     }
     const resultExam = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?select=id,title,teacher,school_name,subject,grade,obs&id=eq.${exam_id}`, {
         headers: {
-            "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`,
         }
@@ -70,7 +71,7 @@ export async function getExam(exam_id: string) {
     }
     const resultQuestions = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/questions_combined?exam_id=eq.${exam_id}`, {
         headers: {
-            "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`, 
         }
@@ -91,7 +92,7 @@ export async function addExam(exam: Exam) {
     const resultExam = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam`, {
         method:"POST",
         headers: {
-            "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`,
             "Prefer": "return=representation"
@@ -122,7 +123,7 @@ export async function addExam(exam: Exam) {
     const resultExamQuestion = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam_question`, {
         method:"POST",
         headers: {
-            "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`,
         },
@@ -156,7 +157,7 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
         const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?id=eq.${newExam.id}`, {
             method:"PUT",
             headers: {
-                "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                "apikey": process.env.SUPABASE_ANON_KEY!,
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${accessToken}`,
             },
@@ -173,7 +174,7 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
             const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam_question?exam_id=eq.${newExam.id}`, {
                 method:"DELETE",
                 headers: {
-                    "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                    "apikey": process.env.SUPABASE_ANON_KEY!,
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${accessToken}`,
                 }
@@ -200,7 +201,7 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
                 const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam_question?id=eq.${id}`, {
                     method:"DELETE",
                     headers: {
-                        "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                        "apikey": process.env.SUPABASE_ANON_KEY!,
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${accessToken}`,
                     }
@@ -224,7 +225,7 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
             const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam_question`, {
                 method:"POST",
                 headers: {
-                    "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                    "apikey": process.env.SUPABASE_ANON_KEY!,
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${accessToken}`,
                 },
@@ -244,7 +245,7 @@ export async function deleteExam(id:string) {
     await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?id=eq.${id}`, {
         method:"DELETE",
         headers: {
-            "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`,
         }

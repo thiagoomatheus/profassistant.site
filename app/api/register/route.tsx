@@ -18,23 +18,22 @@ export async function POST(req:NextRequest) {
         password: password
     })
 
-    if (!result.data.session) {
+    if (result.error) {
         return NextResponse.json({}, {status: 401})
     }
 
-    const { data: profile, error } = await supabase
+    const { error } = await supabase
     .from('profile')
     .insert([
-      {
-        id: result.data.user?.id,
-        name: name, 
-        plan: plan,
-        theme: "light"
-    },
+        {
+            id: result.data.user?.id,
+            name: name, 
+            plan: plan,
+            theme: "light"
+        }
     ])
-    .select()
             
-    if (error || !profile) {
+    if (error) {
         console.log(error)
         return NextResponse.json({}, {status: 401})
     }
@@ -45,5 +44,5 @@ export async function POST(req:NextRequest) {
         maxAge: 60 * 60 * 24 * 30
     })
     
-    return NextResponse.json(profile[0], {status: 200})
+    return NextResponse.json({}, {status: 200})
 }

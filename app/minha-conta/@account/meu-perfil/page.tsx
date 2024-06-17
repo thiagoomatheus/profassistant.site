@@ -1,11 +1,8 @@
-import useAccount from "../../lib/useAccount"
-import { createClient } from "@/app/lib/supabase/server"
 import Field from "../../components/field"
 import Button from "@/app/components/layout/button"
+import { getProfile } from "../../lib/actions"
 
 export default async function Page() {
-
-  const { getProfile } = useAccount(createClient())
 
   const data = await getProfile()
 

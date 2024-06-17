@@ -5,15 +5,14 @@ import { useContext, useState } from "react";
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
 import useClipboard from "./useClipboard";
 import { GeneratedDB } from "@/app/lib/types/types";
-import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
 import { deleteGenerated, generateData, getGenerated, postGenerated, updateGenerated } from "../actions";
+import { getUser } from "@/app/(login)/lib/actions";
 
 export default function useGenerator () {
 
   const { generateNotification } = useNotification()
   const { setResponse, setSubject, setGenerated, response, subject, generated } = useContext(ResponseAPIContext)
   const copyToClipboard = useClipboard()
-  const { user } = useContext(AuthContext)
 
   const [info, setInfo] = useState<{
     ano: string
@@ -149,6 +148,8 @@ export default function useGenerator () {
 
   async function handleSave(response: string) {
 
+    const user = await getUser().then(result => result)
+
     if (user?.plan === "basic") {
       postQuestionsUserBasic(response)
       return "ok"
@@ -161,6 +162,8 @@ export default function useGenerator () {
   }
 
   async function getGenerateds(filter?: string) {
+
+    const user = await getUser().then(result => result)
 
     if (user?.plan === "basic") {
       return getQuestionsUserBasic()
@@ -178,6 +181,8 @@ export default function useGenerator () {
 
   async function handleUpdate(data: string, id: string) {
 
+    const user = await getUser().then(result => result)
+
     if (user?.plan === "basic") {
       return updateQuestionsUserBasic(data, id)
     }
@@ -189,6 +194,8 @@ export default function useGenerator () {
   }
 
   async function handleDelete(id:string) {
+
+    const user = await getUser()
 
     if (user?.plan === "basic") {
       return deleteQuestionsUserBasic(id)

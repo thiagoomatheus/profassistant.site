@@ -1,6 +1,8 @@
 "use client"
+
 import { UserDBSimple } from "@/app/lib/types/types";
 import { createContext, useState, useEffect } from "react";
+import { getUser } from "../actions";
 
 export const AuthContext = createContext<{
     isLogged: boolean,
@@ -22,20 +24,9 @@ export default function AuthContextProvider ({ children }: {
     const [user, setUser] = useState<UserDBSimple | undefined>(undefined)
 
     useEffect(() => {
-        fetch("/api/login")
-        .then(async r => {
-            if (r.status !== 200) {
-                setIsLogged(false)
-                setUser(undefined)
-                return
-            }
-            if (isLogged !== true) {
+        getUser().then(user => {
+            if (user) {
                 setIsLogged(true)
-                const user = await r.json()
-                .then((result: UserDBSimple) => {
-                    return result
-                }
-                )
                 setUser(user)
             }
         })

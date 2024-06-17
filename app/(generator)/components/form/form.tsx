@@ -4,7 +4,6 @@ import Label from "./label";
 import { anoOptions, materiaOptions } from "./options";
 import useGenerator from "../../lib/hooks/useGenerator";
 import Button from "@/app/components/layout/button";
-import { generateData } from "../../lib/actions";
 
 export default function Form({ setStatus }: {
   setStatus: React.Dispatch<React.SetStateAction<"awaitingResponse" | "finish" | undefined>>

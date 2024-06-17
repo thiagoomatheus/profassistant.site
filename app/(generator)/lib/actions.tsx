@@ -3,10 +3,11 @@
 import { createClient } from "@/app/lib/supabase/server";
 import { GeneratedDB } from "@/app/lib/types/types";
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
+import { revalidatePath } from "next/cache";
 
 export async function generateData(prompt: string) {
 
-  const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.NEXT_PUBLIC_GEMINI_AP_KEY!}`, {
+  const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY!}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -62,7 +63,7 @@ export async function postGenerated(response: string, type: "question" | "text" 
   await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/generated?columns=type,data,subject`, {
     method: "POST",
     headers: {
-      "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      "apikey": process.env.SUPABASE_ANON_KEY!,
       "Content-Type": "application/json",
       "Authorization": `Bearer ${accessToken}`,
     },
@@ -88,17 +89,16 @@ export async function getGenerated(filter?: string) {
 
   let data: GeneratedDB[] = []
 
-  const accessToken = (await supabase.auth.getSession()).data.session?.access_token
-  const id = (await supabase.auth.getUser()).data.user?.id
+  const session = (await supabase.auth.getSession()).data.session
 
-  await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/generated?select=id,type,data,subject&user_id=eq.${id}${filter ? `&${filter}` : ""}`, {
+  await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/generated?select=id,type,data,subject&user_id=eq.${session?.user.id}${filter ? `&${filter}` : ""}`, {
     headers: {
-      "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      "apikey": process.env.SUPABASE_ANON_KEY!,
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${accessToken}`,
+      "Authorization": `Bearer ${session?.access_token}`,
     },
     next: {
-      revalidate: 1
+      tags: ["generateds"]
     }
   }).then(result => {
     return result.json()
@@ -125,7 +125,7 @@ export async function updateGenerated(data: string, id: string) {
   await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/generated?id=eq.${id}`, {
   method: "PATCH",
   headers: {
-    "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    "apikey": process.env.SUPABASE_ANON_KEY!,
     "Content-Type": "application/json",
     "Authorization": `Bearer ${accessToken}`,
   },
@@ -154,7 +154,7 @@ export async function deleteGenerated(id:string) {
   await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/generated?id=eq.${id}`, {
     method:"DELETE",
     headers: {
-      "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      "apikey": process.env.SUPABASE_ANON_KEY!,
       "Content-Type": "application/json",
       "Authorization": `Bearer ${accessToken}`,
     }
@@ -165,5 +165,6 @@ export async function deleteGenerated(id:string) {
   .catch(error => {
     console.log(error);
   })
+  revalidatePath("generateds")
   return status
 }

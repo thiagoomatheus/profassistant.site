@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa6";
 import { useContext, useState, useRef } from "react";
 import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
 import Link from "next/link";
-import Button from "../layout/button";
+import Button from "../../../components/layout/button";
 import useAuth from "@/app/(login)/lib/hooks/useLogin";
 
 export default function UserMenu () {

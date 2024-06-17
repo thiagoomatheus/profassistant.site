@@ -4,6 +4,7 @@ import { User } from "@/app/lib/types/types";
 import { useContext } from "react"
 import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
 import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification";
+import { getUser } from "../actions";
 
 export default function useAuth() {
 
@@ -17,12 +18,12 @@ export default function useAuth() {
         })
         .then(async response => {
             if (response.status === 200) {
-                setIsLogged(true)
-                const user = await response.json()
-                .then(r => {
-                    return r
+                getUser().then(user => {    
+                    if (user) {
+                        setIsLogged(true)
+                        setUser(user)
+                    }
                 })
-                setUser(user)
                 generateNotification(NotificationTypes.LoginSuccess, "success", "/gerador")
                 return
             }
@@ -48,12 +49,12 @@ export default function useAuth() {
         })
         .then(async response => {
             if (response.status === 200) {
-                setIsLogged(true)
-                const user = await response.json()
-                .then(r => {
-                    return r
+                getUser().then(user => {    
+                    if (user) {
+                        setIsLogged(true)
+                        setUser(user)
+                    }
                 })
-                setUser(user)
                 generateNotification(NotificationTypes.RegiterSuccess, "success", "/gerador")
                 return
             }

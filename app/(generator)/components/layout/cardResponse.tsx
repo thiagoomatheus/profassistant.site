@@ -12,9 +12,7 @@ export default function CardResponse ({ type, id, data, actions }: {
     actions?: {
         save?: boolean,
         update?: boolean,
-        delete?: {
-            functionMutationState: () => void
-        },
+        delete?: true,
         copy?: boolean,
         select?: (data: string, id: string) => void
     }
@@ -57,7 +55,7 @@ export default function CardResponse ({ type, id, data, actions }: {
             handleActions.handeDelete = () => {
                 handleDelete(id)
                 .then(() => {
-                    actions.delete?.functionMutationState()
+                    
                     setEditStatus(false)
                 })
             }

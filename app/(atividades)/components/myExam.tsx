@@ -5,7 +5,7 @@ import Header from "./exam/header"
 import Body from "./exam/body"
 import Preview from "./preview"
 import Button from "@/app/components/layout/button"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification"
 import { Exam, ExamQuestionDB } from "@/app/lib/types/types"
 import { addExam, updateExam } from "../lib/actions"
@@ -36,12 +36,6 @@ export default function MyExam( { data }: {
 
     const [exam, setExam] = useState<Exam>(data ? data : initialExam)
     const [questionsExam, setQuestionsExams] = useState<ExamQuestionDB>(initialQuestionsExam)
-
-    useEffect(() => {
-        if (data) {
-            setExam(data)
-        }
-    },[data])
     
     const { generateNotification } = useNotification()
 
