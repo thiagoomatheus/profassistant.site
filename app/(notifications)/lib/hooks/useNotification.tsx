@@ -34,7 +34,7 @@ export enum NotificationTypes {
     ExamDeleteFailed = "Falha ao excluir atividade. Tente mais tarde!",
     UpdateProfileSuccess = "Perfil atualizado com sucesso!",
     UpdateProfileFailed = "Falha ao atualizar perfil. Tente mais tarde!",
-    ResetPasswordEmailSuccess = "Email enviado! Verifique a caixa de entrada ou a caixa de spam.",
+    ResetPasswordEmailSuccess = "Verifique a caixa de entrada ou a caixa de spam.",
     ResetPasswordEmailFailed = "Falha ao enviar email de redefinição. Tente novamente mais tarde!",
     UpdatePasswordSuccess = "Senha atualizada com sucesso!",
     UpdatePasswordFailed = "Falha ao atualizar senha. Tente novamente mais tarde!",
