@@ -7,6 +7,7 @@ import useTheme from './lib/theme/useTheme'
 import Header from './(main)/components/header/header'
 import Footer from './(main)/components/footer/footer'
 import Providers from './components/providers'
+import { Toaster } from 'react-hot-toast'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className={theme}>
       <body className={`${inter.className}`} >
+        <Toaster position='bottom-right' />
         <Providers>
           <Header />
           <ResponseAPIProvider>

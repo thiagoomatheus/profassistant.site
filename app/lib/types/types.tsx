@@ -39,10 +39,13 @@ export type MathExpressionDB = {
 }
 
 export type User = {
-    name: string,
-    email: string,
-    password: string,
-    plan: "free" | "basic" | "premium" | "pro" 
+    name: string;
+    cpf: string;
+    phone: string;
+    email: string;
+    password: string;
+    plan: string;
+
 }
 
 export type UserSession = {
