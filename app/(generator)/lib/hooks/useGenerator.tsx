@@ -1,16 +1,15 @@
 "use client"
 
-import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification";
 import { useContext, useState } from "react";
 import { ResponseAPIContext } from "../contexts/ResponseAPIContext";
 import useClipboard from "./useClipboard";
 import { GeneratedDB } from "@/app/lib/types/types";
 import { deleteGenerated, generateData, getGenerated, postGenerated, updateGenerated } from "../actions";
 import { getUser } from "@/app/(login)/lib/actions";
+import toast from "react-hot-toast";
 
 export default function useGenerator () {
 
-  const { generateNotification } = useNotification()
   const { setResponse, setSubject, setGenerated, response, subject, generated } = useContext(ResponseAPIContext)
   const copyToClipboard = useClipboard()
 
@@ -79,16 +78,20 @@ export default function useGenerator () {
   }
 
   async function handleSubmit() {
-    generateNotification(NotificationTypes.GeneratorLoading, "success")
+    const toastSubmit = toast.loading("Carregando! Aguarde alguns instantes...")
     const prompt = getPrompt()
     const { data, error } = await generateData(prompt)
     if (error) {
-      return generateNotification(NotificationTypes.GeneratorError, "error")
+      return toast.error("Erro ao gerar informações. Tente novamente.", {
+        id: toastSubmit
+      })
     }
     setSubject(info.materia)
     setGenerated(info.gerar)
     setResponse(treatResponse(data))
-    return generateNotification(NotificationTypes.GeneratorSuccess, "success")
+    return toast.success("Finalizado! Veja as informações geradas.", {
+      id: toastSubmit
+    })
   }
 
   function separateResponse() {
@@ -157,7 +160,7 @@ export default function useGenerator () {
 
     postGenerated(response, generated === "Texto" ? "text" : generated === "Questão" ? "question" : generated === "Frase" ? "quote" : generated === "Expressão matemática" ? "math_expression" : "question", generated === "Expressão matemática" ? null : subject!)
     .then(status => {
-      status === 201 ? generateNotification(NotificationTypes.SaveSuccess, "success") : generateNotification(NotificationTypes.SaveFailed, "error")
+      status === 201 ? toast.success("Salvo com sucesso!") : toast.error("Erro ao salvar. Tente novamente mais tarde!")
     })
   }
 
@@ -189,7 +192,7 @@ export default function useGenerator () {
 
     await updateGenerated(data, id)
     .then(status => {
-      status === 204 ? generateNotification(NotificationTypes.UpdateSuccess, "success") : generateNotification(NotificationTypes.UpdateFailed, "error")
+      status === 204 ? toast.success("Atualizado com sucesso!") : toast.error("Erro ao atualizar. Tente novamente mais tarde!")
     })
   }
 
@@ -203,7 +206,7 @@ export default function useGenerator () {
 
     await deleteGenerated(id)
     .then(status => {
-      status === 204 ? generateNotification(NotificationTypes.DeleteSuccess, "success") : generateNotification(NotificationTypes.DeleteFailed, "error")
+      status === 204 ? toast.success("Excluído com sucesso!") : toast.error("Erro ao excluir. Tente novamente mais tarde!")
     })
   }
 
@@ -211,18 +214,9 @@ export default function useGenerator () {
     title: string;
     text: string;
   }) {
-    copyToClipboard
-    .then((copyFunction) => {
-      return copyFunction(typeof data === "string" ? data : `${data.title}\n${data.text}`)
-    })
-    .then(() => {
-      return generateNotification(NotificationTypes.CopyToClipboardSuccess, "success")
-    })
-    .catch((error) => {
-      return generateNotification(NotificationTypes.CopyToClipboardError, "error")
-    })
+    return copyToClipboard(typeof data === "string" ? data : `${data.title}\n${data.text}`)
   }
-
+  
   return {
     info,
     handleChange,

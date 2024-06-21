@@ -1,19 +1,13 @@
-import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification";
+import toast from "react-hot-toast";
 
-export default async function useClipboard() {
-
-  const { generateNotification } = useNotification()
-
+export default function useClipboard() {
   async function copyToClipboard (text: string) {
-
     try {
       await navigator.clipboard.writeText(text)
-      return generateNotification(NotificationTypes.CopyToClipboardSuccess, "success")
+      return toast.success("Copiado com sucesso")
     } catch (err) {
-      return generateNotification(NotificationTypes.CopyToClipboardError, "error")
+      return toast.error("Erro ao copiar, tente novamente mais tarde")
     }
-
   }
-
   return copyToClipboard;
 }

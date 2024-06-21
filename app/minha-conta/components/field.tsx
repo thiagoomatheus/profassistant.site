@@ -3,9 +3,9 @@
 import Button from "@/app/components/layout/button"
 import Modal from "@/app/components/layout/modal"
 import { useState } from "react"
-import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification"
 import { setTheme } from "@/app/lib/theme/action"
 import { updateProfile } from "../lib/actions"
+import toast from "react-hot-toast"
 
 export default function Field( { field, data, column }: {
     field: string
@@ -16,8 +16,6 @@ export default function Field( { field, data, column }: {
     const [value, setValue] = useState<string | undefined>(data)
 
     const [modal, setModal] = useState<boolean>(false)
-
-    const { generateNotification } = useNotification()
 
     function handleChange(e:React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
@@ -42,10 +40,10 @@ export default function Field( { field, data, column }: {
                                     updateProfile(column, value!)
                                     .then(result => {
                                         if (result === "ok") {
-                                            generateNotification(NotificationTypes.UpdateProfileSuccess, "success")
+                                            toast.success("Perfil atualizado com sucesso!")
                                             return setModal(false)
                                         }
-                                        return generateNotification(NotificationTypes.UpdateProfileFailed, "error")
+                                        return toast.error("Falha ao atualizar perfil. Tente mais tarde!")
                                     })
                                 }} />
                             </>
@@ -67,10 +65,10 @@ export default function Field( { field, data, column }: {
                                             if (value === "light") {
                                                 html!.classList.remove("dark")
                                             }
-                                            generateNotification(NotificationTypes.UpdateProfileSuccess, "success")
+                                            toast.success("Perfil atualizado com sucesso!")
                                             return setModal(false)
                                         }
-                                        return generateNotification(NotificationTypes.UpdateProfileFailed, "error")
+                                        return toast.error("Falha ao atualizar perfil. Tente mais tarde!")
                                     })
                                 }} />
                             </>
@@ -88,10 +86,10 @@ export default function Field( { field, data, column }: {
                             updateProfile(column, value!)
                             .then(result => {
                                 if (result === "ok") {
-                                    generateNotification(NotificationTypes.UpdateProfileSuccess, "success")
+                                    toast.success("Perfil atualizado com sucesso!")
                                     return setModal(false)
                                 }
-                                return generateNotification(NotificationTypes.UpdateProfileFailed, "error")
+                                return toast.error("Falha ao atualizar perfil. Tente mais tarde!")
                             })
                         }} />
                     </>

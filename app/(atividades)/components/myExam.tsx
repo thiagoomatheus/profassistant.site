@@ -6,9 +6,10 @@ import Body from "./exam/body"
 import Preview from "./preview"
 import Button from "@/app/components/layout/button"
 import { useState } from "react"
-import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification"
 import { Exam, ExamQuestionDB } from "@/app/lib/types/types"
 import { addExam, updateExam } from "../lib/actions"
+import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
 
 export const initialQuestionsExam = {
     support: null,
@@ -34,10 +35,10 @@ export default function MyExam( { data }: {
     data?: Exam
 } ) {
 
+    const router = useRouter()
+
     const [exam, setExam] = useState<Exam>(data ? data : initialExam)
     const [questionsExam, setQuestionsExams] = useState<ExamQuestionDB>(initialQuestionsExam)
-    
-    const { generateNotification } = useNotification()
 
     function handleChangeHeader(e:React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
@@ -89,23 +90,24 @@ export default function MyExam( { data }: {
                             addExam(exam)
                             .then(response => {
                                 if (response !== 201) {
-                                    return generateNotification(NotificationTypes.ExamSavedFailed, "error")
+                                    return toast.error("Erro ao salvar atividade. Tente novamente mais tarde!")
                                 }
-                                return generateNotification(NotificationTypes.ExamSavedSuccess, "success", "/minhas-atividades")
+                                toast.success("Atividade salva com sucesso!")
+                                return router.push("/minhas-atividades")
                             })
                         }} />
                     )}
                     {data && (
                         <Button text="Atualizar" handleClick={() => {
                             if (data === exam) {
-                                return generateNotification(NotificationTypes.ExamNoUpdate, "error")
+                                return toast.error("Por favor, faça uma alteração antes de atualizar.")
                             }
                             updateExam(data, exam)
                             .then(response => {
                                 if (response !== 201) {
-                                    return generateNotification(NotificationTypes.ExamUpdateFailed, "error")
+                                    return toast.error("Erro ao atualizar atividade. Tente novamente mais tarde!")
                                 }
-                                return generateNotification(NotificationTypes.ExamUpdateSuccess, "success")
+                                return toast.success("Atividade atualizada com sucesso!")
                             })
                         }} />
                     )}

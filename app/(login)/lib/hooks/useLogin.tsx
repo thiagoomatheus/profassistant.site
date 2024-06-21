@@ -3,7 +3,6 @@
 import { User } from "@/app/lib/types/types";
 import { useContext } from "react"
 import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
-import useNotification, { NotificationTypes } from "@/app/(notifications)/lib/hooks/useNotification";
 import { getUser, loginUser, logoutUser, registerUser } from "../actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -12,7 +11,6 @@ import { useRouter } from "next/navigation";
 export default function useAuth() {
 
     const { setIsLogged, setUser } = useContext(AuthContext)
-    const { generateNotification } = useNotification()
     const router = useRouter()
 
     function isValidCPF(cpf: string) {
