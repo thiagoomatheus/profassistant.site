@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import ResponseAPIProvider from './(generator)/lib/contexts/ResponseAPIContext'
-
 import useTheme from './lib/theme/useTheme'
 import Header from './(main)/components/header/header'
 import Footer from './(main)/components/footer/footer'
@@ -21,11 +20,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-
   const { verifyTheme } = useTheme()
-  
   const theme = verifyTheme()
-
   return (
     <html lang="pt-br" className={theme}>
       <body className={`${inter.className}`} >

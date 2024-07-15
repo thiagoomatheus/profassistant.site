@@ -14,7 +14,6 @@ export default function Logo () {
                 src={theme === "dark" ? LogoDark : LogoLight}
                 alt="Question Generator" 
                 className="w-16 sm:w-20 lg:w-24 xl:w-28"
-                priority
             />
         </Link>
     )

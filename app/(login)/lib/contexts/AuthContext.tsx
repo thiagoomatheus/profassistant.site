@@ -1,9 +1,7 @@
 "use client"
-
 import { UserDBSimple } from "@/app/lib/types/types";
 import { createContext, useState, useEffect } from "react";
 import { getUser } from "../actions";
-
 export const AuthContext = createContext<{
     isLogged: boolean,
     setIsLogged: React.Dispatch<React.SetStateAction<boolean>>
@@ -15,14 +13,11 @@ export const AuthContext = createContext<{
     user: undefined,
     setUser: () => {}
 })
-
 export default function AuthContextProvider ({ children }: {
     children: React.ReactNode
 }) {
-    
     const [isLogged, setIsLogged] = useState<boolean>(false)
     const [user, setUser] = useState<UserDBSimple | undefined>(undefined)
-
     useEffect(() => {
         getUser().then(user => {
             if (user) {
@@ -31,7 +26,6 @@ export default function AuthContextProvider ({ children }: {
             }
         })
     },[])
-
     return (
         <AuthContext.Provider value={{
             isLogged: isLogged,

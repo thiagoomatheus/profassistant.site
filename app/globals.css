@@ -122,6 +122,7 @@ input[type="submit"] {
     font-weight: bold;
     transition: 0.3s;
     border: none;
+    cursor: pointer;
 }
 input[type="submit"]:hover {
     background: #BC9322;
@@ -243,7 +244,6 @@ input[type="submit"]:hover:focus {
         font-size: 16px;
     }
 }
-
 @media (min-width: 1280px) {
     h1 {
         font-size: 3.75rem /* 60px */;

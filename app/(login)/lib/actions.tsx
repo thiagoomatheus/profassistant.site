@@ -5,6 +5,7 @@ import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 export async function getUser() {
     const cookieStore = cookies().get("sb-tzohqwteaoakaifwffnm-auth-token")?.value
+    const theme = cookies().get("theme")?.value
     if (!cookieStore) {
         return
     }
@@ -23,6 +24,9 @@ export async function getUser() {
             return result.json()
         })
         .then(response => {
+            if (!theme) {
+                cookies().set("theme", response[0].theme) 
+            }
             return response[0]
         })
     return data

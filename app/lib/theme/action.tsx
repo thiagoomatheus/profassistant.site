@@ -19,7 +19,7 @@ export async function setTheme(theme:string) {
             "Authorization": `Bearer ${auth.access_token}`,
         }
     })
-    .then(result=> {
+    .then(() => {
         cookies().set("theme", theme)
     })
     .catch(error => {

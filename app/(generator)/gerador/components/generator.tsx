@@ -6,7 +6,6 @@ import Select from "./select"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import InsertAndSelectSupport from "./insertAndSelectSupport"
-
 type dataForm = {
     ano: string
     idade: string
@@ -25,7 +24,6 @@ type dataForm = {
     operacao?: string
     obs?: string
 }
-
 export default function Generator({gerar}: {
     gerar: string | undefined
 }) {
