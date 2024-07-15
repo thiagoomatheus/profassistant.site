@@ -24,7 +24,7 @@ export async function getUser() {
             return result.json()
         })
         .then(response => {
-            if (!theme) {
+            if (!theme || theme !== response[0].theme) {
                 cookies().set("theme", response[0].theme) 
             }
             return response[0]
