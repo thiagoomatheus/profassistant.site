@@ -1,14 +1,11 @@
 export default function MinhaContaLayout({
-    account,
-    children
+    account
   }: {
-    children: React.ReactNode
     account: React.ReactNode
   }) {
     
     return (
-        <>  
-          {children}
+        <>
           {account}
         </>
     )

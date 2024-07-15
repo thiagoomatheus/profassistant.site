@@ -1,5 +1,4 @@
 export default function Page() {
-
     return (
         <div className="flex flex-col gap-3">
             <p>Aqui você encontrará as informações do seu perfil.</p>

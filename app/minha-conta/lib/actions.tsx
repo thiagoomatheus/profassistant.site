@@ -1,12 +1,8 @@
 "use server"
-
 import { createClient } from "@/app/lib/supabase/server"
 import { UserDBComplete } from "@/app/lib/types/types"
-
 export async function getProfile() {
-
     const supabase = createClient()
-
     let data: UserDBComplete = {
         id: "",
         name: "",
@@ -16,9 +12,7 @@ export async function getProfile() {
         theme: "",
         user_email: ""
     }
-
     const session = await supabase.auth.getSession()
-    
     await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?id=eq.${session.data.session?.user.id}`, {
     headers: {
         "apikey": process.env.SUPABASE_ANON_KEY!,
@@ -36,15 +30,10 @@ export async function getProfile() {
     })
     return data
 }
-
 export async function updateProfile(column: string, newData: string) {
-
     const supabase = createClient()
-
     const data = `{"${column}": "${newData}"}`
-
     const session = await supabase.auth.getSession()
-
     await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?id=eq.${session.data.session?.user.id}`, {
         method: "PATCH",
         headers: {
