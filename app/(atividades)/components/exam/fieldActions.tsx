@@ -20,7 +20,7 @@ export default function FieldActions( { field, handles, data }: {
             )}
             {data && (
                 <>
-                    <p className="text-xs xl:text-sm">{data.length >= 110 ? `${data.replaceAll("--","").substring(0,110)}...` : data.replaceAll("--","")}</p>
+                    <p className=" font-normal text-xs xl:text-sm">{data.length >= 110 ? `${data.replaceAll("--","").substring(0,110)}...` : data.replaceAll("--","")}</p>
                     <Button text="Excluir" handleClick={handles.handleDelete} />
                 </>
             )}

@@ -6,7 +6,6 @@ import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { revalidatePath } from "next/cache";
 
 export async function generateData(prompt: string) {
-
   const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY!}`, {
     method: "POST",
     headers: {
@@ -37,29 +36,23 @@ export async function generateData(prompt: string) {
         },
       ],
     }),
-    cache: "no-store"
+    cache: "force-cache"
   })
   const response = await result.json();  
-
   if (response.error) {
     return {
       error: response.error
     }
   }
-
   return {
     data: response.candidates[0].content.parts[0].text
   }
 }
 
 export async function postGenerated(response: string, type: "question" | "text" | "quote" | "math_expression", subject: string | null) {
-
   const supabase = createClient()
-
   let status: number = 0
-
   const accessToken = (await supabase.auth.getSession()).data.session?.access_token
-
   await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/generated?columns=type,data,subject`, {
     method: "POST",
     headers: {
@@ -79,18 +72,13 @@ export async function postGenerated(response: string, type: "question" | "text" 
   .catch(error => {
     console.log(error);
   })
-
   return status
 }
 
 export async function getGenerated(filter?: string) {
-
   const supabase = createClient()
-
   let data: GeneratedDB[] = []
-
   const session = (await supabase.auth.getSession()).data.session
-
   await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/generated?select=id,type,data,subject&user_id=eq.${session?.user.id}${filter ? `&${filter}` : ""}`, {
     headers: {
       "apikey": process.env.SUPABASE_ANON_KEY!,
@@ -110,18 +98,13 @@ export async function getGenerated(filter?: string) {
       })
     }
   })
-  
   return data
 }
 
 export async function updateGenerated(data: string, id: string) {
-
   const supabase = createClient()
-
   let status: number = 0
-
   const accessToken = (await supabase.auth.getSession()).data.session?.access_token
-
   await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/generated?id=eq.${id}`, {
   method: "PATCH",
   headers: {
@@ -139,18 +122,13 @@ export async function updateGenerated(data: string, id: string) {
   .catch(error => {
     console.log(error)
   })
-  
   return status
 }
 
 export async function deleteGenerated(id:string) {
-
   const supabase = createClient()
-
   let status: number = 0
-
   const accessToken = (await supabase.auth.getSession()).data.session?.access_token
-
   await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/generated?id=eq.${id}`, {
     method:"DELETE",
     headers: {

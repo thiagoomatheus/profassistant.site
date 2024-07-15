@@ -151,7 +151,7 @@ export default function useGenerator () {
 
   async function handleSave(response: string) {
 
-    const user = await getUser().then(result => result)
+    const user = await getUser()
 
     if (user?.plan === "basic") {
       postQuestionsUserBasic(response)
@@ -166,7 +166,7 @@ export default function useGenerator () {
 
   async function getGenerateds(filter?: string) {
 
-    const user = await getUser().then(result => result)
+    const user = await getUser()
 
     if (user?.plan === "basic") {
       return getQuestionsUserBasic()
@@ -184,7 +184,7 @@ export default function useGenerator () {
 
   async function handleUpdate(data: string, id: string) {
 
-    const user = await getUser().then(result => result)
+    const user = await getUser()
 
     if (user?.plan === "basic") {
       return updateQuestionsUserBasic(data, id)

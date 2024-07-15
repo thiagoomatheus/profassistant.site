@@ -4,7 +4,7 @@ import { ResponseAPIContext } from "../../lib/contexts/ResponseAPIContext";
 import useGenerator from "../../lib/hooks/useGenerator";
 import CardResponse from "./cardResponse";
 
-export default function Questions ({ status }: {
+export default function Response ({ status }: {
     status: "awaitingResponse" | "finish" | undefined
 }) {
 
