@@ -7,14 +7,11 @@ import Header from './(main)/components/header/header'
 import Footer from './(main)/components/footer/footer'
 import Providers from './components/providers'
 import { Toaster } from 'react-hot-toast'
-
 const inter = Inter({ subsets: ['latin'] })
-
 export const metadata: Metadata = {
   title: 'Question Generator',
   description: 'Gere suas questões de forma eficiente e prática',
 }
-
 export default function RootLayout({
   children,
 }: {
@@ -25,11 +22,12 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className={theme}>
       <body className={`${inter.className}`} >
+      <link rel="icon" href="../public/images/favicon.ico" sizes="any" />
         <Toaster position='bottom-right' />
         <Providers>
           <Header />
           <ResponseAPIProvider>
-            <main className='m-3 md:m-5 lg:m-10 xl:m-14 min-h-[65.5vh]'>
+            <main className='m-3 md:m-5 lg:m-10 xl:m-14 min-h-[75vh]'>
               {children}
             </main>
           </ResponseAPIProvider>

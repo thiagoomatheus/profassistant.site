@@ -4,7 +4,6 @@ import Generator from "./components/generator"
 import Response from "./components/response"
 import { Suspense } from "react"
 import LoaderResponse from "./components/loaderResponse"
-
 export default function Page({searchParams}: {
     searchParams: { [key: string]: string | undefined }
 }) {
@@ -12,9 +11,7 @@ export default function Page({searchParams}: {
     const gerar = searchParams.gerar
     return (
         <>
-            <TitleWithButton title="Gerador" href={`?${new URLSearchParams({
-                instructions: "true"
-            })}`} btnText="Instruções" />
+            <TitleWithButton title="Gerador" href={`?${new URLSearchParams({instructions: "true"})}`} btnText="Instruções" />
             {instructions && (
                 <ModalRefactor>
                     <h3>Bem vindo ao gerador!</h3>
@@ -25,7 +22,7 @@ export default function Page({searchParams}: {
                         <li>Clique no botão &quot;Gerar questão&quot;</li>
                         <li>Aguarde alguns segundos e o resultado aparecerá na lateral</li>
                     </ol>
-                    <p>Obs: No campo &quot;Quantidade de questões&quot; tenha em mente que quanto mais questões maior será o tempo gerá-las.</p>
+                    <p>Obs: Usamos de IAs renomadas para gerar as informações, no entanto, elas ainda podem apresentar dados inconsistestes em alguns momento. Por isso, lembre-se de conferir as questões e suas respostas antes de utilizá-las.</p>
                 </ModalRefactor>
             )}
             <section className="flex flex-row flex-wrap justify-around gap-5 md:gap-10">

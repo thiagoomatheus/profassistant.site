@@ -21,12 +21,10 @@ export default function CardResponse ({ type, id, data, actions }: {
     const [response, setResponse] = useState<string>(data)
     const [editStatus, setEditStatus] = useState<boolean>(false)
     const [isSaved, setIsSaved] = useState<boolean>(false)
-
     function handleChange(e:React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
         return setResponse(target.value)
     }
-
     let handleActions: {
         handleSelect?: () => void
         handleSave?: () => void
@@ -34,7 +32,6 @@ export default function CardResponse ({ type, id, data, actions }: {
         handeDelete?: () => void
         handleCopy?: () => void
     } = {}
-
     if (actions) {
         if (actions.save) {
             if (!isSaved) {
@@ -71,7 +68,6 @@ export default function CardResponse ({ type, id, data, actions }: {
             }
         }
     }
-
     return (
         <div key={id} className="p-3 flex flex-col items-start gap-2 border border-orange rounded-lg shadow-md h-fit max-h-80 overflow-auto">
             {isSaved && <div className="text-green-500 m-[-12px]"><FaCheckCircle /></div>}

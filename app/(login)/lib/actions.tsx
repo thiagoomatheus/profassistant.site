@@ -1,32 +1,25 @@
 "use server"
 import { createClient } from "@/app/lib/supabase/server"
-import { User, UserDBSimple, UserSession } from "@/app/lib/types/types"
+import { User, UserDBComplete, UserDBSimple, UserSession } from "@/app/lib/types/types"
 import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 export async function getUser() {
-    const cookieStore = cookies().get("sb-tzohqwteaoakaifwffnm-auth-token")?.value
-    const theme = cookies().get("theme")?.value
-    if (!cookieStore) {
+    const supabase = createClient()
+    const session = (await supabase.auth.getSession()).data.session
+    if (!session) {
         return
     }
-    const auth: UserSession = JSON.parse(cookieStore!)
-    const data: UserDBSimple = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=id,name,plan,theme&id=eq.${auth.user.id}`, {
+    const data: UserDBComplete = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?id=eq.${session.user.id}`, {
         headers: {
             "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${auth.access_token}`,
+            "Authorization": `Bearer ${session.access_token}`,
         },
-        cache: "force-cache",
-        next: {
-            tags: ["user"]
-        }
-        }).then(result=> {
-            return result.json()
-        })
+        next: {tags: ["user"], revalidate: 1}
+        }).then(result=> result.json())
         .then(response => {
-            if (!theme || theme !== response[0].theme) {
-                cookies().set("theme", response[0].theme) 
-            }
+            const theme = cookies().get("theme")?.value
+            if (!theme || theme !== response[0].theme) cookies().set("theme", response[0].theme)
             return response[0]
         })
     return data
@@ -44,27 +37,6 @@ export async function registerUser(user: User) {
             error: "Erro ao registrar usuário"
         }
     }
-    const createClientInAsaas = await fetch("https://sandbox.asaas.com/api/v3/customers", {
-        method: "POST",
-        headers: {
-            "accept": 'application/json',
-            "content-type": "application/json",
-            "access_token": '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwODIyMDk6OiRhYWNoXzliOGE2MDdlLTcwMTEtNGVjZi04ZGY2LTQyNzhmYjdhZjk2OQ=='
-        },
-        body: JSON.stringify({
-            name: user.name,
-            email: user.email,
-            mobilePhone: user.phone,
-            cpfCnpj: user.cpf
-        })
-    })
-    if (createClientInAsaas.status !== 200) {
-        console.log((await createClientInAsaas.json()).errors);
-        return {
-            error: "Erro ao registrar usuário"
-        }
-    }
-    const customer_id = (await createClientInAsaas.json()).id
     const { error: errorProfile } = await supabase
     .from('profile')
     .insert([
@@ -73,9 +45,7 @@ export async function registerUser(user: User) {
             name: user.name, 
             plan: user.plan,
             phone: user.phone,
-            cpf: user.cpf,
             theme: "light",
-            id_customer_asaas: customer_id
         }
     ])    
     if (errorProfile) {
@@ -97,21 +67,13 @@ export async function loginUser(formData: FormData) {
     }
     const supabase = createClient()
     const result = await supabase.auth.signInWithPassword({email, password})
-    if (result.error) {
-        return {
-            error: "Erro ao registrar usuário"
-        }
-    }
+    if (result.error) return {error: "Erro ao registrar usuário"}
     return "success"
 }
 export async function logoutUser() {
     const supabase = createClient()
     const result = await supabase.auth.signOut()
-    if (result.error) {
-        return {
-            error: "Erro ao sair da conta"
-        }
-    }
+    if (result.error) return {error: "Erro ao sair da conta"}
     cookies().delete("my-access-token")
     cookies().delete("my-refresh-token")
     revalidateTag("user")

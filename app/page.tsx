@@ -1,18 +1,18 @@
-import Image from "next/image";
+import Image from "next/image"
 import Educator from "@/public/images/undraw_educator_re_ju47.svg"
-import Link from "next/link";
-import ContainerText from "./components/layout/containerText";
-import Card from "./components/layout/card";
+import Link from "next/link"
+import ContainerText from "./components/layout/containerText"
+import Card from "./components/layout/cardImage"
 import Time from "@/public/images/undraw_coffee_time_e8cw-blue.svg"
 import Praticity from "@/public/images//undraw_searching_re_3ra9.svg"
 import DoYoursef from "@/public/images/undraw_personal_documents_re_vcf2-blue.svg"
-import SectionTwoColumns from "./components/layout/sectionTwoColumns";
+import SectionTwoColumns from "./components/layout/sectionTwoColumns"
 import First from "@/public/images/Passo 1.gif"
 import Second from "@/public/images/Passo 2.gif"
 import Third from "@/public/images/Passo 3.gif"
-import { FaCheck, FaX } from "react-icons/fa6";
-import { plans } from "./(plans)/plans";
-
+import { plans } from "./(plans)/plans"
+import CardPrice from "./components/layout/cardPrice"
+import Button from "./components/layout/button"
 export default function Home() {
   return (
     <main key={"main"} className="mx-auto w-full p-0 flex flex-col gap-14 md:gap-20 xl:gap-28">
@@ -35,7 +35,7 @@ export default function Home() {
           <Card key={"card_time"} title="Tempo" img={Time} aditionalCSS="border-[10px] lg:border-[15px] border-orange-2">
             <p>Gere questões em alguns segundos e tenha mais tempo para você.</p>
           </Card>
-          <Card key={"card_praticity"} title="Praticidade" img={Praticity} aditionalCSS="border-[10px] lg:border-[15px] border-blue-2">
+          <Card key={"card_praticity"} title="Praticidade" img={Praticity} aditionalCSS="border-[10px] lg:border-[15px] border-blue">
             <p>Chega de ficar entrando e saindo de sites, procurando aqui e ali.</p>
           </Card>
           <Card key={"card_do_yoursef"} title="Faça do seu jeito" img={DoYoursef} aditionalCSS="border-[10px] lg:border-[15px] border-orange-2">
@@ -51,20 +51,12 @@ export default function Home() {
       </section>
       <section key={"plans"} id="planos" className="flex flex-col gap-7 md:gap-20 xl:gap-28 items-center">
         <h1>Preços e planos:</h1>
-        <div key={"cards_plans"} className="flex flex-col md:flex-row gap-5 lg:gap-10">
-          {plans.map(plan => {
-            return (
-              <Card key={`card_${plan.id}`} title={plan.name} price={plan.price} aditionalCSS={`${plan.name === "Premium" ? "border-4 border-orange" : "border border-blue"}`}>
-                <ul className="flex flex-col gap-2 lg:gap-4">
-                  {plan.functionalities.map((feature) => {
-                    return (
-                      <li key={feature.feature} className="flex flex-row gap-2 items-center text-xs xl:text-base text-left"><span className={`text-sm xl:text-xl ${feature.active ? "text-green-700" : "text-red-800"}`}>{feature.active ? <FaCheck />: <FaX />}</span>{feature.feature}</li>
-                    )
-                  })}
-                </ul>
-              </Card>
-            )
-          })}
+        <div key={"cards_plans"} className="flex flex-col justify-center md:grid md:grid-cols-2 xl:grid-cols-4 gap-5 lg:gap-10">
+          {plans.map(plan => (
+            <CardPrice key={`card_${plan.id}`} plan={plan} title={plan.name} price={plan.price}>
+                <Button aditionalCSS="dark:bg-orange" key={`button_${plan.id}`} href="/register" text="Escolher" />
+            </CardPrice>
+          ))}
         </div>
       </section>
       <section key={"about"} id="sobre" className="flex flex-col justify-center items-center gap-5 md:gap-10 text-center">

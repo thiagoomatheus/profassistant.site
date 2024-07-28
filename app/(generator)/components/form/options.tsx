@@ -11,7 +11,7 @@ export const anoOptions = [
 
 export const materiaOptions = [
     {
-      options:["Artes", "Biologia", "Ciências", "Educação Física", "Filosofia", "Física", "Física", "História", "Inglês", "Matemática", "Português", "Química", "Sociologia"]
+      options:["Artes", "Biologia", "Ciências", "Educação Física", "Filosofia", "Física", "História", "Inglês", "Matemática", "Português", "Química", "Sociologia"]
     }
   ]
 

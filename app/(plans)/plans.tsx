@@ -1,61 +1,59 @@
 export const plans = [
     {
         id: 1,
-        name: "Básico",
+        name: "Free",
+        value: "free",
         functionalities: [
             {
-                feature:"Gerador Smart I (menos inteligente e criativo)",
+                feature:"Crie seu próprio banco de questões, textos, provas e atividades",
                 active: true
             },
             {
-                feature:"Limite diário de 10 gerações",
+                feature:"Salve 10 questões ou textos no banco de dados",
                 active: true
             },
             {
-                feature:"Questões salvas localmente",
+                feature:"Salve 5 provas ou atividades no banco de dados",
                 active: true
             },
             {
-                feature:"Função Copia&Cola",
+                feature:"Gere textos, questões ou expressões matemáticas com IA",
                 active: false
             },
             {
-                feature:"Gere imagens para suas atividades",
-                active: false
-            },
-            {
-                feature:"Atividade ou prova pronta para imprimir",
+                feature:"Corriga e verifique questões com IA (em desenvolvimento)",
                 active: false
             }
         ],
-        price: "4,99"
+        price: "0,00"
     },
     {
         id: 2,
-        name: "Premium",
+        name: "Pro",
+        value: "pro",
         functionalities: [
             {
-                feature:"Gerador Smart II (mais inteligente e criativo)",
+                feature:"Crie seu próprio banco de questões, textos, provas e atividades",
                 active: true
             },
             {
-                feature:"Sem limite diário de geração",
+                feature:"Salve 200 questões ou textos no banco de dados",
                 active: true
             },
             {
-                feature:"Questões salvas na nuvem",
+                feature:"Salve 50 provas ou atividades no banco de dados",
                 active: true
             },
             {
-                feature:"Função Copia&Cola",
+                feature:"Gere textos, questões ou expressões matemáticas com IA",
                 active: true
             },
             {
-                feature:"Gere imagens para suas atividades",
-                active: false
+                feature: "Limite de 100 gerações por mês",
+                active: true
             },
             {
-                feature:"Atividade ou prova pronta para imprimir",
+                feature:"Corriga e verifique questões com IA (em desenvolvimento)",
                 active: false
             }
         ],
@@ -63,30 +61,31 @@ export const plans = [
     },
     {
         id: 3,
-        name: "Profissional",
+        name: "Premium",
+        value: "premium",
         functionalities: [
             {
-                feature:"Gerador Smart II (mais inteligente e criativo)",
+                feature:"Crie seu próprio banco de questões, textos, provas e atividades",
                 active: true
             },
             {
-                feature:"Sem limite diário de geração",
+                feature:"Salve 500 questões ou textos no banco de dados",
                 active: true
             },
             {
-                feature:"Questões salvas na nuvem",
+                feature:"Salve 100 provas ou atividades no banco de dados",
                 active: true
             },
             {
-                feature:"Função Copia&Cola",
+                feature:"Gere textos, questões ou expressões matemáticas com IA",
                 active: true
             },
             {
-                feature:"Gere imagens para suas atividades",
+                feature: "Limite de 250 gerações por mês",
                 active: true
             },
             {
-                feature:"Atividade ou prova pronta para imprimir",
+                feature:"Corriga e verifique questões com IA (em desenvolvimento)",
                 active: true
             }
         ],

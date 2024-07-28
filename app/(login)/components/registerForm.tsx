@@ -13,9 +13,6 @@ export default function RegisterForm () {
             <label>Seu nome completo:
                 <input required name="name" type="text" placeholder="Insira seu nome" />
             </label>
-            <label>Seu CPF:
-                <input required name="cpf" type="text" placeholder="Insira seu CPF (somente números)" maxLength={11} />
-            </label>
             <label>Seu telefone:
                 <input required name="phone" type="tel" placeholder="Insira seu telefone (somente números)" maxLength={11} />
             </label>
