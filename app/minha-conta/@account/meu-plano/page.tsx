@@ -5,7 +5,7 @@ import { UserDBComplete } from "@/app/lib/types/types"
 import { getUser } from "@/app/(login)/lib/actions"
 import { plans } from "@/app/(plans)/plans"
 import CardPrice from "@/app/components/layout/cardPrice"
-export function ModalSelectPlan({profile}: {profile: UserDBComplete}) {
+function ModalSelectPlan({profile}: {profile: UserDBComplete}) {
     const subscribePlanWithProfile = subscribePlan.bind(null, profile)
     return (
         <ModalRefactor>
