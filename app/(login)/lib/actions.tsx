@@ -1,6 +1,6 @@
 "use server"
 import { createClient } from "@/app/lib/supabase/server"
-import { User, UserDBComplete, UserDBSimple, UserSession } from "@/app/lib/types/types"
+import { User, UserDBComplete } from "@/app/lib/types/types"
 import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 export async function getUser() {
@@ -9,7 +9,7 @@ export async function getUser() {
     if (!session) {
         return
     }
-    const data: UserDBComplete = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?id=eq.${session.user.id}`, {
+    const data: UserDBComplete = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=name,plan,id,created_at,school_name,theme,user_email,phone,customer_id_asaas,subscription_id,payment_link&id=eq.${session.user.id}`, {
         headers: {
             "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
@@ -18,10 +18,14 @@ export async function getUser() {
         next: {tags: ["user"], revalidate: 1}
         }).then(result=> result.json())
         .then(response => {
+            console.log(response);
+            
             const theme = cookies().get("theme")?.value
             if (!theme || theme !== response[0].theme) cookies().set("theme", response[0].theme)
             return response[0]
         })
+        console.log(data);
+        
     return data
 }
 export async function registerUser(user: User) {
