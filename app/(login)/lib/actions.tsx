@@ -18,14 +18,10 @@ export async function getUser() {
         next: {tags: ["user"], revalidate: 1}
         }).then(result=> result.json())
         .then(response => {
-            console.log(response);
-            
             const theme = cookies().get("theme")?.value
             if (!theme || theme !== response[0].theme) cookies().set("theme", response[0].theme)
             return response[0]
-        })
-        console.log(data);
-        
+        })   
     return data
 }
 export async function registerUser(user: User) {
