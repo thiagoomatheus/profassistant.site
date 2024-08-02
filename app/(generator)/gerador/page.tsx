@@ -4,11 +4,12 @@ import Generator from "./components/generator"
 import Response from "./components/response"
 import { Suspense } from "react"
 import LoaderResponse from "./components/loaderResponse"
+import ResponseContextProvider from "./components/responseContextProvider"
 export default function Page({searchParams}: {
     searchParams: { [key: string]: string | undefined }
 }) {
     const instructions = searchParams.instructions === "true"
-    const gerar = searchParams.gerar
+    const gerar = searchParams.gerar as "question" | "text" | "math_expression" | "phrase"
     return (
         <>
             <TitleWithButton title="Gerador" href={`?${new URLSearchParams({instructions: "true"})}`} btnText="Instruções" />
@@ -26,10 +27,12 @@ export default function Page({searchParams}: {
                 </ModalRefactor>
             )}
             <section className="flex flex-row flex-wrap justify-around gap-5 md:gap-10">
-                <Generator gerar={gerar} />
-                <Suspense fallback={<LoaderResponse />}>
-                    <Response searchParams={searchParams} />
-                </Suspense>
+                <ResponseContextProvider>
+                    <Generator gerar={gerar} />
+                    <Suspense fallback={<LoaderResponse />}>
+                        <Response />
+                    </Suspense>
+                </ResponseContextProvider>
             </section>
         </>
     )

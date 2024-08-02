@@ -1,4 +1,4 @@
-import Label from "@/app/(generator)/components/form/label"
+import Label from "@/app/(generator)/gerador/components/label"
 import MyGenerateds from "@/app/(generator)/components/layout/myGenerateds"
 import { getGenerated } from "@/app/(generator)/lib/actions"
 import CardLoading from "@/app/components/layout/cardLoading"

@@ -2,11 +2,8 @@ import TitleWithButton from "../../components/layout/titleWithButton"
 import { getExams } from "../lib/actions"
 import CardContainer from "@/app/(generator)/components/layout/cardContainer"
 import CardExams from "../components/cardExams"
-
 export default async function Page() {
-
     const exams = await getExams()
-
     return (
         <>
             <TitleWithButton title="Minhas Atividades" btnText="Criar" href="/minhas-atividades/nova-atividade" />

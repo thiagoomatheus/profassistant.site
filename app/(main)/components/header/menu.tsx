@@ -23,7 +23,7 @@ export default function Menu() {
             {isLogged && user && (
                 <>
                     <ul className="flex flex-row flex-wrap gap-2 md:gap-5 text-blue-2">
-                        {user.plan === "premium" || user.plan === "pro" && (
+                        {user.plan !== "free" && (
                             <li className={pathname === "/gerador" ? "text-orange font-bold" : ""}>
                                 <Link href={"/gerador"}>
                                     Gerador

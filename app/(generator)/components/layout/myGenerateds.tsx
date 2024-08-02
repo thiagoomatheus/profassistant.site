@@ -1,7 +1,7 @@
 import CardContainer from "./cardContainer";
-import CardLoading from "@/app/components/layout/cardLoading";
-import CardResponse from "./cardResponse";
+import CardLoading from "@/app/components/layout/cardLoading"
 import { GeneratedDB, UserDBSimple } from "@/app/lib/types/types";
+import CardResponse from "../../gerador/components/cardResponse";
 
 export default function MyGenerateds( { data, handleSelect }: {
     data: {

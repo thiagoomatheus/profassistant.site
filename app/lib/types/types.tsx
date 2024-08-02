@@ -64,12 +64,12 @@ export type UserSession = {
 }
 export type UserDBSimple = {
     name: string
-    plan: "free" | "basic" | "premium" | "pro"
+    plan: "free" | "premium" | "pro"
     id: string
 }
 export type UserDBComplete = {
     name: string
-    plan: "free" | "basic" | "premium" | "pro"
+    plan: "free" | "premium" | "pro"
     id: string
     created_at: string
     school_name: string

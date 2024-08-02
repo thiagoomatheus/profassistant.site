@@ -9,9 +9,7 @@ export default function FormUpdate () {
     return (
         <form action={async (formData:FormData) => {
             const { code, message } = await updatePassword(formData)
-            if (code !== 200) {
-                return toast.error(message)
-            }
+            if (code !== 200) return toast.error(message)
             toast.success(message)
             return router.push("/login")
         }} className="flex flex-col gap-7 w-full max-w-2xl">

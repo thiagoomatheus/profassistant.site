@@ -3,7 +3,7 @@
 import ModalRefactor from "@/app/components/layout/modalRefactor";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import Label from "../../components/form/label";
+import Label from "./label";
 import FieldActions from "@/app/(atividades)/components/exam/fieldActions";
 import Button from "@/app/components/layout/button";
 import CardLoading from "@/app/components/layout/cardLoading";

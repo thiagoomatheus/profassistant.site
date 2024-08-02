@@ -1,4 +1,4 @@
-import Label from "@/app/(generator)/components/form/label";
+import Label from "@/app/(generator)/gerador/components/label";
 import { Exam } from "@/app/lib/types/types";
 
 export default function Header( { handleChange, value }: {

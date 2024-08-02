@@ -5,18 +5,22 @@ import { GeneratedDB } from "@/app/lib/types/types";
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { revalidatePath } from "next/cache";
 
-export async function generateData(prompt: string) {
+export async function generateData(prompt: string): Promise<{data: string, error?: undefined} | {data?: undefined, error: string}> {
+  const supabase = createClient()
+  const { user, access_token } = (await supabase.auth.getSession()).data.session!
+  const data = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=limit_ia,ia&id=eq.${user.id}`, {
+    headers: {
+      "apikey": process.env.SUPABASE_ANON_KEY!,
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${access_token}`,
+    }
+  }).then(async (result) => await result.json())
+  if (data[0].limit_ia < data[0].ia) return {error: "Limite de IA atingido"}
   const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY!}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
-      contents: [{
-        parts: [{
-          text: prompt
-        }]
-      }],
+      contents: [{parts: [{text: prompt}]}],
       safetySettings: [
         {
           category: HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -35,18 +39,22 @@ export async function generateData(prompt: string) {
           threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
         },
       ],
-    }),
-    cache: "force-cache"
+    })
   })
-  const response = await result.json();  
-  if (response.error) {
-    return {
-      error: response.error
-    }
-  }
-  return {
-    data: response.candidates[0].content.parts[0].text
-  }
+  const response = await result.json()
+  if (response.error) return {error: response.error}
+  await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?id=eq.${user.id}`, {
+    method: "PATCH",
+    headers: {
+      "apikey": process.env.SUPABASE_ANON_KEY!,
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${access_token}`,
+    },
+    body: JSON.stringify({
+      ia: data[0].ia + 1
+    })
+  })
+  return {data: response.candidates[0].content.parts[0].text}
 }
 
 export async function postGenerated(response: string, type: "question" | "text" | "quote" | "math_expression", subject: string | null) {

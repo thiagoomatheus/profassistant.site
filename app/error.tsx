@@ -15,12 +15,11 @@ export default function Error({
     <div>
       <h2>Erro</h2>
       <p>Aconteceu algo de errado! Por favor clique no botão abaixo para recarregar a página. Porém, se o erro persisir, tente novamente.</p>
+      <p>Erro: {error.message}</p>
       <Button 
         key={"Refresh"}
         text='Recarregar'
-        handleClick={
-          () => reset()
-        }
+        handleClick={() => reset()}
       />
     </div>
   )
