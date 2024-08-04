@@ -1,11 +1,9 @@
 import { Exam } from "@/app/lib/types/types"
 import QuestionPreview from "./questionPreview"
-
 export default function Preview( { exam, handleRemoveQuestion }: {
     exam: Exam
     handleRemoveQuestion: (id: number) => void
 }) {
-
     const questions = exam.questions.sort((a,b) => {
         if (a.position === b.position) {
             return a.question!.localeCompare(b.question!);
@@ -13,7 +11,6 @@ export default function Preview( { exam, handleRemoveQuestion }: {
             return a.position! - b.position!;
         }
     })
-
     return (
         <div  className="section-to-print flex flex-col gap-10 p-3 md:p-7 border-2">
             {exam.school_name && (

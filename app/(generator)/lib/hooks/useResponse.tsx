@@ -2,7 +2,6 @@ import toast from "react-hot-toast"
 import { generateData } from "../actions"
 import { useContext } from "react"
 import { ResponseContext } from "../../gerador/components/responseContextProvider"
-
 type dataForm = {
     ano: string
     idade: string
@@ -21,7 +20,6 @@ type dataForm = {
     operacao?: string
     obs?: string
 }
-
 export default function useResponse() {
   const { response, subject, type } = useContext(ResponseContext)
     function getPrompt(formData:FormData) {
@@ -66,6 +64,6 @@ export default function useResponse() {
       return response.setData([r])
     }
     return {
-      formAction,
+      formAction
     }
 }

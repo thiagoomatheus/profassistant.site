@@ -5,7 +5,6 @@ import CardLoading from "@/app/components/layout/cardLoading"
 import Modal from "@/app/components/layout/modal"
 import { ExamQuestionDB, GeneratedDB } from "@/app/lib/types/types"
 import { FormEvent, Suspense, useEffect, useState } from "react"
-
 export default function Modals( { type, close, state}: {
     type: "selectSupport" | "selectMathExpressions" | "selectQuestion" | "insertSupport" | "insertMathExpressions"| "insertQuestion",
     close: () => void
@@ -14,9 +13,7 @@ export default function Modals( { type, close, state}: {
         setQuestionsExam: React.Dispatch<React.SetStateAction<ExamQuestionDB>>
     }
 } ) {
-
     const [data, setData] = useState<GeneratedDB[]>()
-
     useEffect(() => {
         switch (type) {
             case "selectSupport":
@@ -42,7 +39,6 @@ export default function Modals( { type, close, state}: {
                 break;
         }
     }, [type])
-
     function handleChange(e:React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
         state.setQuestionsExam({
@@ -50,7 +46,6 @@ export default function Modals( { type, close, state}: {
             [target.name]: target.value
         })
     }
-
     function handleSelectQuestionAndMathExpression(data:string, id: string) {
         state.setQuestionsExam({
             ...state.questionsExam,
@@ -67,7 +62,6 @@ export default function Modals( { type, close, state}: {
         })
         close()
     }
-    
     return (
         <>
             {type === "insertSupport" && (

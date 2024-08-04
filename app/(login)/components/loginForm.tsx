@@ -1,15 +1,9 @@
 "use client"
-
 import useAuth from "../lib/hooks/useLogin"
-
 export default function LoginForm () {
-
     const { handleLogin } = useAuth()
-
     return (
-        <form action={async (formData: FormData) => {
-            await handleLogin(formData)
-        }} className="max-w-md flex flex-col gap-5">
+        <form action={async (formData: FormData) => await handleLogin(formData)} className="max-w-md flex flex-col gap-5">
             <label>Seu email:
                 <input name="email" type="email" placeholder="Insira seu email" />
             </label>

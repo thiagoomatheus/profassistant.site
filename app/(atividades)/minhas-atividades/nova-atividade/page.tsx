@@ -1,15 +1,9 @@
-import MyExam from "../../components/myExam";
-import TitleWithButton from "@/app/components/layout/titleWithButton";
-import ModalRefactor from "@/app/components/layout/modalRefactor";
-
-type SearchParamProps = {
-    searchParams: Record<string, string> | null | undefined;
-  };
-
+import MyExam from "../../components/myExam"
+import TitleWithButton from "@/app/components/layout/titleWithButton"
+import ModalRefactor from "@/app/components/layout/modalRefactor"
+type SearchParamProps = {searchParams: Record<string, string> | null | undefined}
 export default function Page( { searchParams }: SearchParamProps ) {
-
-    const instructions = searchParams?.instructions;
-
+    const instructions = searchParams?.instructions
     return (
         <>
             <TitleWithButton title="Minhas Atividades" href="/minhas-atividades/nova-atividade?instructions=true" />

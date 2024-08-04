@@ -6,9 +6,7 @@ import { cookies } from "next/headers"
 export async function getUser() {
     const supabase = createClient()
     const session = (await supabase.auth.getSession()).data.session
-    if (!session) {
-        return
-    }
+    if (!session) return
     const data: UserDBComplete = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=name,plan,id,created_at,school_name,theme,user_email,phone,customer_id_asaas,subscription_id,payment_link&id=eq.${session.user.id}`, {
         headers: {
             "apikey": process.env.SUPABASE_ANON_KEY!,
@@ -32,10 +30,8 @@ export async function registerUser(user: User) {
         phone: user.phone
     })
     if (errorSignUp) {
-        console.log(errorSignUp);
-        return  {
-            error: "Erro ao registrar usuário"
-        }
+        console.log(errorSignUp)
+        return {error: "Erro ao registrar usuário"}
     }
     const { error: errorProfile } = await supabase
     .from('profile')
@@ -50,9 +46,7 @@ export async function registerUser(user: User) {
     ])    
     if (errorProfile) {
         console.log(errorProfile);
-        return {
-            error: "Erro ao salvar usuário no banco de dados"
-        }
+        return {error: "Erro ao salvar usuário no banco de dados"}
     }
     const cookieStore = cookies()
     cookieStore.set("theme", "light", {

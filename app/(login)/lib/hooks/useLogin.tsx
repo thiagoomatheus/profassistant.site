@@ -1,18 +1,13 @@
 "use client"
-
-import { User } from "@/app/lib/types/types";
+import { User } from "@/app/lib/types/types"
 import { useContext } from "react"
-import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext";
-import { getUser, loginUser, logoutUser, registerUser } from "../actions";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-
-
+import { AuthContext } from "@/app/(login)/lib/contexts/AuthContext"
+import { getUser, loginUser, logoutUser, registerUser } from "../actions"
+import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
 export default function useAuth() {
-
     const { setIsLogged, setUser } = useContext(AuthContext)
     const router = useRouter()
-
     function isValidCPF(cpf: string) {
         cpf = cpf.replace(/[\s.-]*/igm, '')
         if (
@@ -28,9 +23,7 @@ export default function useAuth() {
             cpf == "77777777777" ||
             cpf == "88888888888" ||
             cpf == "99999999999" 
-        ) {
-            return false
-        }
+        ) return false
         var soma = 0
         var resto
         for (var i = 1; i <= 9; i++) 
@@ -46,41 +39,20 @@ export default function useAuth() {
         if (resto != parseInt(cpf.substring(10, 11) ) ) return false
         return true
     }
-
     function validateData(user: User) {
         const regexEmail: RegExp = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi
         const regexPassword: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/
         const regexPhone: RegExp = /^([14689][0-9]|2[12478]|3([1-5]|[7-8])|5([13-5])|7[193-7])9[0-9]{8}$/
-        if (!isValidCPF(user.cpf)) {
-            return {
-                error: "CPF inválido"
-            }
-        }
-        if (!user?.email || !regexEmail.test(user?.email)) {
-            return {
-                error: "Email inválido"
-            }
-        } else if (!user.password || !regexPassword.test(user.password)) {
-            return {
-                error: "Senha inválida"
-            }
-        }
-        else if (!user.phone || !regexPhone.test(user.phone)) {
-            return {
-                error: "Telefone inválido"
-            }
-        }
+        if (!isValidCPF(user.cpf)) return {error: "CPF inválido"}
+        if (!user?.email || !regexEmail.test(user?.email)) return {error: "Email inválido"} 
+        else if (!user.password || !regexPassword.test(user.password)) return {error: "Senha inválida"}
+        else if (!user.phone || !regexPhone.test(user.phone)) return {error: "Telefone inválido"}
         return true
     }
-
     async function handleLogin(formData: FormData) {
         const toastLogin = toast.loading('Entrando...')
         const result = await loginUser(formData)
-        if (result !== "success") {
-            return toast.error(result.error, {
-                id: toastLogin
-            })
-        }
+        if (result !== "success") return toast.error(result.error, {id: toastLogin})
         getUser()
         .then(user => {    
             if (user) {
@@ -88,9 +60,7 @@ export default function useAuth() {
                 setUser(user)
             }
         })
-        toast.success("Login efetuado com sucesso!", {
-            id: toastLogin
-        })
+        toast.success("Login efetuado com sucesso!", {id: toastLogin})
         return router.push("/gerador")
     }
 
@@ -105,17 +75,9 @@ export default function useAuth() {
             plan: "free"
         }
         const validate = validateData(user)
-        if (validate !== true) {
-            return toast.error(validate.error, {
-                id: toastRegister
-            })
-        }
+        if (validate !== true) return toast.error(validate.error, {id: toastRegister})
         const result = await registerUser(user)
-        if (result !== "success") {
-            return toast.error(result.error, {
-                id: toastRegister
-            })
-        }
+        if (result !== "success") return toast.error(result.error, {id: toastRegister})
         getUser()
         .then(user => {    
             if (user) {
@@ -123,28 +85,18 @@ export default function useAuth() {
                 setUser(user)
             }
         })
-        toast.success("Conta criada com sucesso!", {
-            id: toastRegister
-        })
+        toast.success("Conta criada com sucesso!", {id: toastRegister})
         return router.push("/gerador")
     }
-
     async function handleLogout () {
         const toastLogout = toast.loading('Saindo...')
         const result = await logoutUser()
-        if (result !== "success") {
-            return toast.error(result.error, {
-                id: toastLogout
-            })
-        }
+        if (result !== "success") return toast.error(result.error, {id: toastLogout})
         setIsLogged(false)
         setUser(undefined)
-        toast.success("Logout efetuado com sucesso!", {
-            id: toastLogout
-        })
+        toast.success("Logout efetuado com sucesso!", {id: toastLogout})
         return router.push("/")
     }
-
     return {
         handleLogin,
         handleRegister,

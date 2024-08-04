@@ -1,6 +1,5 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
     request: {
@@ -53,9 +52,7 @@ export async function middleware(request: NextRequest) {
     }
   )
   const user = await supabase.auth.getUser()
-  if (!user.data.user) {
-    return NextResponse.redirect(new URL("/", request.url))
-  }
+  if (!user.data.user) return NextResponse.redirect(new URL("/", request.url))
   return NextResponse.next()
 }
 

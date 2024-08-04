@@ -1,13 +1,9 @@
 import { getUser } from "@/app/(login)/lib/actions"
 import Field from "../../components/field"
 import Button from "@/app/components/layout/button"
-
 export default async function Page() {
-
   const data = await getUser()
-
   const date = new Date(data!.created_at).toLocaleDateString("pt-BR")
-  
   return (
     <>
       <h3>Meu perfil</h3>

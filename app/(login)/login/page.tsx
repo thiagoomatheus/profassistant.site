@@ -1,8 +1,6 @@
-import Link from "next/link";
-import LoginForm from "../components/loginForm";
-
+import Link from "next/link"
+import LoginForm from "../components/loginForm"
 export default function Login () {
-
     return (
         <>
             <h2>Acesse sua conta</h2>

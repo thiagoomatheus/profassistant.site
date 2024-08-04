@@ -1,7 +1,5 @@
-import FormUpdate from "./components/formUpdate";
-
+import FormUpdate from "./components/formUpdate"
 export default function Update () {
-    
     return (
         <>
             <h2>Redefina sua senha</h2>

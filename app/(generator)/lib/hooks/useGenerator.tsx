@@ -40,7 +40,6 @@ export default function useGenerator () {
   }) {
     return copyToClipboard(typeof data === "string" ? data : `${data.title}\n${data.text}`)
   }
-  
   return {
     handleCopyToClipboard,
     handleSave,

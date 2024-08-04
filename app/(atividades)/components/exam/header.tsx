@@ -1,11 +1,9 @@
-import Label from "@/app/(generator)/gerador/components/label";
-import { Exam } from "@/app/lib/types/types";
-
+import Label from "@/app/(generator)/gerador/components/label"
+import { Exam } from "@/app/lib/types/types"
 export default function Header( { handleChange, value }: {
     handleChange: (e: React.ChangeEvent)=> void
     value?: Exam
 }) {
-
     return (
         <form className="w-full flex flex-col gap-5">
             <Label label="Nome da Instituição" key="school">

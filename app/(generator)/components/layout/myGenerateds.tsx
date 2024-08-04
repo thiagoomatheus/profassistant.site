@@ -13,9 +13,6 @@ export default function MyGenerateds( { data, handleSelect }: {
 }) {
     return (
         <>
-            {data.user?.plan === "free" && (
-                <p className="font-normal">O plano free não permite que você salve questões. Por favor, escolha um outro plano.</p>
-            )}
             {data.generates && (
                 <CardContainer key={"generates"}>
                     <>

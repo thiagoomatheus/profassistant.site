@@ -1,13 +1,10 @@
 "use client"
-
 import Button from "@/app/components/layout/button"
-
 export default function TitleWithButton( { title, href, btnText }: {
     title: string
     href?: string
     btnText?: string
 }) {
-
     return (
         <div className="flex justify-between items-center">
             <h1>{title}</h1>

@@ -1,5 +1,4 @@
 "use client"
-
 import Accordion from "@/app/components/layout/accordion"
 import Header from "./exam/header"
 import Body from "./exam/body"
@@ -10,7 +9,6 @@ import { Exam, ExamQuestionDB } from "@/app/lib/types/types"
 import { addExam, updateExam } from "../lib/actions"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
-
 export const initialQuestionsExam = {
     support: null,
     support_id: null,
@@ -20,7 +18,6 @@ export const initialQuestionsExam = {
     position: undefined,
     layout: undefined
 }
-
 export const initialExam = {
     title: "",
     teacher: "",
@@ -30,16 +27,12 @@ export const initialExam = {
     grade: "",
     questions: []
 }
-
 export default function MyExam( { data }: {
     data?: Exam
 } ) {
-
     const router = useRouter()
-
     const [exam, setExam] = useState<Exam>(data ? data : initialExam)
     const [questionsExam, setQuestionsExams] = useState<ExamQuestionDB>(initialQuestionsExam)
-
     function handleChangeHeader(e:React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
         setExam({
@@ -47,7 +40,6 @@ export default function MyExam( { data }: {
             [target.name]: target.value
         })
     }
-
     function handleAddQuestion() {
         const el = document.querySelectorAll<HTMLInputElement>("#radio");
         setExam({
@@ -62,14 +54,12 @@ export default function MyExam( { data }: {
         })
         setQuestionsExams(initialQuestionsExam)
     }
-
     function handleRemoveQuestion(id:number) {
         setExam({
             ...exam,
             questions: exam.questions.filter((_, i: number) => i !== id)
         })
     }
-
     return (
         <section className="flex flex-col justify-center items-center gap-5">
             <Accordion text="Cabeçalho" color="blue">

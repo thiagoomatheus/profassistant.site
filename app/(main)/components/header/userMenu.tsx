@@ -11,9 +11,7 @@ export default function UserMenu () {
     const { handleLogout } = useAuth()
     const menuRef = useRef<HTMLDivElement>(null)
     const closeOpenMenus = (e:any)=>{
-        if(showMenu && !menuRef.current?.contains(e.target)){
-          setShowMenu(false)
-        }
+        if(showMenu && !menuRef.current?.contains(e.target)) setShowMenu(false)
     }
     document.addEventListener('click', closeOpenMenus)
     return (

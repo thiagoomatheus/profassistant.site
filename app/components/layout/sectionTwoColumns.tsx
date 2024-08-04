@@ -1,5 +1,4 @@
 import Image, { StaticImageData } from "next/image";
-
 export default function SectionTwoColumns ({ title, text, img, borderColor, reverse }: {
     title: string,
     text: string,

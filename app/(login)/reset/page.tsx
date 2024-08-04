@@ -1,7 +1,5 @@
-import FormReset from "./components/formReset";
-
+import FormReset from "./components/formReset"
 export default function Reset () {
-
     return (
         <>
             <h2>Insira o email cadastrado</h2>

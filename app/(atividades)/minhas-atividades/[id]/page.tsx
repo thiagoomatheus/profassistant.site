@@ -1,11 +1,6 @@
 import MyExam from "../../components/myExam"
 import { getExam } from "../../lib/actions"
-
-export default async function Page( { params }: {
-    params: {
-        id: string
-    }
-}) {
+export default async function Page({params}:{params: {id: string}}) {
     const exam = await getExam(params.id)
     return (
         <>

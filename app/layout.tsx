@@ -9,16 +9,9 @@ import { Toaster } from 'react-hot-toast'
 const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'ProfAssistant',
-  description: 'O assistente favorito dos professores de todo o Brasil. Por aqui você poderá gerenciar questões, atividades, além de utilizar de IA para gerar conteúdo simples e rápido.',
-  icons: {
-    icon: "favicon.ico"
-  }
+  description: 'O assistente favorito dos professores de todo o Brasil. Por aqui você poderá gerenciar questões, atividades, além de utilizar de IA para gerar conteúdo simples e rápido.'
 }
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({children}: {children: React.ReactNode}) {
   const { verifyTheme } = useTheme()
   const theme = verifyTheme()
   return (

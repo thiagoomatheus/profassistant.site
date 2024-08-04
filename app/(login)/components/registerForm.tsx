@@ -1,15 +1,9 @@
 "use client"
-
 import useAuth from "../lib/hooks/useLogin"
-
 export default function RegisterForm () {
-
     const { handleRegister } = useAuth()
-
     return (
-        <form action={async (formData: FormData) => {
-            await handleRegister(formData)
-        }} className="max-w-md flex flex-col gap-5">
+        <form action={async (formData: FormData) => await handleRegister(formData)} className="max-w-md flex flex-col gap-5">
             <label>Seu nome completo:
                 <input required name="name" type="text" placeholder="Insira seu nome" />
             </label>

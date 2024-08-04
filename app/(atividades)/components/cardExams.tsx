@@ -1,13 +1,8 @@
 import Button from "@/app/components/layout/button";
 import { ExamSimpleDB } from "@/app/lib/types/types";
 import { deleteExam } from "../lib/actions";
-
-export default function CardExams( { exam }: {
-    exam: ExamSimpleDB
-}) {
-     
+export default function CardExams({exam}: {exam: ExamSimpleDB}) {
     const handleDelete = deleteExam.bind(null, exam.id)
-   
     return (
         <div key={exam.id} className="p-5 flex flex-col items-center gap-8 border border-orange rounded-lg shadow-md">
             <h3>{exam.school_name}</h3>

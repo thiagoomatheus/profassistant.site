@@ -1,5 +1,4 @@
 import { MetadataRoute } from "next";
-
 export default function manifest(): MetadataRoute.Manifest {
     return {
         name: "ProfAssistant",
@@ -11,5 +10,4 @@ export default function manifest(): MetadataRoute.Manifest {
         lang: "pt-BR",
         description: "Um assitente para ajudar os professores a criar e gerenciar questões, textos e suas atividades. Você poderá desfrutar de uma IA para gerar conteúdo simples e específico."
     }
-    
 }

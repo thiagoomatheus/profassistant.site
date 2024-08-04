@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { MdClose } from "react-icons/md";
-
 export default function ModalRefactor ({ children, close, customWidth }: {
     children: React.ReactNode
     close?: string

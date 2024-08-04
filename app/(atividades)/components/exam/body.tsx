@@ -1,21 +1,18 @@
 "use client"
-
-import Button from "@/app/components/layout/button";
-import SectionWithBorder from "@/app/components/layout/sectionWithBorder";
-import { ExamQuestionDB } from "@/app/lib/types/types";
-import { useState } from "react";
-import FormBody from "./formBody";
-import LabelBody from "./labelBody";
-import Modals from "../modals";
-import FieldActions from "./fieldActions";
-
+import Button from "@/app/components/layout/button"
+import SectionWithBorder from "@/app/components/layout/sectionWithBorder"
+import { ExamQuestionDB } from "@/app/lib/types/types"
+import { useState } from "react"
+import FormBody from "./formBody"
+import LabelBody from "./labelBody"
+import Modals from "../modals"
+import FieldActions from "./fieldActions"
 export default function Body( { setQuestionsExam, questionsExam, handleAddQuestion }: {
     setQuestionsExam: React.Dispatch<React.SetStateAction<ExamQuestionDB>>
     questionsExam: ExamQuestionDB
     handleAddQuestion: () => void
 }) {
     const [modal, setModal] = useState<"selectSupport" | "selectMathExpressions" | "selectQuestion" | "insertSupport" | "insertMathExpressions"| "insertQuestion" | "close">("close")
-
     function handleChange(e:React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
         setQuestionsExam({
@@ -23,7 +20,6 @@ export default function Body( { setQuestionsExam, questionsExam, handleAddQuesti
             [target.name]: target.value
         })
     }
-    
     return (
         <>
             {modal !== "close" && (

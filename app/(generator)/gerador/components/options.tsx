@@ -8,13 +8,11 @@ export const anoOptions = [
       options: ["1° ano do ensino Médio", "2° ano do ensino Médio", "3° ano do ensino Médio"]
     }
   ]
-
 export const materiaOptions = [
     {
       options:["Artes", "Biologia", "Ciências", "Educação Física", "Filosofia", "Física", "História", "Inglês", "Matemática", "Português", "Química", "Sociologia"]
     }
   ]
-
 export const quantidadeOptions = [
     {
       options:[1, 2, 3, 4, 5]

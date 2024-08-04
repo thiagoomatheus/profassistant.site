@@ -1,7 +1,5 @@
 "use client"
-
 import Button from "@/app/components/layout/button"
-
 export default function CardActions ({ actions, state }: {
     actions: {
         handleSelect?: () => void
@@ -15,10 +13,8 @@ export default function CardActions ({ actions, state }: {
         setEditStatus: React.Dispatch<React.SetStateAction<boolean>>
     }
 }) {
-
     const { handleSelect, handleSave, handleUpdate, handeDelete, handleCopy } = actions
     const { editStatus, setEditStatus } = state
-
     return (
         <div className="flex flex-row gap-5">
             {handleSelect && (
@@ -45,9 +41,7 @@ export default function CardActions ({ actions, state }: {
             )}
             {editStatus && (
                 <>
-                    <Button text="Cancelar" handleClick={() => {
-                        setEditStatus(false)
-                    }} />
+                    <Button text="Cancelar" handleClick={() => setEditStatus(false)} />
                     {handleSave && <Button text="Salvar" handleClick={handleSave} />}
                     {handleUpdate && <Button text="Atualizar" handleClick={handleUpdate} />}
                 </>

@@ -1,12 +1,10 @@
-import Button from "@/app/components/layout/button";
-import { ExamQuestionDB } from "@/app/lib/types/types";
-
+import Button from "@/app/components/layout/button"
+import { ExamQuestionDB } from "@/app/lib/types/types"
 export default function QuestionPreview({ question, id, handleRemoveQuestion }: {
     question: ExamQuestionDB
     id: number
     handleRemoveQuestion: (id: number) => void
 }) {
-    
     return (
         <div className="flex flex-col gap-5 duration-200 p-2 rounded-xl hover:bg-red-400 dark:hover:bg-red-700 relative questionPreview">
             <span className="hidden"><Button text="Remover" handleClick={() => {
