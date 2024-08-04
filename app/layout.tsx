@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import ResponseAPIProvider from './(generator)/lib/contexts/ResponseAPIContext'
 import useTheme from './lib/theme/useTheme'
 import Header from './(main)/components/header/header'
 import Footer from './(main)/components/footer/footer'
@@ -9,8 +8,11 @@ import Providers from './components/providers'
 import { Toaster } from 'react-hot-toast'
 const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
-  title: 'Question Generator',
-  description: 'Gere suas questões de forma eficiente e prática',
+  title: 'ProfAssistant',
+  description: 'O assistente favorito dos professores de todo o Brasil. Por aqui você poderá gerenciar questões, atividades, além de utilizar de IA para gerar conteúdo simples e rápido.',
+  icons: {
+    icon: "favicon.ico"
+  }
 }
 export default function RootLayout({
   children,
@@ -22,15 +24,12 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className={theme}>
       <body className={`${inter.className}`} >
-      <link rel="icon" href="../public/images/favicon.ico" sizes="any" />
         <Toaster position='bottom-right' />
         <Providers>
           <Header />
-          <ResponseAPIProvider>
-            <main className='m-3 md:m-5 lg:m-10 xl:m-14 min-h-[75vh]'>
-              {children}
-            </main>
-          </ResponseAPIProvider>
+          <main className='m-3 md:m-5 lg:m-10 xl:m-14 min-h-[75vh]'>
+            {children}
+          </main>
           <Footer />
         </Providers>
       </body>
