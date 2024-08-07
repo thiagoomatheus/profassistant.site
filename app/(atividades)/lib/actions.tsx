@@ -1,41 +1,26 @@
 "use server"
-
 import { createClient } from "@/app/lib/supabase/server";
 import { Exam, ExamDB, ExamQuestionDB, ExamSimpleDB } from "@/app/lib/types/types";
 import { revalidateTag } from "next/cache";
-
 export async function getExams() {
     const supabase = createClient()
-    const session = await supabase.auth.getSession()
-    const id = session.data.session?.user.id
-    const accessToken = session.data.session?.access_token
-
+    const session = (await supabase.auth.getSession()).data.session
     let exams: ExamSimpleDB[] = []
-
-    await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?select=id,title,school_name,subject&user_id=eq.${id}`, {
+    const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?select=id,title,school_name,subject&user_id=eq.${session?.user.id}`, {
         headers: {
             "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`,
+            "Authorization": `Bearer ${session?.access_token}`,
         },
         next: { 
             revalidate: 1,
             tags: ["get_exams"] 
         }
-    }).then(result=> {
-        return result.json()
     })
-    .then(data => {
-        if (data.length) {
-            data?.map((exam: ExamSimpleDB) => {
-                exams.push(exam)
-            })
-        }
-    })
-
+    const response = await result.json()
+    response.map((exam: ExamSimpleDB) => exams.push(exam))
     return exams
 }
-
 export async function getExam(exam_id: string) {
     const supabase = createClient()
     const accessToken = (await supabase.auth.getSession()).data.session?.access_token
@@ -55,9 +40,7 @@ export async function getExam(exam_id: string) {
             "Authorization": `Bearer ${accessToken}`,
         }
     })
-    if (resultExam.status !== 200) {
-        return
-    }
+    if (resultExam.status !== 200) return
     const responseExam: ExamDB[] = await resultExam.json()
     exam = {
         ...exam,
@@ -76,16 +59,11 @@ export async function getExam(exam_id: string) {
             "Authorization": `Bearer ${accessToken}`, 
         }
     })
-    if (resultQuestions.status !== 200) {
-        return
-    }
+    if (resultQuestions.status !== 200) return
     const responseQuestions: ExamQuestionDB[] = await resultQuestions.json()
-    responseQuestions.map(question => {
-        exam.questions.push(question)
-    })
+    responseQuestions.map(question => exam.questions.push(question))
     return exam
 }
-
 export async function addExam(exam: Exam) {
     const supabase = createClient()
     const accessToken = (await supabase.auth.getSession()).data.session?.access_token
@@ -107,15 +85,13 @@ export async function addExam(exam: Exam) {
         })
     })
     const responseExam = await resultExam.json()
-    if (resultExam.status !== 201) {
-        return resultExam.status
-    }
+    if (resultExam.status !== 201) return {error: responseExam.error.message}
     const exam_id: string = responseExam[0].id
     const questions: ExamQuestionDB[] = exam.questions.map(question => {
         if (question.question_id) {
-        question.question = null
-        question.exam_id = exam_id
-        return question
+            question.question = null
+            question.exam_id = exam_id
+            return question
         }
         question.exam_id = exam_id
         return question
@@ -129,23 +105,20 @@ export async function addExam(exam: Exam) {
         },
         body: JSON.stringify(questions)
     })
-    return resultExamQuestion.status
+    const responseExamQuestion = await resultExamQuestion.json()
+    if (resultExamQuestion.status !== 201) return {error: responseExamQuestion.error.message}
+    return "success"
 }
-
 export async function updateExam(previousExam: Exam, newExam: Exam) {
     function isEquivalent(a: any, b: any) {
-        var aProps = Object.keys(a);
-        var bProps = Object.keys(b);
-        if (aProps.length != bProps.length) {
-            return false;
-        }
+        var aProps = Object.keys(a)
+        var bProps = Object.keys(b)
+        if (aProps.length != bProps.length) return false
         for (var i = 0; i < aProps.length; i++) {
-            var propName = aProps[i];
-            if (a[propName] !== b[propName]) {
-                return false;
-            }
+            var propName = aProps[i]
+            if (a[propName] !== b[propName]) return false
         }
-        return true;
+        return true
     }
     const supabase = createClient()
     const accessToken = (await supabase.auth.getSession()).data.session?.access_token
@@ -163,9 +136,7 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
             },
             body: JSON.stringify(newData)
         })
-        if (result.status !== 204) {
-            return result.status
-        }
+        if (result.status !== 204) return {error: (await result.json()).error.message}
     }
     if (previousExam.questions !== newExam.questions) {
         const oldQuestions: ExamQuestionDB[] = previousExam.questions
@@ -179,23 +150,15 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
                     "Authorization": `Bearer ${accessToken}`,
                 }
             })
-            if (result.status !== 204) {
-                return result.status
-            }
+            if (result.status !== 204) return {error: (await result.json()).error.message}
         }
         else if (questionsWithId.length > 0 && oldQuestions.length > questionsWithId.length) {
             const oldQuestionsIds: string[] = []
             const questionsWithIdIds: string[] = []
-            oldQuestions.map(question => {
-                return oldQuestionsIds.push(question.id!)
-            })
-            questionsWithId.map(question => {
-                return questionsWithIdIds.push(question.id!)
-            })
+            oldQuestions.map(question => oldQuestionsIds.push(question.id!))
+            questionsWithId.map(question => questionsWithIdIds.push(question.id!))
             let questions = new Set(oldQuestionsIds)
-            for (let e of questionsWithIdIds) {
-                questions.delete(e)
-            }
+            for (let e of questionsWithIdIds) questions.delete(e)
             const questionsExcludeds = Array.from(questions)
             questionsExcludeds.map(async id => {
                 const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam_question?id=eq.${id}`, {
@@ -206,9 +169,7 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
                         "Authorization": `Bearer ${accessToken}`,
                     }
                 })
-                if (result.status !== 204) {
-                    return result.status
-                }
+                if (result.status !== 204) return {error: (await result.json()).error.message}
             })
         }
         const newQuestions: ExamQuestionDB[] = newExam.questions.filter(question => question.id === undefined)
@@ -231,18 +192,15 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
                 },
                 body: JSON.stringify(data)
             })
-            if (result.status !== 201) {
-                return result.status
-            }
+            if (result.status !== 204) return {error: (await result.json()).error.message}
         }
     }
-    return 201
+    return "success"
 }
-
 export async function deleteExam(id:string) {
     const supabase = createClient()
     const accessToken = (await supabase.auth.getSession()).data.session?.access_token
-    await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?id=eq.${id}`, {
+    const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?id=eq.${id}`, {
         method:"DELETE",
         headers: {
             "apikey": process.env.SUPABASE_ANON_KEY!,
@@ -250,9 +208,10 @@ export async function deleteExam(id:string) {
             "Authorization": `Bearer ${accessToken}`,
         }
     })
-    .catch(error => {
-        console.log(error);
-        return "erro"
-    })
-    return revalidateTag("get_exams")
+    if (result.status !== 204) {
+        const response = await result.json()
+        return {error: response.error.message}
+    }
+    revalidateTag("get_exams")
+    return "success"
 }

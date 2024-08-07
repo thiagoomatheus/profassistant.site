@@ -1,10 +1,8 @@
 "use client"
-
 import { useState } from "react"
 import { FaCheckCircle } from "react-icons/fa"
 import CardActions from "../../components/layout/cardActions"
 import useGenerator from "../../lib/hooks/useGenerator"
-
 export default function CardResponse ({ type, id, data, actions }: {
     type: string | undefined
     id: string
@@ -96,11 +94,7 @@ export default function CardResponse ({ type, id, data, actions }: {
                     )}
                 </>
             )}
-            {editStatus && (
-                <>
-                    <textarea key={`edit-${id}`} onChange={handleChange} value={response} className={`w-full ${type === "Texto" ? "min-h-[350px]" : "h-48"}`}></textarea> 
-                </>
-            )}
+            {editStatus && <textarea key={`edit-${id}`} onChange={handleChange} value={response} className={`w-full ${type === "Texto" ? "min-h-[350px]" : "h-48"}`}></textarea>}
             <div className="flex flex-row gap-5">
                 <CardActions actions={handleActions} state={{ editStatus, setEditStatus }} />
             </div>

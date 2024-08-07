@@ -28,13 +28,13 @@ export default function useAuth() {
         var resto
         for (var i = 1; i <= 9; i++) 
             soma = soma + parseInt(cpf.substring(i-1, i)) * (11 - i)
-        resto = (soma * 10) % 11
+            resto = (soma * 10) % 11
         if ((resto == 10) || (resto == 11))  resto = 0
         if (resto != parseInt(cpf.substring(9, 10)) ) return false
         soma = 0
         for (var i = 1; i <= 10; i++) 
             soma = soma + parseInt(cpf.substring(i-1, i)) * (12 - i)
-        resto = (soma * 10) % 11
+            resto = (soma * 10) % 11
         if ((resto == 10) || (resto == 11))  resto = 0
         if (resto != parseInt(cpf.substring(10, 11) ) ) return false
         return true
@@ -52,18 +52,14 @@ export default function useAuth() {
     async function handleLogin(formData: FormData) {
         const toastLogin = toast.loading('Entrando...')
         const result = await loginUser(formData)
-        if (result !== "success") return toast.error(result.error, {id: toastLogin})
-        getUser()
-        .then(user => {    
-            if (user) {
-                setIsLogged(true)
-                setUser(user)
-            }
-        })
+        if (result !== "success") return toast.error(`Erro ao entrar na conta. Erro: ${result.error}`, {id: toastLogin})
+        const user = await getUser()
+        if (!user) return toast.error("Erro ao entrar na conta. Tente novamente mais tarde!", {id: toastLogin})
+        setIsLogged(true)
+        setUser(user)
         toast.success("Login efetuado com sucesso!", {id: toastLogin})
-        return router.push("/gerador")
+        return router.push("/dados-gerados")
     }
-
     async function handleRegister(formData: FormData) {
         const toastRegister = toast.loading('Criando conta...')
         const user: User = {
@@ -75,23 +71,20 @@ export default function useAuth() {
             plan: "free"
         }
         const validate = validateData(user)
-        if (validate !== true) return toast.error(validate.error, {id: toastRegister})
+        if (validate !== true) return toast.error(`Erro ao criar conta. Erro: ${validate.error}`, {id: toastRegister})
         const result = await registerUser(user)
-        if (result !== "success") return toast.error(result.error, {id: toastRegister})
-        getUser()
-        .then(user => {    
-            if (user) {
-                setIsLogged(true)
-                setUser(user)
-            }
-        })
+        if (result !== "success") return toast.error(`Erro ao criar conta. Erro: ${result.error}`, {id: toastRegister})
+        const userDb = await getUser()
+        if (!userDb) return toast.error("Erro ao criar na conta. Tente novamente mais tarde!", {id: toastRegister})
+        setIsLogged(true)
+        setUser(userDb)
         toast.success("Conta criada com sucesso!", {id: toastRegister})
-        return router.push("/gerador")
+        return router.push("/minha-conta/meu-plano")
     }
     async function handleLogout () {
         const toastLogout = toast.loading('Saindo...')
         const result = await logoutUser()
-        if (result !== "success") return toast.error(result.error, {id: toastLogout})
+        if (result !== "success") return toast.error(`Erro ao sair da conta. Erro: ${result.error}`, {id: toastLogout})
         setIsLogged(false)
         setUser(undefined)
         toast.success("Logout efetuado com sucesso!", {id: toastLogout})

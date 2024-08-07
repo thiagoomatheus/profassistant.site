@@ -1,11 +1,7 @@
 import Link from "next/link"
 import { RiFolderUserFill } from "react-icons/ri";
 import { FaAward } from "react-icons/fa";
-export default function MinhaContaLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function MinhaContaLayout({children}: {children: React.ReactNode}) {
   return (
     <section className="flex flex-col gap-5">
       <h1>Minha Conta</h1>

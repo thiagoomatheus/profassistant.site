@@ -4,7 +4,7 @@ import { UserSession } from "../types/types"
 export async function setTheme(theme:string) {
     const cookieStore = cookies().get("sb-tzohqwteaoakaifwffnm-auth-token")?.value
     const auth: UserSession = JSON.parse(cookieStore!)
-    await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=theme&id=eq.${auth.user.id}`, {
+    const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=theme&id=eq.${auth.user.id}`, {
         method: "PATCH",
         body: JSON.stringify({
             theme: theme
@@ -15,10 +15,7 @@ export async function setTheme(theme:string) {
             "Authorization": `Bearer ${auth.access_token}`,
         }
     })
-    .then(() => cookies().set("theme", theme))
-    .catch(error => {
-        console.log(error)
-        return "erro"
-    })
-    return "ok"
+    if (result.status !== 200) return {error: (await result.json()).error.messsage}
+    cookies().set("theme", theme)
+    return "success"
 }

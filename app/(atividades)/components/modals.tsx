@@ -1,3 +1,4 @@
+"use client"
 import Label from "@/app/(generator)/gerador/components/label"
 import MyGenerateds from "@/app/(generator)/components/layout/myGenerateds"
 import { getGenerated } from "@/app/(generator)/lib/actions"

@@ -76,29 +76,22 @@ export default function MyExam( { data }: {
             {exam.questions.length !== 0 && (
                 <div className="flex flex-row gap-3">
                     {!data && (
-                        <Button text="Salvar" handleClick={() => {
-                            addExam(exam)
-                            .then(response => {
-                                if (response !== 201) {
-                                    return toast.error("Erro ao salvar atividade. Tente novamente mais tarde!")
-                                }
-                                toast.success("Atividade salva com sucesso!")
-                                return router.push("/minhas-atividades")
-                            })
+                        <Button text="Salvar" handleClick={async () => {
+                            const toastSave = toast.loading("Salvando atividade...")
+                            const result = await addExam(exam)
+                            if (result !== "success") return toast.error(`Erro ao salvar atividade. Erro: ${result.error}`, { id: toastSave })
+                            toast.success("Atividade salva com sucesso!", { id: toastSave })
+                            return router.push("/minhas-atividades")
                         }} />
                     )}
                     {data && (
-                        <Button text="Atualizar" handleClick={() => {
-                            if (data === exam) {
-                                return toast.error("Por favor, faça uma alteração antes de atualizar.")
-                            }
-                            updateExam(data, exam)
-                            .then(response => {
-                                if (response !== 201) {
-                                    return toast.error("Erro ao atualizar atividade. Tente novamente mais tarde!")
-                                }
-                                return toast.success("Atividade atualizada com sucesso!")
-                            })
+                        <Button text="Atualizar" handleClick={async () => {
+                            const toastUpdate = toast.loading("Atualizando atividade...")
+                            if (data === exam) return toast.error("Por favor, faça uma alteração antes de atualizar.", { id: toastUpdate })
+                            const result = await updateExam(data, exam)
+                            if (result !== "success") return toast.error(`Erro ao atualizar atividade. Erro: ${result.error}`, { id: toastUpdate })
+                            toast.success("Atividade atualizada com sucesso!", { id: toastUpdate })
+                            return router.push("/minhas-atividades")
                         }} />
                     )}
                     <Button text="Imprimir" handleClick={() => {

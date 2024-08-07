@@ -7,7 +7,7 @@ export async function updateProfile(column: string, newData: string) {
     const supabase = createClient()
     const data = `{"${column}": "${newData}"}`
     const session = await supabase.auth.getSession()
-    await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?id=eq.${session.data.session?.user.id}`, {
+    const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?id=eq.${session.data.session?.user.id}`, {
         method: "PATCH",
         headers: {
             "apikey": process.env.SUPABASE_ANON_KEY!,
@@ -16,12 +16,9 @@ export async function updateProfile(column: string, newData: string) {
         },
         body: (data)
     })
-    .catch(error => {
-        console.log(error)
-        return "erro"
-    })
+    if (result.status !== 204) return {error: (await result.json()).error.messsage}
     revalidateTag("user")
-    return "ok"
+    return "success"
 }
 async function removeCustomer(customer: string) {
     const result = await fetch(`https://sandbox.asaas.com/api/v3/customers/${customer}`, {

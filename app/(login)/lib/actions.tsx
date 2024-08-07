@@ -29,10 +29,7 @@ export async function registerUser(user: User) {
         password: user.password,
         phone: user.phone
     })
-    if (errorSignUp) {
-        console.log(errorSignUp)
-        return {error: "Erro ao registrar usuário"}
-    }
+    if (errorSignUp) return {error: errorSignUp.message}
     const { error: errorProfile } = await supabase
     .from('profile')
     .insert([
@@ -44,30 +41,23 @@ export async function registerUser(user: User) {
             theme: "light",
         }
     ])    
-    if (errorProfile) {
-        console.log(errorProfile);
-        return {error: "Erro ao salvar usuário no banco de dados"}
-    }
+    if (errorProfile) return {error: errorProfile.message}
     const cookieStore = cookies()
-    cookieStore.set("theme", "light", {
-        maxAge: 60 * 60 * 24 * 30
-    })
+    cookieStore.set("theme", "light", {maxAge: 60 * 60 * 24 * 30})
     return "success"
 }
 export async function loginUser(formData: FormData) {
-    const { email, password } = {
-        email: formData.get("email") as string,
-        password: formData.get("password") as string
-    }
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
     const supabase = createClient()
     const result = await supabase.auth.signInWithPassword({email, password})
-    if (result.error) return {error: "Erro ao registrar usuário"}
+    if (result.error) return {error: result.error.message}
     return "success"
 }
 export async function logoutUser() {
     const supabase = createClient()
     const result = await supabase.auth.signOut()
-    if (result.error) return {error: "Erro ao sair da conta"}
+    if (result.error) return {error: result.error.message}
     cookies().delete("my-access-token")
     cookies().delete("my-refresh-token")
     revalidateTag("user")
