@@ -94,7 +94,7 @@ export default function Modals( { type, close, state}: {
                         close()
                     }}>
                         <Label label="Questão">
-                            <textarea placeholder="Ex.: Qual o melhor amigo do professor? a) Um café b) Um café c) Um caderno d) O Question! Generator" className="font-normal overflow-auto h-[180px] max-h-[300px] text-xs" name="question" onChange={handleChange}></textarea>
+                            <textarea placeholder={`Ex.: Qual o melhor amigo do professor? a) Um café b) Um café c) Um caderno d) O ${process.env.NEXT_PUBLIC_PROJECT_NAME}`} className="font-normal overflow-auto h-[180px] max-h-[300px] text-xs" name="question" onChange={handleChange}></textarea>
                         </Label>
                         <input type="submit" value={"Fechar"} />
                     </form>
