@@ -71,23 +71,23 @@ export default function CardResponse ({ type, id, data, actions }: {
             {isSaved && <div className="text-green-500 m-[-12px]"><FaCheckCircle /></div>}
             {!editStatus && (
                 <>
-                    {type === "question" && (
+                    {type === "Questão" && (
                         <>
                             {response.split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
                         </>
                     )}
-                    {type === "text" && (
+                    {type === "Texto" && (
                         <>
                             <p className="font-bold">{response.split("Texto:")[0]}</p>
                             {response.split("Texto:")[1].split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
                         </>
                     )}
-                    {type === "phrase" && (
+                    {type === "Frase" && (
                         <>
                             {response.split("Frase:")[1].split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
                         </>
                     )}
-                    {type === "math_expression" && (
+                    {type === "Expressão matemática" && (
                         <div className="grid grid-cols-2 grid-rows-2 gap-y-10 w-full">
                             {response.replaceAll("--","").split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
                         </div>
