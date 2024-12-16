@@ -2,7 +2,7 @@ import Link from "next/link"
 import Logo from "../header/logo"
 export default function Footer () {
     return (
-        <footer className="w-full flex flex-col justify-center items-center gap-3 bg-blue-2 dark:bg-black p-5 text-white">
+        <footer className="w-full flex flex-col justify-center items-center gap-3 bg-gray-400 dark:bg-black p-5 text-white">
             <section className="w-full flex flex-row gap-7 lg:gap-20 justify-center items-center">
                 <Logo />
                 <ul>

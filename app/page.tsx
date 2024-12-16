@@ -62,7 +62,7 @@ export default function Home() {
       <section key={"about"} id="sobre" className="flex flex-col justify-center items-center gap-5 md:gap-10 text-center">
         <ContainerText key={"text_about"} aditionalCSS="gap-5 md:gap-7 md:max-w-xl xl:max-w-3xl">
           <h1 className="self-center">Sobre nós:</h1>
-          <p>O projeto Question! Generator teve seu início em novembro de 2023 nascendo da ideia de facilitar o trabalho dos prefissionais da educação. Seu criador possui professores no círculo familiar e percebia a dificuldade deles em achar questões para suas provas e atividades, que de uma maneira facilitada pudessem organizá-las e remodelá-las.</p>
+          <p>O projeto {process.env.NEXT_PUBLIC_PROJECT_NAME} teve seu início em novembro de 2023 nascendo da ideia de facilitar o trabalho dos prefissionais da educação. Seu criador possui professores no círculo familiar e percebia a dificuldade deles em achar questões para suas provas e atividades, que de uma maneira facilitada pudessem organizá-las e remodelá-las.</p>
           <p>Nosso obetivo é ajudar você, professor, a ter essa faceta de seu precioso trabalho simplificada e agilizada, podendo proporcionar a você mais tempo. Nesse projeto, você tem parte crucial, assim, nos esforçamos em proporcionar a ferramenta mais completa para você!</p>
         </ContainerText>
         <h2>Veja o que dizem sobre nós:</h2>
@@ -71,7 +71,7 @@ export default function Home() {
             <p>Perdia muito tempo procurando questões interessantes, mas agora consigo criar questões de forma fácil e rápida</p>
           </Card>
           <Card key={"card_person2"} title="Wanda" aditionalCSS="border-4 border-orange">
-            <p>Dou aula para alunos do ensino fundamental e achei o Question! Generator algo que facilita muito a nossa vida</p>
+            <p>Dou aula para alunos do ensino fundamental e achei o {process.env.NEXT_PUBLIC_PROJECT_NAME} algo que facilita muito a nossa vida</p>
           </Card>
           <Card key={"card_person3"} title="Valquíria" aditionalCSS="border-4 border-blue">
             <p>Achei a ferramenta muito simples e fácil. Agora consigo preparar aulas mais rápido e ainda sobre tempo pra mim</p>
