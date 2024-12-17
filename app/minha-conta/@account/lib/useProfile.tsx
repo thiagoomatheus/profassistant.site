@@ -25,7 +25,6 @@ export default function useProfile(setValue: React.Dispatch<React.SetStateAction
     }
     async function handleSaveTheme(defaultData: string) {
         const toastId = toast.loading(`Atualizando...`)
-        if (data !== defaultData) return toast.error(`Insira um valor diferente`, { id: toastId })
         const result = await setTheme(data!)
         if (result !== "success") return toast.error(`Falha ao atualizar perfil. Erro: ${result.error}`, { id: toastId })
         const html = document.querySelector("html")

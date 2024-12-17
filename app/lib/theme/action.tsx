@@ -1,4 +1,5 @@
 "use server"
+
 import { cookies } from "next/headers"
 import { UserSession } from "../types/types"
 export async function setTheme(theme:string) {
@@ -15,7 +16,7 @@ export async function setTheme(theme:string) {
             "Authorization": `Bearer ${auth.access_token}`,
         }
     })
-    if (result.status !== 200) return {error: (await result.json()).error.messsage}
+    if (result.status !== 204) return {error: (await result.json()).error.messsage}
     cookies().set("theme", theme)
     return "success"
 }
