@@ -58,7 +58,10 @@ export default function CardResponse ({ type, id, data, actions }: {
             }
         } if (actions.copy) {
             handleActions.handleCopy = () => {
-                handleCopyToClipboard(response.replace("Texto:", ""))
+                if (type === "text") {
+                    return handleCopyToClipboard(response.replace("Texto:", ""))
+                }
+                return handleCopyToClipboard(response)
             }
         } if (actions.select) {
             handleActions.handleSelect = () => {
@@ -66,8 +69,6 @@ export default function CardResponse ({ type, id, data, actions }: {
             }
         }
     }
-    console.log(type);
-    
     return (
         <div key={id} className="p-3 flex flex-col items-start gap-2 border border-orange rounded-lg shadow-md h-fit max-h-80 overflow-auto">
             {isSaved && <div className="text-green-500 m-[-12px]"><FaCheckCircle /></div>}
