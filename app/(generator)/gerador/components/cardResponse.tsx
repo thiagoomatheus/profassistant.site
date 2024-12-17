@@ -66,28 +66,30 @@ export default function CardResponse ({ type, id, data, actions }: {
             }
         }
     }
+    console.log(type);
+    
     return (
         <div key={id} className="p-3 flex flex-col items-start gap-2 border border-orange rounded-lg shadow-md h-fit max-h-80 overflow-auto">
             {isSaved && <div className="text-green-500 m-[-12px]"><FaCheckCircle /></div>}
             {!editStatus && (
                 <>
-                    {type === "Questão" && (
+                    {type === "question" && (
                         <>
                             {response.split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
                         </>
                     )}
-                    {type === "Texto" && (
+                    {type === "text" && (
                         <>
                             <p className="font-bold">{response.split("Texto:")[0]}</p>
                             {response.split("Texto:")[1].split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
                         </>
                     )}
-                    {type === "Frase" && (
+                    {type === "phrase" && (
                         <>
                             {response.split("Frase:")[1].split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
                         </>
                     )}
-                    {type === "Expressão matemática" && (
+                    {type === "math_expression" && (
                         <div className="grid grid-cols-2 grid-rows-2 gap-y-10 w-full">
                             {response.replaceAll("--","").split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
                         </div>
