@@ -55,6 +55,7 @@ export default function useResponse() {
       if (!formData.get("gerar")) return toast.error("Erro ao receber parâmetros do formulário. Tente novamente mais tarde!")
       const prompt = getPrompt(formData)
       const { data, error } = await generateData(prompt)
+      console.log(error, data);
       if (error || !data) return toast.error(`Não foi possível gerar as informações. Erro: ${error}`, {id: toastGenerate})
       const r = treatResponse(data, gerar)
       subject.setSubject(formData.get("materia") as string)

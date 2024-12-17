@@ -16,7 +16,7 @@ export async function generateData(prompt: string): Promise<{data: string, error
     }
   }).then(async (result) => await result.json())
   if (data[0].limit_ia < data[0].ia) return {error: "Limite de IA atingido"}
-  const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY!}`, {
+  const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${process.env.GEMINI_MODEL}:generateContent?key=${process.env.GEMINI_API_KEY!}`, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
