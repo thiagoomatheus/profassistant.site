@@ -92,7 +92,7 @@ export default function CardResponse ({ type, id, data, actions }: {
                     )}
                     {type === "math_expression" && (
                         <div className="grid grid-cols-2 grid-rows-2 gap-y-10 w-full">
-                            {response.replaceAll("--","").split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
+                            {response.replaceAll("**","").split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
                         </div>
                     )}
                 </>
