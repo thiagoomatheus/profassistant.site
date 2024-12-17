@@ -21,34 +21,34 @@ export async function updateProfile(column: string, newData: string) {
     return "success"
 }
 async function removeCustomer(customer: string) {
-    const result = await fetch(`https://sandbox.asaas.com/api/v3/customers/${customer}`, {
+    const result = await fetch(`https://asaas.com/api/v3/customers/${customer}`, {
         method: "DELETE",
         headers: {
             "accept": 'application/json',
             "content-type": "application/json",
-            "access_token": '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwODIyMDk6OiRhYWNoXzliOGE2MDdlLTcwMTEtNGVjZi04ZGY2LTQyNzhmYjdhZjk2OQ=='
+            "access_token": process.env.ASAAS_API_KEY!
         }
     })
     return result.status
 }
 async function removeSubscription(subscription_id: string) {
-    const result = await fetch(`https://sandbox.asaas.com/api/v3/subscriptions/${subscription_id}`, {
+    const result = await fetch(`https://asaas.com/api/v3/subscriptions/${subscription_id}`, {
         method: "DELETE",
         headers: {
             "accept": 'application/json',
             "content-type": "application/json",
-            "access_token": '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwODIyMDk6OiRhYWNoXzliOGE2MDdlLTcwMTEtNGVjZi04ZGY2LTQyNzhmYjdhZjk2OQ=='
+            "access_token": process.env.ASAAS_API_KEY!
         }
     })
     return result.status
 }
 async function removePaymentLink(payment_link: string) {
-    const result = await fetch(`https://sandbox.asaas.com/api/v3/paymentLinks/${payment_link}`, {
+    const result = await fetch(`https://asaas.com/api/v3/paymentLinks/${payment_link}`, {
         method: "DELETE",
         headers: {
             "accept": 'application/json',
             "content-type": "application/json",
-            "access_token": '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwODIyMDk6OiRhYWNoXzliOGE2MDdlLTcwMTEtNGVjZi04ZGY2LTQyNzhmYjdhZjk2OQ=='
+            "access_token": process.env.ASAAS_API_KEY!
         }
     })
     return result.status
@@ -99,12 +99,12 @@ export async function subscribePlan(profile: UserDBComplete, formData: FormData)
         revalidateTag("user")
         return { success: "Plano atualizado com sucesso" }
     }
-    const resultCreatePaymentLink = await fetch(`https://sandbox.asaas.com/api/v3/paymentLinks`, {
+    const resultCreatePaymentLink = await fetch(`https://asaas.com/api/v3/paymentLinks`, {
         method: "POST",
         headers: {
             "accept": 'application/json',
             "content-type": "application/json",
-            "access_token": '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwODIyMDk6OiRhYWNoXzliOGE2MDdlLTcwMTEtNGVjZi04ZGY2LTQyNzhmYjdhZjk2OQ=='
+            "access_token": process.env.ASAAS_API_KEY!
         },
         body: JSON.stringify({
             billingType: 'CREDIT_CARD',
@@ -123,11 +123,11 @@ export async function subscribePlan(profile: UserDBComplete, formData: FormData)
     redirect(data.url)
 }
 export async function getBillings(subscription_id: string) {
-    const result = await fetch(`https://sandbox.asaas.com/api/v3/subscriptions/${subscription_id}/payments?status=CONFIRMED`, {
+    const result = await fetch(`https://asaas.com/api/v3/subscriptions/${subscription_id}/payments?status=CONFIRMED`, {
         headers: {
             "accept": 'application/json',
             "content-type": "application/json",
-            "access_token": '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwODIyMDk6OiRhYWNoXzliOGE2MDdlLTcwMTEtNGVjZi04ZGY2LTQyNzhmYjdhZjk2OQ=='
+            "access_token": process.env.ASAAS_API_KEY!
         }
     })
     const response = await result.json()

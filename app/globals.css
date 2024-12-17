@@ -285,8 +285,8 @@ input[type="submit"]:hover:focus {
 
 
 .gradient {
-    background: linear-gradient(80deg, #3D4B59, #3D4B59, #BC9322, #BC9322); 
-    background: -webkit-linear-gradient(360deg, #3D4B59, #3D4B59, #BC9322, #BC9322);
+    background: linear-gradient(180deg, #2783D9, #2783D9, #BC9322, #BC9322); 
+    background: -webkit-linear-gradient(360deg, #2783D9, #2783D9, #BC9322, #BC9322);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
