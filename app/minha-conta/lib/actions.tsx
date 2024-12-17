@@ -21,7 +21,7 @@ export async function updateProfile(column: string, newData: string) {
     return "success"
 }
 async function removeCustomer(customer: string) {
-    const result = await fetch(`https://asaas.com/api/v3/customers/${customer}`, {
+    const result = await fetch(`${process.env.ASAAS_URL!}/customers/${customer}`, {
         method: "DELETE",
         headers: {
             "accept": 'application/json',
@@ -32,7 +32,7 @@ async function removeCustomer(customer: string) {
     return result.status
 }
 async function removeSubscription(subscription_id: string) {
-    const result = await fetch(`https://asaas.com/api/v3/subscriptions/${subscription_id}`, {
+    const result = await fetch(`${process.env.ASAAS_URL!}/subscriptions/${subscription_id}`, {
         method: "DELETE",
         headers: {
             "accept": 'application/json',
@@ -43,7 +43,7 @@ async function removeSubscription(subscription_id: string) {
     return result.status
 }
 async function removePaymentLink(payment_link: string) {
-    const result = await fetch(`https://asaas.com/api/v3/paymentLinks/${payment_link}`, {
+    const result = await fetch(`${process.env.ASAAS_URL!}/paymentLinks/${payment_link}`, {
         method: "DELETE",
         headers: {
             "accept": 'application/json',
@@ -99,7 +99,7 @@ export async function subscribePlan(profile: UserDBComplete, formData: FormData)
         revalidateTag("user")
         return { success: "Plano atualizado com sucesso" }
     }
-    const resultCreatePaymentLink = await fetch(`https://asaas.com/api/v3/paymentLinks`, {
+    const resultCreatePaymentLink = await fetch(`${process.env.ASAAS_URL!}/paymentLinks`, {
         method: "POST",
         headers: {
             "accept": 'application/json',
@@ -117,13 +117,14 @@ export async function subscribePlan(profile: UserDBComplete, formData: FormData)
           })
     })
     const data = await resultCreatePaymentLink.json()
+    console.log(data)
     if (resultCreatePaymentLink.status !== 200) return {error: data.errors[0].description}
     const resultPostPaymentLink = await updateInDatabase(profile.id, session.data.session?.access_token!, { payment_link: data.id })
     if (resultPostPaymentLink !== 204) return {error: "Impossível se comunicar com banco de dados neste momento"}
     redirect(data.url)
 }
 export async function getBillings(subscription_id: string) {
-    const result = await fetch(`https://asaas.com/api/v3/subscriptions/${subscription_id}/payments?status=CONFIRMED`, {
+    const result = await fetch(`${process.env.ASAAS_URL!}/subscriptions/${subscription_id}/payments?status=CONFIRMED`, {
         headers: {
             "accept": 'application/json',
             "content-type": "application/json",
