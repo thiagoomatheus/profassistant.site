@@ -17,7 +17,7 @@ export default function MyGenerateds( { data, handleSelect }: {
                 <CardContainer key={"generates"}>
                     <>
                         {data.generates.map(item => (
-                            <CardResponse key={item.id} type={item.type === "question" ? "Questão" : item.type === "quote" ? "Frase" : item.type === "math_expression" ? "Expressão matemática" : item.type === "text" ? "Texto" : undefined} id={item.id!} data={item.data} actions={handleSelect ? {select: handleSelect} : { delete: true, copy: true, update: true }} />
+                            <CardResponse key={item.id} type={item.type} id={item.id!} data={item.data} actions={handleSelect ? {select: handleSelect} : { delete: true, copy: true, update: true }} />
                         ))}
                     </>
                 </CardContainer>
