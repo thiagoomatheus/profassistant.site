@@ -42,7 +42,10 @@ export async function generateData(prompt: string): Promise<{data: string, error
     })
   })
   const response = await result.json()
-  if (response.error) return {error: response.error}
+  if (response.error) {
+    console.log(response.error)
+    return {error: response.error.message}
+  }
   await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?id=eq.${user.id}`, {
     method: "PATCH",
     headers: {
