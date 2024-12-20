@@ -3,7 +3,7 @@ import { createClient } from "@/app/lib/supabase/server"
 export async function resetPassword(formData:FormData) {
     const supabase = createClient()
     const email = formData.get("email") as string
-    const result = await supabase.auth.resetPasswordForEmail(email, {redirectTo: "http://localhost:3000/reset/update"})
+    const result = await supabase.auth.resetPasswordForEmail(email, {redirectTo: `${process.env.URL_SITE}/reset/update`})
     if (result.error?.message) return {error: result.error.message}
     return "success"
 }
