@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
  
 export default function sitemap(): MetadataRoute.Sitemap {
-    const url = 'https://acme.com'
+    const url = process.env.URL_SITE
     return [
         {
             url: `${url}/`,
