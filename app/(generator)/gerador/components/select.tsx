@@ -4,7 +4,7 @@ export default function Select ({ name, options}: {
         optionGroup?: string
         options: string[] | number[]
     }[]
-}) {
+} & React.HTMLAttributes<HTMLSelectElement>) {
     return (
         <select name={name} defaultValue={"default"} required>
             <option key={"default"} value={"default"} disabled>Selecione uma opção</option>

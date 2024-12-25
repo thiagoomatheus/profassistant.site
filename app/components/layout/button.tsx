@@ -6,7 +6,7 @@ export default function Button ({ text, href, handleClick, aditionalCSS, type }:
     handleClick?: () => void
     aditionalCSS?: string
     type?: "button" | "submit" | "reset"
-}) {
+} & React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>) {
     return (
         <>
             {href && (

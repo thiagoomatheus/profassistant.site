@@ -3,7 +3,7 @@
 import { createClient } from "@/app/lib/supabase/server";
 import { GeneratedDB } from "@/app/lib/types/types";
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function generateData(prompt: string): Promise<{data: string, error?: undefined} | {data?: undefined, error: string}> {
   const supabase = createClient()
@@ -156,4 +156,30 @@ export async function deleteGenerated(id:string) {
   })
   revalidatePath("generateds")
   return status
+}
+
+export async function createData(type: "question" | "text" | "phrase" | "math_expression", data: string, subject?: string) {
+  const supabase = createClient()
+  const accessToken = (await supabase.auth.getSession()).data.session?.access_token
+  const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/generated`, {
+    method: "POST",
+    headers: {
+      "apikey": process.env.SUPABASE_ANON_KEY!,
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      type: type,
+      data: data,
+      subject: subject,
+      user_id: (await supabase.auth.getSession()).data.session?.user.id
+    })
+  })
+  if (!result.ok) {
+    const response = await result.json()
+    return {error: response.message}
+  }
+  revalidatePath("generateds")
+  return {data: result.ok}
+  
 }
