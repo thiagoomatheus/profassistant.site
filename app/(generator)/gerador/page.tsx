@@ -4,7 +4,6 @@ import Generator from "./components/generator"
 import Response from "./components/response"
 import { Suspense } from "react"
 import LoaderResponse from "./components/loaderResponse"
-import ResponseContextProvider from "./components/responseContextProvider"
 import { GeneratorContextProvider } from "../lib/contexts/generatorContextProvider"
 export default function Page({searchParams}: {
     searchParams: { [key: string]: string | undefined }
