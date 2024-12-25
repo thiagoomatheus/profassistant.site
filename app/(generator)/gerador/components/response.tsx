@@ -1,11 +1,13 @@
 "use client"
 import ContainerWithBorder from "@/app/components/layout/containerWithBorder"
 import CardResponse from "./cardResponse"
-import { useContext } from "react"
-import { ResponseContext } from "./responseContextProvider"
+import { useGeneratorContext } from "../../lib/contexts/generatorContextProvider"
+import LoaderResponse from "./loaderResponse"
 export default function Response () {
-  const { response, type } = useContext(ResponseContext)
-  if (!response.data) {
+
+  const { state } = useGeneratorContext()
+
+  if (!state.data && !state.loading) {
     return (
       <ContainerWithBorder borderColor="orange-2">
         <h3>Resultado aqui</h3>
@@ -13,13 +15,16 @@ export default function Response () {
       </ContainerWithBorder>
     )
   }
+  if (!state.data && state.loading) {
+    return <LoaderResponse />
+  }
   return (
     <ContainerWithBorder borderColor="orange-2">
       <h3>Resultado aqui</h3>
-      {response.data && (
+      {state.data && (
         <div className="flex flex-col gap-5 justify-center w-full">
-            {response.data.map((data: any, i:number) => (
-              <CardResponse key={i} type={type.gerar!} id={`${i}`} data={data} actions={{copy: true,save: true}} />
+            {state.data.map((data: any, i:number) => (
+              <CardResponse key={i} type={state.type!} id={`${i}`} data={data} actions={{copy: true,save: true}} />
             ))}
         </div>
       )}

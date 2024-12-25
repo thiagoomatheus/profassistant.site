@@ -1,15 +1,36 @@
 "use client"
-import Link from "next/link"
+
 import Fieldset from "./fieldset"
 import Label from "./label"
 import { anoOptions, materiaOptions } from "./options"
 import useResponse from "../../lib/hooks/useResponse"
 import Select from "./select"
 import InsertAndSelectSupport from "./insertAndSelectSupport"
-export default function FormGenerator({gerar}: { gerar: "question" | "text" | "math_expression" | "phrase"}) {
+import { useGeneratorContext } from "../../lib/contexts/generatorContextProvider"
+import Button from "@/app/components/layout/button"
+import toast from "react-hot-toast"
+
+export default function FormGenerator() {
+
+    const { state, dispatch } = useGeneratorContext()
+
     const { formAction } = useResponse()
+
     return (
-        <form action={async (formData:FormData) => await formAction(formData, gerar)} className='flex flex-col gap-3'>
+        <form onSubmit={async(e) => {
+            e.preventDefault()
+
+            const toastGenerate = toast.loading('Gerando...')
+
+            const { error } = await formAction(new FormData(e.currentTarget))
+
+            if (error) {
+                return toast.error(`Falha ao gerar. Erro: ${error}`, {id: toastGenerate})
+            }
+
+            return toast.success("Gerado com sucesso!", {id: toastGenerate})
+            
+        }} className='flex flex-col gap-3'>
             <Fieldset key={"info"} legend="Sobre os alunos" borderColor="blue-2">
                 <Label key={"ano"} label="Selecione sua série:">
                     <Select key={"ano-input"} name="ano" options={anoOptions} />
@@ -19,27 +40,14 @@ export default function FormGenerator({gerar}: { gerar: "question" | "text" | "m
                 </Label>
             </Fieldset>
             <Fieldset key={"gerar"} legend="Gerar" borderColor="blue-2">
-                <Label label="O que deseja gerar?">
-                    <div className="flex flex-row flex-wrap gap-3 justify-around">
-                        <Link className="p-2 md:py-2 md:px-4 xl:px-5 text-xs md:text-sm lg:text-lg text-white bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-orange-2 hover:text-white duration-200" href={`?${new URLSearchParams({
-                            gerar: "question"
-                        })}`} scroll={false}>Questão
-                        </Link>
-                        <Link className="p-2 md:py-2 md:px-4 xl:px-5 text-xs md:text-sm lg:text-lg text-white bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-orange-2 hover:text-white duration-200" href={`?${new URLSearchParams({
-                            gerar: "text"
-                        })}`} scroll={false}>Texto
-                        </Link>
-                        <Link className="p-2 md:py-2 md:px-4 xl:px-5 text-xs md:text-sm lg:text-lg text-white bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-orange-2 hover:text-white duration-200" href={`?${new URLSearchParams({
-                            gerar: "phrase"
-                        })}`} scroll={false}>Frase
-                        </Link>
-                        <Link className="p-2 md:py-2 md:px-4 xl:px-5 text-xs md:text-sm lg:text-lg text-white bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-orange-2 hover:text-white duration-200" href={`?${new URLSearchParams({
-                            gerar: "math_expression"
-                        })}`} scroll={false}>Expressão Matemática
-                        </Link>
-                    </div>
-                </Label>
-                {gerar === "text" && (
+                <label>O que deseja gerar?</label>
+                <div className="flex flex-row flex-wrap gap-3 justify-around">
+                    <Button text="Questão" handleClick={() => dispatch({ type: "setType", typeGenerated: "question" })} />
+                    <Button text="Texto" handleClick={() => dispatch({ type: "setType", typeGenerated: "text" })} />
+                    <Button text="Frase" handleClick={() => dispatch({ type: "setType", typeGenerated: "phrase" })} />
+                    <Button text="Expressão Matemática" handleClick={() => dispatch({ type: "setType", typeGenerated: "math_expression" })} />
+                </div>
+                {state.type === "text" && (
                     <>
                         <Label key={"materia"} label="Selecione a matéria:">
                             <Select key={"materia"} name="materia" options={materiaOptions} />
@@ -55,7 +63,7 @@ export default function FormGenerator({gerar}: { gerar: "question" | "text" | "m
                         </Label>
                     </>
                 )}
-                {gerar === "question" && (
+                {state.type === "question" && (
                     <>
                         <Label key={"materia"} label="Selecione a matéria:">
                             <Select key={"materia"} name="materia" options={materiaOptions} />
@@ -81,7 +89,7 @@ export default function FormGenerator({gerar}: { gerar: "question" | "text" | "m
                         <InsertAndSelectSupport />
                     </>
                 )}
-                {gerar === "phrase" && (
+                {state.type === "phrase" && (
                     <>
                         <Label key={"materia"} label="Selecione a matéria:">
                             <Select key={"materia"} name="materia" options={materiaOptions} />
@@ -96,7 +104,7 @@ export default function FormGenerator({gerar}: { gerar: "question" | "text" | "m
                         </Label>
                     </>
                 )}
-                {gerar === "math_expression" && (
+                {state.type === "math_expression" && (
                     <>
                         <Label key={"quantidade_expressao"} label="Quantidade de expressões matemáticas:">
                             <Select key="quantidade_expressao-input" name="quantidade" options={[{

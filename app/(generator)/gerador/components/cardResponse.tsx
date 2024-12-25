@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FaCheckCircle } from "react-icons/fa"
 import CardActions from "../../components/layout/cardActions"
 import useGenerator from "../../lib/hooks/useGenerator"
@@ -14,11 +14,17 @@ export default function CardResponse ({ type, id, data, actions }: {
         copy?: boolean,
         select?: (data: string, id: string) => void
     }
-}) {
+}) {    
+
     const { handleCopyToClipboard, handleSave, handleUpdate, handleDelete } = useGenerator()
     const [response, setResponse] = useState<string>(data)
     const [editStatus, setEditStatus] = useState<boolean>(false)
     const [isSaved, setIsSaved] = useState<boolean>(false)
+
+    useEffect(() => {
+        setResponse(data)
+    }, [data])
+
     function handleChange(e:React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
         return setResponse(target.value)
