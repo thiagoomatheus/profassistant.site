@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useReducer, useState } from "react";
+import { createContext, useContext, useReducer } from "react";
 
 type InitialStatesType = {
     data: string[] | null,
@@ -10,7 +10,7 @@ type InitialStatesType = {
 }
 
 type ActionReducerType = {
-    type: string,
+    type: "setType" | "generateLoading" | "generateSuccess" | "generateFailed",
     subject?: string,
     typeGenerated?: "text" | "question" | "math_expression" | "phrase" | null
     data?: string[]
@@ -58,7 +58,7 @@ const generatorReducer = (state: InitialStatesType, action: ActionReducerType): 
                 data: action.data || state.data,
                 loading: false,
             };
-        case "gerenateFailed": 
+        case "generateFailed": 
             return {
                 ...state,
                 data: null,
