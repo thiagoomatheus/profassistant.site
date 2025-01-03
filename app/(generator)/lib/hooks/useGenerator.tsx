@@ -53,12 +53,9 @@ export default function useGenerator () {
 
   }
 
-  async function handleCopyToClipboard(data: string | {
-    title: string;
-    text: string;
-  }) {
+  function handleCopyToClipboard(data: string) {
 
-    return copyToClipboard(typeof data === "string" ? data : `${data.title}\n${data.text}`)
+    return copyToClipboard(data.replace("Texto:", ""))
 
   }
   
