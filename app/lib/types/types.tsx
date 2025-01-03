@@ -9,7 +9,7 @@ export type Question = {
 }
 export type GeneratedDB = {
     id?: string
-    type: "text" | "question" | "quote" | "math_expression"
+    type: "text" | "question" | "phrase" | "math_expression"
     data: string
     subject: string
 }
@@ -23,8 +23,8 @@ export type TextDB = {
     id: string
     subject: string
 }
-export type QuoteDB = {
-    quote: string
+export type PhraseDB = {
+    phrase: string
     id: string
     subject: string
 }

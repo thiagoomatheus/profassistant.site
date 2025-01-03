@@ -18,7 +18,7 @@ export default function Modals( { type, close, state}: {
     useEffect(() => {
         switch (type) {
             case "selectSupport":
-                getGenerated("or=(type.eq.text,type.eq.quote)")
+                getGenerated("or=(type.eq.text,type.eq.phrase)")
                 .then(data => {
                     setData(data)
                 })

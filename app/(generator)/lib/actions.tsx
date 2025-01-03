@@ -60,7 +60,7 @@ export async function generateData(prompt: string): Promise<{data: string, error
   return {data: response.candidates[0].content.parts[0].text}
 }
 
-export async function postGenerated(response: string, type: "question" | "text" | "quote" | "math_expression", subject: string | null) {
+export async function postGenerated(response: string, type: "question" | "text" | "phrase" | "math_expression", subject: string | null) {
   const supabase = createClient()
   let status: number = 0
   const accessToken = (await supabase.auth.getSession()).data.session?.access_token

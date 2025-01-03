@@ -16,7 +16,7 @@ export default function useGenerator () {
 
   async function handleSave(response: string) {
 
-    postGenerated(response, type as "question" | "text" | "quote" | "math_expression", type === "math_expression" ? null : subject)
+    postGenerated(response, type as "question" | "text" | "phrase" | "math_expression", type === "math_expression" ? null : subject)
     .then(status => {
       status === 201 ? toast.success("Salvo com sucesso!") : toast.error("Erro ao salvar. Tente novamente mais tarde!")
     })
