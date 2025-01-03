@@ -1,4 +1,3 @@
-import toast from "react-hot-toast"
 import { generateData } from "../actions"
 import { useGeneratorContext } from "../contexts/generatorContextProvider"
 type dataForm = {
@@ -63,7 +62,7 @@ export default function useResponse() {
 
   async function formAction(formData: FormData) {
 
-    dispatch({ type: "generateLoading", subject: formData.get("subject") as string })
+    dispatch({ type: "generateLoading", subject: formData.get("materia") as string })
 
     if (!state.type) return {
       error: "Erro ao receber parâmetros do formulário. Tente novamente mais tarde!"
