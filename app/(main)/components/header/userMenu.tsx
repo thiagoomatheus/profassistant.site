@@ -24,7 +24,7 @@ export default function UserMenu () {
                     </li>
                     <li><p className="inline bg-gradient-to-r from-blue-2 to-blue font-bold p-1 rounded">{user?.plan.toUpperCase()}</p></li>
                     <li onClick={() => setShowMenu(!showMenu)}>
-                        <Link href={"/minha-conta"} className="hover:border-b hover:text-white hover:border-white">
+                        <Link href={"/minha-conta/meu-perfil"} className="hover:border-b hover:text-white hover:border-white">
                             Minha Conta
                         </Link>
                     </li>
