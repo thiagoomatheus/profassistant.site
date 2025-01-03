@@ -4,7 +4,8 @@ const nextConfig = {
         fetches: {
             fullUrl: true
         }
-    }
+    },
+    output: 'standalone',
 }
 
 module.exports = nextConfig
