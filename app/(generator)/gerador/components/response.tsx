@@ -1,8 +1,12 @@
 "use client"
+
 import ContainerWithBorder from "@/app/components/layout/containerWithBorder"
-import CardResponse from "./cardResponse"
 import { useGeneratorContext } from "../../lib/contexts/generatorContextProvider"
 import LoaderResponse from "./loaderResponse"
+import CardData from "./CardData"
+import CardActionEdit from "./CardActionEdit"
+import CardActionSave from "./CardActionSave"
+import CardActionCopy from "./CardActionCopy"
 export default function Response () {
 
   const { state } = useGeneratorContext()
@@ -24,7 +28,11 @@ export default function Response () {
       {state.data && (
         <div className="flex flex-col gap-5 justify-center w-full">
             {state.data.map((data: any, i:number) => (
-              <CardResponse key={i} type={state.type!} id={`${i}`} data={data} actions={{copy: true,save: true}} />
+              <CardData data={data} key={i} id={`${i}`} type={state.type!}>
+                <CardActionEdit originalData={data} />
+                <CardActionSave />  
+                <CardActionCopy />
+              </CardData>
             ))}
         </div>
       )}

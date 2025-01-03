@@ -1,7 +1,13 @@
 import CardContainer from "./cardContainer";
 import CardLoading from "@/app/components/layout/cardLoading"
 import { GeneratedDB, UserDBSimple } from "@/app/lib/types/types";
-import CardResponse from "../../gerador/components/cardResponse";
+import CardData from "../../gerador/components/CardData";
+import CardActionEdit from "../../gerador/components/CardActionEdit";
+import CardActionSave from "../../gerador/components/CardActionSave";
+import CardActionCopy from "../../gerador/components/CardActionCopy";
+import { Suspense } from "react";
+import CardActionDelete from "../../gerador/components/CardActionDelete";
+import CardActionSelect from "../../gerador/components/CardActionSelect";
 
 export default function MyGenerateds( { data, handleSelect }: {
     data: {
@@ -17,7 +23,21 @@ export default function MyGenerateds( { data, handleSelect }: {
                 <CardContainer key={"generates"}>
                     <>
                         {data.generates.map(item => (
-                            <CardResponse key={item.id} type={item.type} id={item.id!} data={item.data} actions={handleSelect ? {select: handleSelect} : { delete: true, copy: true, update: true }} />
+                            <Suspense fallback={<CardLoading />} key={item.id}>
+                                <CardData data={item.data} key={item.id} id={`${item.id}`} type={item.type}>
+                                    {!handleSelect && (
+                                        <>
+                                            <CardActionEdit originalData={item.data} />
+                                            <CardActionSave id={item.id} />
+                                            <CardActionDelete id={item.id!} />
+                                            <CardActionCopy />
+                                        </>
+                                    )}
+                                    {handleSelect && (
+                                        <CardActionSelect handle={handleSelect} id={item.id!} />
+                                    )}
+                                </CardData>
+                            </Suspense>
                         ))}
                     </>
                 </CardContainer>
