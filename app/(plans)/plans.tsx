@@ -9,11 +9,11 @@ export const plans = [
                 active: true
             },
             {
-                feature:"Salve 10 questões ou textos no banco de dados",
+                feature:"Salve 20 questões ou textos no banco de dados",
                 active: true
             },
             {
-                feature:"Salve 5 provas ou atividades no banco de dados",
+                feature:"Salve 10 provas ou atividades no banco de dados",
                 active: true
             },
             {
@@ -21,11 +21,16 @@ export const plans = [
                 active: false
             },
             {
-                feature:"Corriga e verifique questões com IA (em desenvolvimento)",
+                feature:"Corriga e verifique questões com IA",
                 active: false
             }
         ],
-        price: "0,00"
+        price: "0,00",
+        limits: {
+            generateds: 20,
+            exams: 10,
+            ia: 0
+        }
     },
     {
         id: 2,
@@ -49,15 +54,20 @@ export const plans = [
                 active: true
             },
             {
-                feature: "Limite de 100 gerações por mês",
+                feature: "Limite de 100 usos de IA por mês",
                 active: true
             },
             {
-                feature:"Corriga e verifique questões com IA (em desenvolvimento)",
+                feature:"Corriga e verifique questões com IA",
                 active: false
             }
         ],
-        price: "29,99"
+        price: "29,99",
+        limits: {
+            generateds: 200,
+            exams: 50,
+            ia: 100
+        }
     },
     {
         id: 3,
@@ -85,10 +95,15 @@ export const plans = [
                 active: true
             },
             {
-                feature:"Corriga e verifique questões com IA (em desenvolvimento)",
+                feature:"Corriga e verifique questões com IA",
                 active: true
             }
         ],
-        price: "49,99"
+        price: "49,99",
+        limits: {
+            generateds: 500,
+            exams: 100,
+            ia: 250
+        }
     }
 ]
