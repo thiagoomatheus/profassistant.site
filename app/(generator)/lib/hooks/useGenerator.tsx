@@ -2,7 +2,7 @@
 
 import useClipboard from "./useClipboard"
 import { GeneratedDB } from "@/app/lib/types/types"
-import { deleteGenerated, getGenerated, postGenerated, updateGenerated } from "../actions"
+import { deleteGenerated, getGenerated, postGenerated, reviewData, updateGenerated } from "../actions"
 import toast from "react-hot-toast"
 import { useGeneratorContext } from "../contexts/generatorContextProvider"
 
@@ -58,12 +58,33 @@ export default function useGenerator () {
     return copyToClipboard(data.replace("Texto:", ""))
 
   }
+
+  async function handleReview(data:string, toastId: string) {
+
+    const prompt = `Tenho um banco de questões e preciso veriifcar a exatidão de uma questão, tanto seu corpo (a pergunta), quantos as alternativas e a resposta. Faça uma avaliação e me retorne com a correção das inconsistências. Me retorne a questão no mesmo formato abaixo. Sem comentários ou qualuer outro texto, apenas a questão corrigida. Caso não haja correções me retorne a questão da mesma forma que está abaixo.
+
+${data}`
+
+  const result = await reviewData(prompt)
+
+  if (result.error) {
+    return toast.error(result.error, { id: toastId })
+  }
+  
+  const response = result.data
+
+  toast.success("Avaliado com sucesso!", { id: toastId })
+
+  return response as string
+  
+  }
   
   return {
     handleCopyToClipboard,
     handleSave,
     getGenerateds,
     handleUpdate,
-    handleDelete
+    handleDelete,
+    handleReview
   }
 }

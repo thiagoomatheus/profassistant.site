@@ -3,9 +3,9 @@
 import { createClient } from "@/app/lib/supabase/server";
 import { GeneratedDB } from "@/app/lib/types/types";
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
-export async function generateData(prompt: string): Promise<{data: string, error?: undefined} | {data?: undefined, error: string}> {
+const verifyIaLimit = async () => {
   const supabase = createClient()
   const { user, access_token } = (await supabase.auth.getSession()).data.session!
   const data = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=limit_ia,ia&id=eq.${user.id}`, {
@@ -16,36 +16,14 @@ export async function generateData(prompt: string): Promise<{data: string, error
     }
   }).then(async (result) => await result.json())
   if (data[0].limit_ia < data[0].ia) return {error: "Limite de IA atingido"}
-  const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${process.env.GEMINI_MODEL}:generateContent?key=${process.env.GEMINI_API_KEY!}`, {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      contents: [{parts: [{text: prompt}]}],
-      safetySettings: [
-        {
-          category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-          threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-          threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-          threshold: HarmBlockThreshold.BLOCK_NONE,
-        },
-        {
-          category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-          threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-        },
-      ],
-    })
-  })
-  const response = await result.json()
-  if (response.error) {
-    console.log(response.error)
-    return {error: response.error.message}
-  }
+  return { ia: data[0].ia }
+}
+
+const incrementIaUsage = async (iaUsage: string) => {
+
+  const supabase = createClient()
+  const { user, access_token } = (await supabase.auth.getSession()).data.session!
+
   await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?id=eq.${user.id}`, {
     method: "PATCH",
     headers: {
@@ -54,9 +32,52 @@ export async function generateData(prompt: string): Promise<{data: string, error
       "Authorization": `Bearer ${access_token}`,
     },
     body: JSON.stringify({
-      ia: data[0].ia + 1
+      ia: iaUsage + 1
     })
   })
+}
+
+const safetySettings = [
+  {
+    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+    threshold: HarmBlockThreshold.BLOCK_NONE,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+  },
+]
+
+export async function generateData(prompt: string): Promise<{data: string, error?: undefined} | {data?: undefined, error: string}> {
+
+  const limit = await verifyIaLimit()
+
+  if (limit.error) return {error: limit.error}
+  
+  const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${process.env.GEMINI_MODEL}:generateContent?key=${process.env.GEMINI_API_KEY!}`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      contents: [{parts: [{text: prompt}]}],
+      safetySettings: safetySettings,
+    })
+  })
+  const response = await result.json()
+  if (response.error) {
+    console.log(response.error)
+    return {error: response.error.message}
+  }
+
+  await incrementIaUsage(limit.ia)
+  
   return {data: response.candidates[0].content.parts[0].text}
 }
 
@@ -182,4 +203,30 @@ export async function createData(type: "question" | "text" | "phrase" | "math_ex
   revalidatePath("generateds")
   return {data: result.ok}
   
+}
+
+export async function reviewData(prompt: string) {
+  
+  const limit = await verifyIaLimit()
+
+  if (limit.error) return {error: limit.error}
+
+  const result = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${process.env.GEMINI_MODEL}:generateContent?key=${process.env.GEMINI_API_KEY!}`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      contents: [{parts: [{text: prompt}]}],
+      safetySettings: safetySettings,
+    })
+  })
+  const response = await result.json()
+  if (response.error) {
+    console.log(response.error)
+    return {error: response.error.message}
+  }
+  
+  await incrementIaUsage(limit.ia)
+  
+  return {data: response.candidates[0].content.parts[0].text}
+
 }

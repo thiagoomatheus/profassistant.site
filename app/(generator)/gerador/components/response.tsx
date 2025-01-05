@@ -7,6 +7,7 @@ import CardData from "./CardData"
 import CardActionEdit from "./CardActionEdit"
 import CardActionSave from "./CardActionSave"
 import CardActionCopy from "./CardActionCopy"
+import CardActionReview from "./CardActionReview"
 export default function Response () {
 
   const { state } = useGeneratorContext()
@@ -32,6 +33,7 @@ export default function Response () {
                 <CardActionEdit originalData={data} />
                 <CardActionSave />  
                 <CardActionCopy />
+                <CardActionReview type={state.type!} />
               </CardData>
             ))}
         </div>

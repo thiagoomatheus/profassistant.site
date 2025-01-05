@@ -8,6 +8,7 @@ import CardActionCopy from "../../gerador/components/CardActionCopy";
 import { Suspense } from "react";
 import CardActionDelete from "../../gerador/components/CardActionDelete";
 import CardActionSelect from "../../gerador/components/CardActionSelect";
+import CardActionReview from "../../gerador/components/CardActionReview";
 
 export default function MyGenerateds( { data, handleSelect }: {
     data: {
@@ -31,6 +32,7 @@ export default function MyGenerateds( { data, handleSelect }: {
                                             <CardActionSave id={item.id} />
                                             <CardActionDelete id={item.id!} />
                                             <CardActionCopy />
+                                            <CardActionReview type={item.type} id={item.id} />
                                         </>
                                     )}
                                     {handleSelect && (
