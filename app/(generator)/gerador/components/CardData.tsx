@@ -7,7 +7,7 @@ export default function CardData({ id, type, data, children }: { children: React
         <div key={id} className="p-3 flex flex-col items-start gap-2 border border-orange rounded-lg shadow-md h-fit max-h-80 overflow-auto">
             <CardDataContextProvider>
                 <CardDataContent type={type} data={data} />
-                <div className="flex flex-row gap-5">
+                <div className="flex flex-row gap-5 flex-wrap">
                     {children}
                 </div>
             </CardDataContextProvider>

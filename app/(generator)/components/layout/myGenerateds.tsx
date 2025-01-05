@@ -32,7 +32,7 @@ export default function MyGenerateds( { data, handleSelect }: {
                                             <CardActionSave id={item.id} />
                                             <CardActionDelete id={item.id!} />
                                             <CardActionCopy />
-                                            <CardActionReview type={item.type} id={item.id} />
+                                            {item.type === "question" && <CardActionReview id={item.id} />}
                                         </>
                                     )}
                                     {handleSelect && (

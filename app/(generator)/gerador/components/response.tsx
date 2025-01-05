@@ -33,7 +33,7 @@ export default function Response () {
                 <CardActionEdit originalData={data} />
                 <CardActionSave />  
                 <CardActionCopy />
-                <CardActionReview type={state.type!} />
+                {state.type === "question" && <CardActionReview />}
               </CardData>
             ))}
         </div>

@@ -8,7 +8,7 @@ import CardData from "./CardData";
 import toast from "react-hot-toast";
 import useGenerator from "../../lib/hooks/useGenerator";
 
-export default function CardActionReview( { type, id }: { type: "question" | "text" | "phrase" | "math_expression", id?: string} ) {
+export default function CardActionReview( { id }:{ id?: string} ) {
 
     const { state, dispatch } = useCardDataContext()
 
@@ -24,14 +24,14 @@ export default function CardActionReview( { type, id }: { type: "question" | "te
                     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 md:flex-row">
                         <div>
                             <h3>Atual</h3>
-                            <CardData data={state.data!} id={id ?? ""} type={type}>
+                            <CardData data={state.data!} id={id ?? ""} type="question">
                                 <></>
                             </CardData>
                         </div>
                         {dataReviewd && (
                             <div>
                                 <h3>Revisado</h3>
-                                <CardData data={dataReviewd} id={id ?? ""} type={type}  >
+                                <CardData data={dataReviewd} id={id ?? ""} type="question"  >
                                     <></>
                                 </CardData>
                             </div>
