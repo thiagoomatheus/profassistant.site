@@ -1,3 +1,4 @@
+import { plans } from "@/app/(plans)/plans";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 export async function POST(req: Request) {
@@ -20,15 +21,15 @@ export async function POST(req: Request) {
             if (data[0].customer_id_asaas !== customer) await supabase.from("profile").update({ customer_id_asaas: customer }).eq("id", id)
             if (data[0].subscription_id !== subscription) await supabase.from("profile").update({ subscription_id: subscription }).eq("id", id)
             if (data[0].plan !== plan) await supabase.from("profile").update({ plan: plan }).eq("id", id)
-            await supabase.from("profile").update({ limit_generateds: plan === "pro" ? 200 : 500 }).eq("id", id)
-            await supabase.from("profile").update({ limit_exams: plan === "pro" ? 50 : 100 }).eq("id", id)
-            await supabase.from("profile").update({ limit_ia: plan === "pro" ? 100 : 250 }).eq("id", id)
+            await supabase.from("profile").update({ limit_generateds: plan === "pro" ? plans[1].limits.generateds : plans[2].limits.generateds }).eq("id", id)
+            await supabase.from("profile").update({ limit_exams: plan === "pro" ? plans[1].limits.generateds : plans[2].limits.generateds }).eq("id", id)
+            await supabase.from("profile").update({ limit_ia: plan === "pro" ? plans[1].limits.generateds : plans[2].limits.generateds }).eq("id", id)
             break
         default:
             await supabase.from("profile").update({ plan: "free" }).eq("id", id)
-            await supabase.from("profile").update({ limit_generateds: 10 }).eq("id", id)
-            await supabase.from("profile").update({ limit_exams: 5 }).eq("id", id)
-            await supabase.from("profile").update({ limit_ia: 0 }).eq("id", id)
+            await supabase.from("profile").update({ limit_generateds: plans[0].limits.generateds }).eq("id", id)
+            await supabase.from("profile").update({ limit_exams: plans[0].limits.exams }).eq("id", id)
+            await supabase.from("profile").update({ limit_ia: plans[0].limits.ia }).eq("id", id)
             break
     }
     return NextResponse.json({ received: true }, { status: 200 })
