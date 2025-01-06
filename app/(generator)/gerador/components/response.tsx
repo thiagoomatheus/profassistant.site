@@ -8,7 +8,8 @@ import CardActionEdit from "./CardActionEdit"
 import CardActionSave from "./CardActionSave"
 import CardActionCopy from "./CardActionCopy"
 import CardActionReview from "./CardActionReview"
-export default function Response () {
+import { UserDBComplete } from "@/app/lib/types/types"
+export default function Response ( { user }: { user: UserDBComplete}) {
 
   const { state } = useGeneratorContext()
 
@@ -33,7 +34,7 @@ export default function Response () {
                 <CardActionEdit originalData={data} />
                 <CardActionSave />  
                 <CardActionCopy />
-                {state.type === "question" && <CardActionReview />}
+                {user.plan === "premium" && state.type === "question" && <CardActionReview />}
               </CardData>
             ))}
         </div>

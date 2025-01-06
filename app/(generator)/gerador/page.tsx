@@ -5,9 +5,11 @@ import Response from "./components/response"
 import { Suspense } from "react"
 import LoaderResponse from "./components/loaderResponse"
 import { GeneratorContextProvider } from "../lib/contexts/generatorContextProvider"
-export default function Page({searchParams}: {
+import { getUser } from "@/app/(login)/lib/actions"
+export default async function Page({searchParams}: {
     searchParams: { [key: string]: string | undefined }
 }) {
+    const user = await getUser()
     const instructions = searchParams.instructions === "true"
     return (
         <>
@@ -29,7 +31,7 @@ export default function Page({searchParams}: {
                 <GeneratorContextProvider>
                     <Generator />
                     <Suspense fallback={<LoaderResponse />}>
-                        <Response />
+                        <Response user={user!} />
                     </Suspense>
                 </GeneratorContextProvider>
             </section>
