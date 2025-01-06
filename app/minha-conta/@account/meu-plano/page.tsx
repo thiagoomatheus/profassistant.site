@@ -11,14 +11,17 @@ function ModalSelectPlan({profile}: {profile: UserDBComplete}) {
         <ModalRefactor>
             <h3 className="self-center">Escolher plano</h3>
             <form className="flex flex-col justify-center items-center gap-3" action={subscribePlanWithProfile}>
-                <div className="flex justify-center flex-col xl:grid xl:grid-cols-2 gap-5">
-                    {plans.map(plan => (
-                        <label className="rounded-xl bg-none" key={`card_${plan.id}`}>
-                            <CardPrice plan={plan} title={plan.name} price={plan.price}>
-                                <input className="w-3 h-3 appearance-none" type="radio" name="plan" value={plan.value} {...profile.plan === plan.value ? {defaultChecked: true, disabled: true} : ""} />
-                            </CardPrice>
-                        </label>
+                <div className="flex justify-center flex-col xl:flex-row flex-wrap gap-5">
+                    {plans.map(plan => {
+                        if (plan.value === profile.plan) return
+                        return (
+                            <label className="rounded-xl bg-none duration-500" key={`card_${plan.id}`}>
+                                <CardPrice plan={plan} title={plan.name} price={plan.price}>
+                                    <input className="w-3 h-3 bg-orange-2 checked:bg-orange-2 outline-none" type="radio" name="plan" value={plan.value} />
+                                </CardPrice>
+                            </label>
                         )
+                    }
                     )}
                 </div>
                 <p className="text-xs lg:text-sm">ATENÇÃO: Não processamos o pagamento em nosso sistema. Assim, ao clicar no botão abaixo você será redirecionado para o ambiente do provedor de pagamento para que possa finalizar sua transação.</p>

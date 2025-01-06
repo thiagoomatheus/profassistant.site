@@ -15,7 +15,7 @@ export default function CardPrice({ title, plan, price, children }: {
     children: React.ReactNode
 }) {
     return (
-        <div className={`grid p-3 w-60 lg:w-64 xl:w-72 h-[400px] lg:h-[470px] xl:h-[550px] rounded-xl dark:hover:shadow-slate-800 shadow-md md:hover:mt-[-5px] duration-300 md:hover:shadow-lg border border-blue dark:border`}>
+        <div className={`grid p-3 w-60 lg:w-64 xl:w-72 h-[400px] lg:h-[470px] xl:h-[550px] rounded-xl dark:hover:shadow-slate-800 shadow-md md:hover:mt-[-5px] duration-500 md:hover:shadow-lg border border-blue dark:border`}>
             <div className="flex flex-col gap-3 mx-auto text-center">
                 <h3>{title}</h3>
                 <ul className="flex flex-col gap-2 lg:gap-4">
