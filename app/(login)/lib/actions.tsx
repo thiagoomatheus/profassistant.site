@@ -7,7 +7,7 @@ export async function getUser() {
     const supabase = createClient()
     const session = (await supabase.auth.getSession()).data.session
     if (!session) return
-    const data: UserDBComplete = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?select=name,plan,id,created_at,school_name,theme,user_email,phone,customer_id_asaas,subscription_id,payment_link&id=eq.${session.user.id}`, {
+    const data: UserDBComplete = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/profile?id=eq.${session.user.id}`, {
         headers: {
             "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",

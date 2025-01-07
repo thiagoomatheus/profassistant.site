@@ -79,6 +79,12 @@ export type UserDBComplete = {
     id_customer_asaas?: string
     subscription_id?: string
     payment_link?: string
+    generateds: number
+    limit_generateds: number
+    exams: number
+    limit_exams: number
+    ia: number
+    limit_ia: number
 }
 export type Exam = {
     id?: string
