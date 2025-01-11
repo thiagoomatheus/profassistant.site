@@ -18,8 +18,18 @@ const config: Config = {
         "orange": "#D97927",
         "orange-2": "#BC9322",
         "blue": "#2783D9",
-        "blue-2": "#3D4B59"
-      }
+        "blue-2": "#3D4B59",
+      },
+      keyframes: {
+        bounceSlow: {
+          '0%, 100%': { transform: 'translateY(-2%)', AnimationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)' },
+          '50%': { transform: 'translateY(0)', AnimationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)' },
+        }
+      },
+      animation: {
+        'bounce-slow': 'bounceSlow 2s infinite',
+      },
+
     },
   },
   plugins: [],
