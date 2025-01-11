@@ -54,7 +54,7 @@ export default function Home() {
         <div key={"cards_plans"} className="flex flex-col justify-center md:grid md:grid-cols-3 gap-5 lg:gap-10">
           {plans.map(plan => (
             <CardPrice key={`card_${plan.id}`} plan={plan} title={plan.name} price={plan.price} className={plan.name === "Pro" ? "animate-bounce-slow hover:animate-none duration-500" : ""} >
-                <Button aditionalCSS="dark:bg-orange" key={`button_${plan.id}`} href="/register" text="Escolher" />
+                <Button aditionalCSS="dark:bg-orange dark:hover:bg-blue-2" key={`button_${plan.id}`} href="/register" text="Escolher" />
             </CardPrice>
           ))}
         </div>

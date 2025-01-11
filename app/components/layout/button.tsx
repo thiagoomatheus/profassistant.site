@@ -10,12 +10,12 @@ export default function Button ({ text, href, handleClick, aditionalCSS, type }:
     return (
         <>
             {href && (
-                <Link onClick={handleClick} href={href} className={`p-2 md:py-2 md:px-4 xl:px-5 text-xs md:text-sm lg:text-lg text-white bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-orange-2 hover:text-white duration-200 cursor-pointer ${aditionalCSS}`}>
+                <Link onClick={handleClick} href={href} className={`p-2 md:py-2 md:px-4 xl:px-5 text-xs md:text-sm lg:text-lg text-white bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-orange-2 hover:text-white duration-300 cursor-pointer ${aditionalCSS}`}>
                     {text}
                 </Link>
             )}
             {!href && (
-                <button type={type ? type : "button"} onClick={handleClick} className={`p-2 md:py-2 md:px-4 xl:px-5 text-xs md:text-sm lg:text-lg text-white bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-orange-2 hover:text-white duration-200 cursor-pointer ${aditionalCSS}`}>
+                <button type={type ? type : "button"} onClick={handleClick} className={`p-2 md:py-2 md:px-4 xl:px-5 text-xs md:text-sm lg:text-lg text-white bg-blue-2 flex flex-col justify-center items-center rounded-xl shadow-md hover:bg-orange-2 hover:text-white duration-300 cursor-pointer ${aditionalCSS}`}>
                     {text}
                 </button>
             )}

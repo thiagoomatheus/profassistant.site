@@ -29,7 +29,7 @@ export default function UserMenu () {
                         </Link>
                     </li>
                     <li>
-                        <Button text="Sair" handleClick={handleLogout} aditionalCSS="font-bold hover:bg-orange" />
+                        <Button text="Sair" handleClick={handleLogout} aditionalCSS="font-bold hover:bg-gradient-to-r hover:from-blue-2 hover:to-blue font-bold" />
                     </li>
                 </ul>
             )}
