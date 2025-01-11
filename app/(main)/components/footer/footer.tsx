@@ -16,7 +16,7 @@ export default function Footer () {
                     <li><Link className="text-xs font-normal lg:text-base border-b" href={"/politica-de-privacidade"}>Política de privacidade</Link></li>
                 </ul>
             </section>
-            <span className="font-bold text-xs lg:text-base">{process.env.NEXT_PUBLIC_PROJECT_NAME} {new Date().getFullYear()} &copy; | Produzido por <Link href={"https://github.com/thiagoomatheus"} target="_blank" className="underline text-xs lg:text-base">thiagoomatheus</Link></span>
+            <span className="font-bold text-xs lg:text-base text-center">{process.env.NEXT_PUBLIC_PROJECT_NAME} {new Date().getFullYear()} &copy; | Produzido por <Link href={"https://github.com/thiagoomatheus"} target="_blank" className="underline text-xs lg:text-base">thiagoomatheus</Link></span>
         </footer>
     )
 }
