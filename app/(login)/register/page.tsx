@@ -1,10 +1,9 @@
-import Form from "../components/form";
-
+import RegisterForm from "../components/registerForm"
 export default function Register () {
     return (
         <>
-            <h1 className="font-bold text-3xl">Crie uma conta</h1>
-            <Form btnText="Criar conta" />
+            <h2>Crie uma conta</h2>
+            <RegisterForm />
         </>
     )
 }
