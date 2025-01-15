@@ -55,8 +55,8 @@ export default function useResponse() {
   function treatResponse(response: string, gerar: string) {
 
     if (gerar === "text") return response.replace(/[*]{2,}/g, '')
-
-    return response.replace(/\\n/g, "  ").replace(/[\\"']/g, "").replace(/\s{2,}/g, ' ').replace(/[\s]+\)/, ")")
+    
+    return response.replaceAll("\n", "\\n").replaceAll(/[\\n]+\\n/g, "\n").replaceAll("\\n", "\n")
 
   }
 
