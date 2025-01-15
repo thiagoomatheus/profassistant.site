@@ -6,6 +6,7 @@ import Header from './(main)/components/header/header'
 import Footer from './(main)/components/footer/footer'
 import Providers from './components/providers'
 import { Toaster } from 'react-hot-toast'
+import PopUp from './components/layout/PopUp'
 const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'ProfAssistant',
@@ -17,6 +18,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="pt-br" className={theme}>
       <body className={`${inter.className}`} >
+        <PopUp />
         <Toaster position='bottom-right' />
         <Providers>
           <Header />
