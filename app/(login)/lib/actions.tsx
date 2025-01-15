@@ -40,7 +40,10 @@ export async function registerUser(user: User) {
             phone: user.phone,
             theme: "light",
         }
-    ])    
+    ])
+    
+    console.log(`Política de Privacidade: Declaro que aceito o uso de cookies especificados na Política de Privacidade, bem como os outros termos especificados nela | UserId: ${dataSignUp.user?.id} | Email: ${user.email} | Data: ${dataSignUp.user?.created_at}`);
+    
     if (errorProfile) return {error: errorProfile.message}
     const cookieStore = cookies()
     cookieStore.set("theme", "light", {maxAge: 60 * 60 * 24 * 30})

@@ -1,4 +1,5 @@
 "use client"
+import Link from "next/link"
 import useAuth from "../lib/hooks/useLogin"
 export default function RegisterForm () {
     const { handleRegister } = useAuth()
@@ -16,7 +17,11 @@ export default function RegisterForm () {
             <label>Sua senha:
                 <input required name="password" type="password" placeholder="Insira sua senha" />
             </label>
-            <p className="text-sm">Lembre-se: Sua senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um caractere especial ($*&@#), um número e 8 caracteres.</p>
+            <label className="flex flex-row justify-between items-center">
+                <p className="text-xs md:text-sm flex-1">Declaro que aceito o uso de cookies especificados na <Link className="text-xs md:text-sm underline underline-offset-4" href="/politica-de-privacidade">Política de Privacidade</Link>, bem como os outros termos especificados nela</p>
+                <input required className="w-4 mr-2" type="checkbox"/>
+            </label>
+            <p className="text-sm text-center">Lembre-se: Sua senha deve conter pelo menos uma letra minúscula, uma letra maiúscula, um caractere especial ($*&@#), um número e 8 caracteres.</p>
             <input type="submit" value="Criar conta" />
         </form>
     )
