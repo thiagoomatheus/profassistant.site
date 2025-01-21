@@ -25,7 +25,7 @@ export default function QuestionPreview({ question, id, handleRemoveQuestion }: 
                             return
                         }
                         else if (i === 0) {
-                            return <p key={i}>{`${question.position}) ${paragraph}`}</p>
+                            return <p className={!question.question!.includes("a)") ? "mb-32 print:mb-32" : ""} key={i}>{`${question.position}) ${paragraph}`}</p>
                         }
                         return <p key={i}>{paragraph}</p>
                     })}

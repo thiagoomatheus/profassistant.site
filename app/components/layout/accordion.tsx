@@ -14,11 +14,11 @@ export default function Accordion( {text, children, color}: {
             }}>
                 <h3>{text}</h3>
                 {!open ? (
-                    <span className="text-black animate-bounce -z-10">
+                    <span className="text-black dark:text-white animate-bounce -z-10">
                         <FaAngleDown />
                     </span>
                 ) : (
-                    <span className="text-black animate-bounce -z-10">
+                    <span className="text-black dark:text-white animate-bounce -z-10">
                         <FaAngleUp />
                     </span>
                 )}
