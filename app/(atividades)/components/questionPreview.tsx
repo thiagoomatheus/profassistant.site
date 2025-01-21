@@ -15,7 +15,7 @@ export default function QuestionPreview({ question, id, handleRemoveQuestion }: 
                     {question.support!.split("Texto:")[0] && (
                         <p className="font-bold">{question.support!.split("Texto:")[0]}</p>
                     )}
-                    {question.support!.split("Texto:")[1].split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph}</p>)}
+                    {question.support!.split("Texto:")[1].split("\n").map((paragraph: string, i: number) => <p className="indent-5 md:indent-10 print:indent-10" key={i}>{paragraph}</p>)}
                 </div>
             )}
             {question.layout !== "math_expressions" && (
