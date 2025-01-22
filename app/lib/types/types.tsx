@@ -95,6 +95,7 @@ export type Exam = {
     obs?:string
     grade: string
     questions: ExamQuestionDB[]
+    uppercase: boolean
 }
 export type ExamDB = {
     id: number | string
@@ -104,6 +105,7 @@ export type ExamDB = {
     subject: string
     obs?:string
     grade: string
+    uppercase: boolean
 }
 export type ExamSimpleDB = {
     id: string
@@ -120,4 +122,7 @@ export type ExamQuestionDB = {
     exam_id: string | null
     position: number | undefined
     layout: "simple" | "support" | "math_expressions" | undefined
+    number_of_lines: number
+    show_lines: boolean
+    uppercase: boolean
 }
