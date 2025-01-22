@@ -68,7 +68,7 @@ async function updateInDatabase(user_id: string, access_token: string, data: { [
 export async function subscribePlan(profile: UserDBComplete, formData: FormData) {
     const supabase = createClient()
     const session = await supabase.auth.getSession()
-    const selectedPlan = formData.get("plan") as "free" | "pro" | "premium"
+    const selectedPlan = formData.get("plan") as "gratis" | "basico" | "pro" | "premium"
     if (profile.subscription_id && profile.payment_link && profile.id_customer_asaas) {
         const removedCustomer = await removeCustomer(profile.id_customer_asaas)
         if (removedCustomer !== 200) return { error: "Erro ao cancelar assinatura"}
@@ -85,7 +85,7 @@ export async function subscribePlan(profile: UserDBComplete, formData: FormData)
             },
             body: JSON.stringify({
                 ...profile,
-                plan: "free",
+                plan: "gratis",
                 subscription_id: null,
                 payment_link: null,
                 limit_generateds: 10,
@@ -95,7 +95,7 @@ export async function subscribePlan(profile: UserDBComplete, formData: FormData)
         })
         if (result.status !== 204) return { error: "Impossível se comunicar com banco de dados neste momento" }
     }
-    if (selectedPlan === "free") {
+    if (selectedPlan === "gratis") {
         revalidateTag("user")
         return { success: "Plano atualizado com sucesso" }
     }

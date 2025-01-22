@@ -2,7 +2,7 @@ import { getUser } from "@/app/(login)/lib/actions"
 import Link from "next/link"
 export default async function GeneratorLayout({children}: {children: React.ReactNode}) {
     const user = await getUser()
-    if (user?.plan === "free") {
+    if (user?.plan === "gratis") {
         return (
             <div className="flex flex-col gap-5 justify-center items-center">
                 <h1>Acesso negado!</h1>

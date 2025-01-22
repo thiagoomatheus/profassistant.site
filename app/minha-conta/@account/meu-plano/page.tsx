@@ -36,7 +36,7 @@ export default async function Page({searchParams}: {
     const modalOpen: boolean = searchParams.modal === "true"
     const profile = await getUser()
     if (!profile) return <p>Algum erro aconteceu. Se conecte e tente novamente!</p>
-    if (profile.plan === "free" || !profile.subscription_id) {
+    if (profile.plan === "gratis" || !profile.subscription_id) {
         return (
             <>
                 <h2>Meu plano</h2>

@@ -29,7 +29,7 @@ export default function Page() {
             <h2>Preços e Pagamentos:</h2>
 
             <ul className={"flex flex-col gap-3"}>
-                <li><span className="font-bold">Quais são os planos disponíveis?</span> Oferecemos planos Free, Pro e Premium. Consulte nossa página de preços para ver os detalhes de cada plano.</li>
+                <li><span className="font-bold">Quais são os planos disponíveis?</span> Oferecemos planos Grátis, Básico, Pro e Premium. Consulte nossa página de preços para ver os detalhes de cada plano.</li>
                 
                 <li><span className="font-bold">Como posso fazer o pagamento?</span> Aceitamos pagamentos via <a href="http://www.asaas.com" target="_blank" rel="noopener noreferrer">Asaas</a>.</li>
                 

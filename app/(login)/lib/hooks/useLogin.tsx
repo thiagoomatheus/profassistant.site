@@ -70,7 +70,7 @@ export default function useAuth() {
             phone: formData.get("phone") as string,
             email: formData.get("email") as string,
             password: formData.get("password") as string,
-            plan: "free"
+            plan: "gratis"
         }
         const validate = validateData(user)
         if (validate !== true) return toast.error(`Erro ao criar conta. Erro: ${validate.error}`, {id: toastRegister})

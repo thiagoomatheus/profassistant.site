@@ -26,7 +26,7 @@ export async function POST(req: Request) {
             await supabase.from("profile").update({ limit_ia: plan === "pro" ? plans[1].limits.generateds : plans[2].limits.generateds }).eq("id", id)
             break
         default:
-            await supabase.from("profile").update({ plan: "free" }).eq("id", id)
+            await supabase.from("profile").update({ plan: "gratis" }).eq("id", id)
             await supabase.from("profile").update({ limit_generateds: plans[0].limits.generateds }).eq("id", id)
             await supabase.from("profile").update({ limit_exams: plans[0].limits.exams }).eq("id", id)
             await supabase.from("profile").update({ limit_ia: plans[0].limits.ia }).eq("id", id)
