@@ -16,7 +16,10 @@ export const initialQuestionsExam = {
     question_id: null,
     exam_id: null,
     position: undefined,
-    layout: undefined
+    layout: undefined,
+    number_of_lines: 0,
+    show_lines: false, 
+    uppercase: false
 }
 export const initialExam = {
     title: "",
@@ -25,7 +28,8 @@ export const initialExam = {
     subject: "",
     obs: "",
     grade: "",
-    questions: []
+    questions: [],
+    uppercase: false
 }
 export default function MyExam( { data }: {
     data?: Exam
