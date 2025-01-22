@@ -6,7 +6,7 @@ export default function QuestionPreview({ question, id, handleRemoveQuestion }: 
     handleRemoveQuestion: (id: number) => void
 }) {
     return (
-        <div className="flex flex-col gap-5 duration-200 p-2 rounded-xl hover:bg-red-400 dark:hover:bg-red-700 relative questionPreview">
+        <div className={`flex flex-col gap-5 duration-200 p-2 rounded-xl hover:bg-red-400 dark:hover:bg-red-700 relative questionPreview ${question.uppercase ? "uppercase" : ""}`}>
             <span className="hidden"><Button text="Remover" handleClick={() => {
                 handleRemoveQuestion(id)
             }} /></span>
@@ -25,17 +25,27 @@ export default function QuestionPreview({ question, id, handleRemoveQuestion }: 
                             return
                         }
                         else if (i === 0) {
-                            return <p className={!question.question!.includes("a)") ? "mb-32 print:mb-32" : ""} key={i}>{`${question.position}) ${paragraph}`}</p>
+                            return <p key={i}>{`${question.position}) ${paragraph}`}</p>
                         }
                         return <p key={i}>{paragraph}</p>
+                    })}
+                    {question.number_of_lines > 0 && new Array(question.number_of_lines).fill(null).map((_, i) => {
+                        return <div key={`line${i}`} className={`h-3 ${question.show_lines ? "border-b print:border-b border-black dark:border-white print:border-black dark:print:border-black" : ""}`} />
                     })}
                 </>
             )}
             {question.layout === "math_expressions" && (
                 <>
-                    <p>{`${question.position})`} Resolva as expressões matemáticas a seguir:</p>
-                    <div className="grid grid-cols-2 grid-rows-2 gap-y-36 w-full mb-36">
-                        {question.question!.replaceAll("--","").split("\n").map((paragraph: string, i: number) => <p key={i}>{paragraph} =</p>)}
+                    <p className={`${question.uppercase ? "uppercase" : ""}`} >{`${question.position})`} Resolva as expressões matemáticas a seguir:</p>
+                    <div className="grid grid-cols-2 grid-rows-2 gap-5 w-full">
+                        {question.question!.replaceAll("--","").split("\n").map((paragraph: string, i: number) => (
+                            <div key={i}>
+                                <p>{paragraph} =</p>
+                                {question.number_of_lines > 0 && new Array(question.number_of_lines).fill(null).map((_, i) => {
+                                    return <div key={`line${i}`} className={`h-8 ${question.show_lines ? "border-b print:border-b border-black dark:border-white print:border-black dark:print:border-black" : ""}`} />
+                                })}
+                            </div>
+                        ))}
                     </div>
                 </>
             )}
