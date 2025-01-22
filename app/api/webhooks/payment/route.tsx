@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const body = await req.json()
     if (!body) return NextResponse.json({ received: false }, { status: 200 })
     const { customer, description, subscription, value } = body.payment
-    const plan = value === 29.99 ? "pro" : "premium"
+    const plan = plans.filter(plan => plan.price === value)[0]
     const id = description.split(":")[1]
     const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_KEY!)
     switch (body.event) {
@@ -20,10 +20,11 @@ export async function POST(req: Request) {
             if (!data) return NextResponse.json({ received: false }, { status: 200 })
             if (data[0].customer_id_asaas !== customer) await supabase.from("profile").update({ customer_id_asaas: customer }).eq("id", id)
             if (data[0].subscription_id !== subscription) await supabase.from("profile").update({ subscription_id: subscription }).eq("id", id)
-            if (data[0].plan !== plan) await supabase.from("profile").update({ plan: plan }).eq("id", id)
-            await supabase.from("profile").update({ limit_generateds: plan === "pro" ? plans[1].limits.generateds : plans[2].limits.generateds }).eq("id", id)
-            await supabase.from("profile").update({ limit_exams: plan === "pro" ? plans[1].limits.generateds : plans[2].limits.generateds }).eq("id", id)
-            await supabase.from("profile").update({ limit_ia: plan === "pro" ? plans[1].limits.generateds : plans[2].limits.generateds }).eq("id", id)
+            if (data[0].plan !== plan.value) await supabase.from("profile").update({ plan: plan.value }).eq("id", id)
+            await supabase.from("profile").update({ limit_generateds: plan.limits.generateds }).eq("id", id)
+            await supabase.from("profile").update({ limit_exams: plan.limits.exams }).eq("id", id)
+            await supabase.from("profile").update({ limit_ia: plan.limits.ia }).eq("id", id)
+            console.log(`Pagamento confirmado: UserId: ${id} - CustomerId: ${customer} - Plano: ${value} - Data: ${new Date()}`);
             break
         default:
             await supabase.from("profile").update({ plan: "gratis" }).eq("id", id)

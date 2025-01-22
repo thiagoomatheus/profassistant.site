@@ -1,4 +1,5 @@
 "use server"
+import { plans } from "@/app/(plans)/plans"
 import { createClient } from "@/app/lib/supabase/server"
 import { UserDBComplete } from "@/app/lib/types/types"
 import { revalidateTag } from "next/cache"
@@ -111,7 +112,7 @@ export async function subscribePlan(profile: UserDBComplete, formData: FormData)
             chargeType: 'RECURRENT',
             name: `Plano ${selectedPlan}`,
             description: `Plano ${selectedPlan} - user_id:${profile.id}`,
-            value: selectedPlan === "pro" ? 29.99 : 49.99,
+            value: plans.filter(plan => plan.value === selectedPlan)[0].price,
             subscriptionCycle: 'MONTHLY',
             notificationEnabled: false
           })
