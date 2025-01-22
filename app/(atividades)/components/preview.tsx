@@ -12,9 +12,9 @@ export default function Preview( { exam, handleRemoveQuestion }: {
         }
     })
     return (
-        <div  className="section-to-print flex flex-col gap-10 p-3 md:p-7 border-2">
+        <div className="section-to-print flex flex-col gap-10 p-3 md:p-7 border-2">
             {exam.school_name && (
-                <header className="flex flex-col gap-5 justify-center items-center print:mb-3">
+                <header className={`flex flex-col gap-5 justify-center items-center print:mb-3 ${exam.uppercase ? "uppercase" : ""}`}>
                     <h3 className="font-bold">{exam.title} - {exam.subject}</h3>
                     {exam.title && (
                        <p className="text-center">{exam.school_name}</p>
