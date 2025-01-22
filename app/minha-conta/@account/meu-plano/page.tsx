@@ -11,7 +11,7 @@ function ModalSelectPlan({profile}: {profile: UserDBComplete}) {
         <ModalRefactor>
             <h3 className="self-center">Escolher plano</h3>
             <form className="flex flex-col justify-center items-center gap-3" action={subscribePlanWithProfile}>
-                <div className="flex justify-center flex-col xl:flex-row flex-wrap gap-5">
+                <div className="flex justify-center flex-col md:flex-row flex-wrap gap-5">
                     {plans.map(plan => {
                         if (plan.value === profile.plan) return
                         return (
