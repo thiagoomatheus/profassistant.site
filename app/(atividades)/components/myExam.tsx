@@ -33,11 +33,12 @@ export default function MyExam( { data }: {
     const router = useRouter()
     const [exam, setExam] = useState<Exam>(data ? data : initialExam)
     const [questionsExam, setQuestionsExams] = useState<ExamQuestionDB>(initialQuestionsExam)
-    function handleChangeHeader(e:React.ChangeEvent) {
+    function handleChangeHeader(e:React.ChangeEvent, ref?: React.RefObject<HTMLInputElement>) {
         const target = e.target as HTMLInputElement;
         setExam({
             ...exam,
-            [target.name]: target.value
+            [target.name]: target.value,
+            uppercase: ref?.current?.checked ? ref.current.checked : false
         })
     }
     function handleAddQuestion() {
