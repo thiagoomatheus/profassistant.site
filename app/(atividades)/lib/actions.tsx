@@ -195,7 +195,7 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
                 },
                 body: JSON.stringify(data)
             })
-            if (result.status !== 204) return {error: (await result.json()).error.message}
+            if (result.status !== 201) return {error: (await result.json()).error.message}
         }
     }
     return "success"
