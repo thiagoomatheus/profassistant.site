@@ -25,9 +25,9 @@ export default function Body( { setQuestionsExam, questionsExam, handleAddQuesti
             {modal !== "close" && (
                 <Modals type={modal} close={() => setModal("close")} state={{ questionsExam, setQuestionsExam }} />
             )}
-            <div className="flex flex-col md:flex-row gap-2 md-gap:5">
+            <div className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-5">
                 <SectionWithBorder key="layoutForm" borderColor="border-orange">
-                    <p className="text-xs md:text-sm font-bold text-blue">Layout da questão:</p>
+                    <p className="text-base md:text-lg font-bold">Layout da questão:</p>
                     <FormBody>
                         <LabelBody>
                             Simples
