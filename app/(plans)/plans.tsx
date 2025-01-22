@@ -1,24 +1,28 @@
 export const plans = [
     {
         id: 1,
-        name: "Free",
-        value: "free",
+        name: "Grátis",
+        value: "gratis",
         functionalities: [
             {
                 feature:"Crie seu próprio banco de questões, textos, provas e atividades",
                 active: true
             },
             {
-                feature:"Salve 20 questões ou textos no banco de dados",
+                feature:"Salve 100 questões ou textos no banco de dados",
                 active: true
             },
             {
-                feature:"Salve 10 provas ou atividades no banco de dados",
+                feature:"Salve 25 provas ou atividades no banco de dados",
                 active: true
             },
             {
                 feature:"Gere textos, questões ou expressões matemáticas com IA",
-                active: false
+                active: true
+            },
+            {
+                feature: "Limite de 50 usos de IA por mês",
+                active: true
             },
             {
                 feature:"Corriga e verifique questões com IA",
@@ -27,13 +31,50 @@ export const plans = [
         ],
         price: "0,00",
         limits: {
-            generateds: 20,
-            exams: 10,
-            ia: 0
+            generateds: 100,
+            exams: 25,
+            ia: 50
         }
     },
     {
         id: 2,
+        name: "Básico",
+        value: "basico",
+        functionalities: [
+            {
+                feature:"Crie seu próprio banco de questões, textos, provas e atividades",
+                active: true
+            },
+            {
+                feature:"Salve 300 questões ou textos no banco de dados",
+                active: true
+            },
+            {
+                feature:"Salve 75 provas ou atividades no banco de dados",
+                active: true
+            },
+            {
+                feature:"Gere textos, questões ou expressões matemáticas com IA",
+                active: true
+            },
+            {
+                feature: "Limite de 150 usos de IA por mês",
+                active: true
+            },
+            {
+                feature:"Corriga e verifique questões com IA",
+                active: true
+            }
+        ],
+        price: "9,99",
+        limits: {
+            generateds: 300,
+            exams: 75,
+            ia: 150
+        }
+    },
+    {
+        id: 3,
         name: "Pro",
         value: "pro",
         functionalities: [
@@ -42,11 +83,11 @@ export const plans = [
                 active: true
             },
             {
-                feature:"Salve 200 questões ou textos no banco de dados",
+                feature:"Salve 1000 questões ou textos no banco de dados",
                 active: true
             },
             {
-                feature:"Salve 50 provas ou atividades no banco de dados",
+                feature:"Salve 250 provas ou atividades no banco de dados",
                 active: true
             },
             {
@@ -54,23 +95,23 @@ export const plans = [
                 active: true
             },
             {
-                feature: "Limite de 100 usos de IA por mês",
+                feature: "Limite de 500 usos de IA por mês",
                 active: true
             },
             {
                 feature:"Corriga e verifique questões com IA",
-                active: false
+                active: true
             }
         ],
-        price: "29,99",
+        price: "24,99",
         limits: {
-            generateds: 200,
-            exams: 50,
-            ia: 100
+            generateds: 1000,
+            exams: 250,
+            ia: 500
         }
     },
     {
-        id: 3,
+        id: 4,
         name: "Premium",
         value: "premium",
         functionalities: [
@@ -79,11 +120,11 @@ export const plans = [
                 active: true
             },
             {
-                feature:"Salve 500 questões ou textos no banco de dados",
+                feature:"Salve 2500 questões ou textos no banco de dados",
                 active: true
             },
             {
-                feature:"Salve 100 provas ou atividades no banco de dados",
+                feature:"Salve 500 provas ou atividades no banco de dados",
                 active: true
             },
             {
@@ -91,7 +132,7 @@ export const plans = [
                 active: true
             },
             {
-                feature: "Limite de 250 gerações por mês",
+                feature: "Limite de 1000 gerações por mês",
                 active: true
             },
             {
@@ -99,11 +140,11 @@ export const plans = [
                 active: true
             }
         ],
-        price: "49,99",
+        price: "39,99",
         limits: {
-            generateds: 500,
-            exams: 100,
-            ia: 250
+            generateds: 2500,
+            exams: 500,
+            ia: 1000
         }
     }
 ]
