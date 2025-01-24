@@ -24,7 +24,7 @@ export default function Preview( { exam, handleRemoveQuestion }: {
                     )}
                     {exam.grade && (
                         <div className="grid grid-cols-[auto_0.80fr_auto_0.15fr] w-full gap-1">
-                            <p className="font-bold">Nome do Aluno:</p>
+                            <p className="font-bold">Nome:</p>
                             <div className="border-b border-black dark:border-white dark:print:border-black"></div>
                             <p>{exam.grade}:</p>
                             <div className="border-b border-black dark:border-white dark:print:border-black"></div>
