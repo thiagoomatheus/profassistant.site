@@ -9,6 +9,8 @@ import { Exam, ExamQuestionDB } from "@/app/lib/types/types"
 import { addExam, updateExam } from "../lib/actions"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
+import DownloadPDFBtn from "../minhas-atividades/[id]/components/DownloadPDFBtn"
+
 export const initialQuestionsExam = {
     support: null,
     support_id: null,
@@ -64,7 +66,8 @@ export default function MyExam( { data }: {
             ...exam,
             questions: exam.questions.filter((_, i: number) => i !== id)
         })
-    }
+    }  
+
     return (
         <section className="flex flex-col justify-center items-center gap-5">
             <Accordion text="Cabeçalho" color="blue">
@@ -102,6 +105,7 @@ export default function MyExam( { data }: {
                     <Button aditionalCSS="font-bold" text="Imprimir" handleClick={() => {
                         window.print()
                     }} />
+                    <DownloadPDFBtn exam={exam} />
                 </div>
             )}
         </section>
