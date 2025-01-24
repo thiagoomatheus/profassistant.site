@@ -81,7 +81,7 @@ export default function MyExam( { data }: {
             {exam.questions.length !== 0 && (
                 <div className="flex flex-row gap-3">
                     {!data && (
-                        <Button text="Salvar" handleClick={async () => {
+                        <Button aditionalCSS="font-bold" text="Salvar" handleClick={async () => {
                             const toastSave = toast.loading("Salvando atividade...")
                             const result = await addExam(exam)
                             if (result !== "success") return toast.error(`Erro ao salvar atividade. Erro: ${result.error}`, { id: toastSave })
@@ -90,7 +90,7 @@ export default function MyExam( { data }: {
                         }} />
                     )}
                     {data && (
-                        <Button text="Atualizar" handleClick={async () => {
+                        <Button aditionalCSS="font-bold" text="Atualizar" handleClick={async () => {
                             const toastUpdate = toast.loading("Atualizando atividade...")
                             if (data === exam) return toast.error("Por favor, faça uma alteração antes de atualizar.", { id: toastUpdate })
                             const result = await updateExam(data, exam)
@@ -99,7 +99,7 @@ export default function MyExam( { data }: {
                             return router.push("/minhas-atividades")
                         }} />
                     )}
-                    <Button text="Imprimir" handleClick={() => {
+                    <Button aditionalCSS="font-bold" text="Imprimir" handleClick={() => {
                         window.print()
                     }} />
                 </div>

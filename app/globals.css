@@ -173,9 +173,11 @@ input[type="submit"]:hover:focus {
     }
     .section-to-print h1 {
         font-size: 22pt;
+        color: #000000;
     }
     .section-to-print h3 {
         font-size: 18pt;
+        color: #000000;
     }
     .section-to-print p {
         font-size: 12pt;
