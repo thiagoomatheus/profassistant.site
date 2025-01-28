@@ -19,8 +19,7 @@ export default function Body( { setQuestionsExam, questionsExam, handleAddQuesti
         const target = e.target as HTMLInputElement;
         setQuestionsExam({
             ...questionsExam,
-            [target.name]: target.value,
-            number_of_lines: parseInt(target.value),
+            [target.name]: target.name.includes("numberOfLines") ? parseInt(target.value) : target.value,
             show_lines: showLinesCheckboxRef.current?.checked ? true : false,
             uppercase: uppercaseCheckboxRef.current?.checked ? true : false
         })
