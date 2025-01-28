@@ -10,6 +10,7 @@ import { addExam, updateExam } from "../lib/actions"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import DownloadPDFBtn from "../minhas-atividades/[id]/components/DownloadPDFBtn"
+import DowloadDOCXBtn from "../minhas-atividades/[id]/components/DownloadDOCXBtn"
 
 export const initialQuestionsExam = {
     support: null,
@@ -106,6 +107,7 @@ export default function MyExam( { data }: {
                         window.print()
                     }} />
                     <DownloadPDFBtn exam={exam} />
+                    <DowloadDOCXBtn exam={exam} />
                 </div>
             )}
         </section>
