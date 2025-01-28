@@ -41,9 +41,7 @@ export default function DownloadPDFBtn( { exam }: { exam: Exam } ) {
                 <Text style={{fontFamily: "Helvetica-Bold", flexBasis: "auto"}}>{exam.grade}:</Text>
                 <View style={{flexBasis: "10%", borderBottom: "1px solid black"}}></View>
           	</View>
-          	{exam.obs && (
-              	<Text>{exam.obs}</Text>
-            )}
+          	<Text style={{alignSelf: "center", fontFamily: "Helvetica-Bold"}}>{exam.obs || ""}</Text>
       	</View>
     )
 
