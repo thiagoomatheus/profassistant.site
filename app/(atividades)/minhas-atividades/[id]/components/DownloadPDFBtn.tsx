@@ -25,11 +25,7 @@ export default function DownloadPDFBtn( { exam }: { exam: Exam } ) {
             gap: 20,
             textTransform: exam.uppercase ? "uppercase" : undefined,
             width: "100%"
-        },
-        text: {
-            margin: 12,
-            fontSize: 14,
-          }
+        }
     });
 
 
