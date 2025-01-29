@@ -31,9 +31,10 @@ export async function getExam(exam_id: string) {
         subject: "",
         obs: "",
         grade: "",
-        questions: []
+        questions: [],
+        uppercase: false
     }
-    const resultExam = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?select=id,title,teacher,school_name,subject,grade,obs&id=eq.${exam_id}`, {
+    const resultExam = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam?select=id,title,teacher,school_name,subject,grade,obs,uppercase&id=eq.${exam_id}`, {
         headers: {
             "apikey": process.env.SUPABASE_ANON_KEY!,
             "Content-Type": "application/json",
@@ -51,6 +52,7 @@ export async function getExam(exam_id: string) {
         subject: responseExam[0].subject,
         obs: responseExam[0].obs,
         grade: responseExam[0].grade,
+        uppercase: responseExam[0].uppercase
     }
     const resultQuestions = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/questions_combined?exam_id=eq.${exam_id}`, {
         headers: {
@@ -81,7 +83,8 @@ export async function addExam(exam: Exam) {
             subject: exam.subject,
             teacher: exam.teacher,
             grade: exam.grade,
-            obs: exam.obs !== undefined ? exam.obs : null
+            obs: exam.obs !== undefined ? exam.obs : null,
+            uppercase: exam.uppercase
         })
     })
     const responseExam = await resultExam.json()
@@ -182,7 +185,7 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
                 }
                 question.exam_id = newExam.id!
                 return question
-            })      
+            })
             const result = await fetch(`https://tzohqwteaoakaifwffnm.supabase.co/rest/v1/exam_question`, {
                 method:"POST",
                 headers: {
@@ -192,7 +195,7 @@ export async function updateExam(previousExam: Exam, newExam: Exam) {
                 },
                 body: JSON.stringify(data)
             })
-            if (result.status !== 204) return {error: (await result.json()).error.message}
+            if (result.status !== 201) return {error: (await result.json()).error.message}
         }
     }
     return "success"

@@ -2,7 +2,7 @@
 import Button from "@/app/components/layout/button"
 import SectionWithBorder from "@/app/components/layout/sectionWithBorder"
 import { ExamQuestionDB } from "@/app/lib/types/types"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import FormBody from "./formBody"
 import LabelBody from "./labelBody"
 import Modals from "../modals"
@@ -12,22 +12,27 @@ export default function Body( { setQuestionsExam, questionsExam, handleAddQuesti
     questionsExam: ExamQuestionDB
     handleAddQuestion: () => void
 }) {
+    const showLinesCheckboxRef = useRef<HTMLInputElement>(null)
+    const uppercaseCheckboxRef = useRef<HTMLInputElement>(null)
     const [modal, setModal] = useState<"selectSupport" | "selectMathExpressions" | "selectQuestion" | "insertSupport" | "insertMathExpressions"| "insertQuestion" | "close">("close")
     function handleChange(e:React.ChangeEvent) {
         const target = e.target as HTMLInputElement;
         setQuestionsExam({
             ...questionsExam,
-            [target.name]: target.value
+            [target.name]: target.name.includes("numberOfLines") ? parseInt(target.value) : target.value,
+            show_lines: showLinesCheckboxRef.current?.checked ? true : false,
+            uppercase: uppercaseCheckboxRef.current?.checked ? true : false
         })
     }
+    const numberOfLinesArray:number[] = Object.keys(new Array(11).fill(null)).map(Number)
     return (
         <>
             {modal !== "close" && (
                 <Modals type={modal} close={() => setModal("close")} state={{ questionsExam, setQuestionsExam }} />
             )}
-            <div className="flex flex-col md:flex-row gap-2 md-gap:5">
+            <div className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-5">
                 <SectionWithBorder key="layoutForm" borderColor="border-orange">
-                    <p className="text-xs md:text-sm font-bold text-blue">Layout da questão:</p>
+                    <p className="text-base md:text-lg font-bold">Layout da questão:</p>
                     <FormBody>
                         <LabelBody>
                             Simples
@@ -42,6 +47,31 @@ export default function Body( { setQuestionsExam, questionsExam, handleAddQuesti
                             <input id="radio" className="h-14 w-20 bg-[url('../public/images/question_with_image.jpg')]" type="radio" name="layout" value={"math_expressions"} onChange={handleChange} />
                         </LabelBody>
                     </FormBody>
+                </SectionWithBorder>
+                <SectionWithBorder key="questionStyle" borderColor="border-orange">
+                    <p className="text-base md:text-lg font-bold">Formatação:</p>
+                    <form className="flex flex-col w-3/4 gap-5">
+                        <label className="flex flex-row justify-between items-center gap-5">
+                            <p className="text-xs md:text-base font-normal">Caixa alta?</p>
+                            <input key="uppercase" className="w-fit" type="checkbox" name="uppercase" onChange={handleChange} ref={uppercaseCheckboxRef} />
+                        </label>
+                        {questionsExam.question && !questionsExam.question?.includes("a)") && (
+                            <>
+                                <label className="flex flex-row justify-between items-center gap-5">
+                                    <p className="text-xs md:text-base font-normal">Quantidade de linhas:</p>
+                                    <select className="w-14" key="numberOfLines" name="number_of_lines" onChange={handleChange}>
+                                        {numberOfLinesArray.map(value => (
+                                            <option key={value} value={value as number} >{value}</option>
+                                        ))}
+                                    </select>
+                                </label>
+                                <label className="flex flex-row justify-between items-center gap-5">
+                                    <p className="text-xs md:text-base font-normal">Mostrar linhas:</p>
+                                    <input key="showLines" className="w-fit" type="checkbox" name="show_lines" onChange={handleChange} ref={showLinesCheckboxRef} />
+                                </label>
+                            </>
+                        )}
+                    </form>
                 </SectionWithBorder>
             </div>
             <div className="flex flex-col flex-wrap gap-5 justify-start">

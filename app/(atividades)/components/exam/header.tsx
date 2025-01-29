@@ -1,9 +1,15 @@
+"use client"
+
 import Label from "@/app/(generator)/gerador/components/label"
 import { Exam } from "@/app/lib/types/types"
+import { useRef } from "react"
 export default function Header( { handleChange, value }: {
-    handleChange: (e: React.ChangeEvent)=> void
+    handleChange: (e: React.ChangeEvent, ref?: React.RefObject<HTMLInputElement>)=> void
     value?: Exam
 }) {
+
+    const uppercaseCheckboxRef = useRef<HTMLInputElement>(null)
+    
     return (
         <form className="w-full flex flex-col gap-5">
             <Label label="Nome da Instituição" key="school">
@@ -24,6 +30,10 @@ export default function Header( { handleChange, value }: {
             <Label label="Observação" key="obs">
                 <input type="text" key="obsInput" onChange={handleChange} value={value ? value.obs : undefined} name="obs" />
             </Label>
+            <label className="flex flex-row items-center gap-5" key="uppercase">
+                <p>Caixa alta?</p>
+                <input className="w-fit h-fit" type="checkbox" key="uppercaseCheckbox" onChange={(e) => handleChange(e, uppercaseCheckboxRef)} defaultChecked={value ? value.uppercase : false} name="uppercase" ref={uppercaseCheckboxRef} />
+            </label>
         </form>
     )
 }

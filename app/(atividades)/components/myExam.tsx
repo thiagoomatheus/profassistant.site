@@ -9,6 +9,9 @@ import { Exam, ExamQuestionDB } from "@/app/lib/types/types"
 import { addExam, updateExam } from "../lib/actions"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
+import DownloadPDFBtn from "../minhas-atividades/[id]/components/DownloadPDFBtn"
+import DowloadDOCXBtn from "../minhas-atividades/[id]/components/DownloadDOCXBtn"
+
 export const initialQuestionsExam = {
     support: null,
     support_id: null,
@@ -16,7 +19,10 @@ export const initialQuestionsExam = {
     question_id: null,
     exam_id: null,
     position: undefined,
-    layout: undefined
+    layout: undefined,
+    number_of_lines: 0,
+    show_lines: false, 
+    uppercase: false
 }
 export const initialExam = {
     title: "",
@@ -25,7 +31,8 @@ export const initialExam = {
     subject: "",
     obs: "",
     grade: "",
-    questions: []
+    questions: [],
+    uppercase: false
 }
 export default function MyExam( { data }: {
     data?: Exam
@@ -33,11 +40,12 @@ export default function MyExam( { data }: {
     const router = useRouter()
     const [exam, setExam] = useState<Exam>(data ? data : initialExam)
     const [questionsExam, setQuestionsExams] = useState<ExamQuestionDB>(initialQuestionsExam)
-    function handleChangeHeader(e:React.ChangeEvent) {
+    function handleChangeHeader(e:React.ChangeEvent, ref?: React.RefObject<HTMLInputElement>) {
         const target = e.target as HTMLInputElement;
         setExam({
             ...exam,
-            [target.name]: target.value
+            [target.name]: target.value,
+            uppercase: ref?.current?.checked ? ref.current.checked : false
         })
     }
     function handleAddQuestion() {
@@ -59,7 +67,8 @@ export default function MyExam( { data }: {
             ...exam,
             questions: exam.questions.filter((_, i: number) => i !== id)
         })
-    }
+    }  
+
     return (
         <section className="flex flex-col justify-center items-center gap-5">
             <Accordion text="Cabeçalho" color="blue">
@@ -76,7 +85,7 @@ export default function MyExam( { data }: {
             {exam.questions.length !== 0 && (
                 <div className="flex flex-row gap-3">
                     {!data && (
-                        <Button text="Salvar" handleClick={async () => {
+                        <Button aditionalCSS="font-bold" text="Salvar" handleClick={async () => {
                             const toastSave = toast.loading("Salvando atividade...")
                             const result = await addExam(exam)
                             if (result !== "success") return toast.error(`Erro ao salvar atividade. Erro: ${result.error}`, { id: toastSave })
@@ -85,7 +94,7 @@ export default function MyExam( { data }: {
                         }} />
                     )}
                     {data && (
-                        <Button text="Atualizar" handleClick={async () => {
+                        <Button aditionalCSS="font-bold" text="Atualizar" handleClick={async () => {
                             const toastUpdate = toast.loading("Atualizando atividade...")
                             if (data === exam) return toast.error("Por favor, faça uma alteração antes de atualizar.", { id: toastUpdate })
                             const result = await updateExam(data, exam)
@@ -94,9 +103,11 @@ export default function MyExam( { data }: {
                             return router.push("/minhas-atividades")
                         }} />
                     )}
-                    <Button text="Imprimir" handleClick={() => {
+                    <Button aditionalCSS="font-bold" text="Imprimir" handleClick={() => {
                         window.print()
                     }} />
+                    <DownloadPDFBtn exam={exam} />
+                    <DowloadDOCXBtn exam={exam} />
                 </div>
             )}
         </section>
