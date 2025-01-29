@@ -5,10 +5,6 @@ export const plans = [
         value: "gratis",
         functionalities: [
             {
-                feature:"Crie seu próprio banco de questões, textos, provas e atividades",
-                active: true
-            },
-            {
                 feature:"Salve 100 questões ou textos no banco de dados",
                 active: true
             },
@@ -17,11 +13,15 @@ export const plans = [
                 active: true
             },
             {
-                feature:"Gere textos, questões ou expressões matemáticas com IA",
+                feature: "Limite de 50 usos de IA por mês",
                 active: true
             },
             {
-                feature: "Limite de 50 usos de IA por mês",
+                feature: "Salve suas atividades em PDF",
+                active: true
+            },
+            {
+                feature: "Salve suas atividades em DOC (Word)",
                 active: true
             },
             {
@@ -42,10 +42,6 @@ export const plans = [
         value: "basico",
         functionalities: [
             {
-                feature:"Crie seu próprio banco de questões, textos, provas e atividades",
-                active: true
-            },
-            {
                 feature:"Salve 300 questões ou textos no banco de dados",
                 active: true
             },
@@ -54,11 +50,15 @@ export const plans = [
                 active: true
             },
             {
-                feature:"Gere textos, questões ou expressões matemáticas com IA",
+                feature: "Limite de 150 usos de IA por mês",
                 active: true
             },
             {
-                feature: "Limite de 150 usos de IA por mês",
+                feature: "Salve suas atividades em PDF",
+                active: true
+            },
+            {
+                feature: "Salve suas atividades em DOC (Word)",
                 active: true
             },
             {
@@ -79,10 +79,6 @@ export const plans = [
         value: "pro",
         functionalities: [
             {
-                feature:"Crie seu próprio banco de questões, textos, provas e atividades",
-                active: true
-            },
-            {
                 feature:"Salve 1000 questões ou textos no banco de dados",
                 active: true
             },
@@ -91,11 +87,15 @@ export const plans = [
                 active: true
             },
             {
-                feature:"Gere textos, questões ou expressões matemáticas com IA",
+                feature: "Limite de 500 usos de IA por mês",
                 active: true
             },
             {
-                feature: "Limite de 500 usos de IA por mês",
+                feature: "Salve suas atividades em PDF",
+                active: true
+            },
+            {
+                feature: "Salve suas atividades em DOC (Word)",
                 active: true
             },
             {
@@ -116,10 +116,6 @@ export const plans = [
         value: "premium",
         functionalities: [
             {
-                feature:"Crie seu próprio banco de questões, textos, provas e atividades",
-                active: true
-            },
-            {
                 feature:"Salve 2500 questões ou textos no banco de dados",
                 active: true
             },
@@ -128,11 +124,15 @@ export const plans = [
                 active: true
             },
             {
-                feature:"Gere textos, questões ou expressões matemáticas com IA",
+                feature: "Limite de 1000 gerações por mês",
                 active: true
             },
             {
-                feature: "Limite de 1000 gerações por mês",
+                feature: "Salve suas atividades em PDF",
+                active: true
+            },
+            {
+                feature: "Salve suas atividades em DOC (Word)",
                 active: true
             },
             {
